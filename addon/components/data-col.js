@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   didReceiveAttrs: function() {
     this._super(...arguments);
 
-    const propertyPath = this.get('property');
+    const propertyPath = this.get('key');
 
     defineProperty(this, 'value', reads(`item.${propertyPath}`));
   }

@@ -2,7 +2,7 @@
   <thead>
     <tr>
       {{#each propertiesList as |property|}}
-        <th>{{property}}</th>
+        <th>{{property.label}}</th>
       {{/each}}
     </tr>
   </thead>
@@ -12,7 +12,7 @@
   {{#each content as |item|}}
   <tr>
       {{#each propertiesList as |property|}}
-        {{data-col property=property item=item}}
+        {{data-col key=property.key item=item}}
       {{/each}}
   </tr>
   {{/each}}

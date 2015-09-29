@@ -17,5 +17,11 @@ export default Ember.Component.extend({
       name: 'Chris',
       type: 'cat'
     })
+  ],
+
+  properties: [
+    { key: 'id', label: 'nr' },
+    'name',
+    { key: 'type', label: 'species' }
   ]
 });
