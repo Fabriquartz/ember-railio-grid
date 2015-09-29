@@ -79,7 +79,19 @@ export default Ember.Component.extend({
 
   actions: {
     goToPage(pageNr) {
-      this.set('currentPage', pageNr);
+      const pageAmount = this.get('pageAmount');
+
+      if (pageNr > 0 && pageNr <= pageAmount) {
+        this.set('currentPage', pageNr);
+      }
+    },
+    goToPreviousPage() {
+      const current = this.get('currentPage');
+      this.send('goToPage', current - 1);
+    },
+    goToNextPage() {
+      const current = this.get('currentPage');
+      this.send('goToPage', current + 1);
     }
   }
 });

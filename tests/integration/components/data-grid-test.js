@@ -10,7 +10,7 @@ function buildSmallList() {
   ];
 }
 
-function buildLargeList(length) {
+function buildList(length) {
   const list = [];
 
   for (let i = 1; i <= length;i++) {
@@ -107,7 +107,7 @@ test('shows label and value for properties array with objects', function(assert)
 });
 
 test('pagination', function(assert) {
-  this.set('list', buildLargeList(12));
+  this.set('list', buildList(12));
   this.set('pageSize', 5);
 
   this.render(hbs`{{data-grid content=list
@@ -137,4 +137,41 @@ test('pagination', function(assert) {
   assert.equal($rows.length, 2, 'shows end content');
   assert.equal($firstRow[0].innerText, '11',
               'first page starts with next element');
+});
+
+test('pagination previous / next', function(assert) {
+  this.set('list', buildList(6));
+  this.set('pageSize', 1);
+
+  this.render(hbs`{{data-grid content=list
+                              properties="id name type"
+                              pageSize=pageSize}}`);
+
+  const $first    = this.$('.data-grid__paging__first:eq(0)');
+  const $previous = this.$('.data-grid__paging__previous:eq(0)');
+  const $next     = this.$('.data-grid__paging__next:eq(0)');
+  const $last     = this.$('.data-grid__paging__last:eq(0)');
+
+  let $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
+  assert.equal($selectedPage.innerText, '1', 'first page selected by default');
+
+  $next.trigger('click');
+
+  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
+  assert.equal($selectedPage.innerText, '2', 'next page selected');
+
+  $last.trigger('click');
+
+  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
+  assert.equal($selectedPage.innerText, '6', 'last page selected');
+
+  $previous.trigger('click');
+
+  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
+  assert.equal($selectedPage.innerText, '5', 'previous page selected');
+
+  $first.trigger('click');
+
+  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
+  assert.equal($selectedPage.innerText, '1', 'first page selected');
 });

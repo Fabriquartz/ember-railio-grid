@@ -21,7 +21,7 @@
     margin: 1em 0;
     text-align: center;
 
-    &__nr {
+    &__nr, &__first, &__last, &__previous, &__next {
       display: inline-block;
       padding: 5px;
 
