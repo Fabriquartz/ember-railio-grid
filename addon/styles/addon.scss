@@ -1,3 +1,16 @@
 .data-grid {
+  border:          1px solid lightgrey;
+  border-collapse: collapse;
 
+  th, td {
+    padding-left: 5px;
+    padding-right: 1em;
+  }
+
+  thead {
+    background-color: grey;
+    color:            white;
+    text-transform:   uppercase;
+    text-align:       left;
+  }
 }

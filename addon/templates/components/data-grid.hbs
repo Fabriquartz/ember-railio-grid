@@ -1,0 +1,19 @@
+{{#if showHeader}}
+  <thead>
+    <tr>
+      {{#each propertiesList as |property|}}
+        <th>{{property}}</th>
+      {{/each}}
+    </tr>
+  </thead>
+{{/if}}
+
+<tbody>
+  {{#each content as |item|}}
+  <tr>
+      {{#each propertiesList as |property|}}
+        {{data-col property=property item=item}}
+      {{/each}}
+  </tr>
+  {{/each}}
+</tbody>
