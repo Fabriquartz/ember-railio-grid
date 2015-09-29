@@ -21,6 +21,11 @@
     margin: 1em 0;
     text-align: center;
 
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
     &__nr, &__first, &__last, &__previous, &__next {
       display: inline-block;
       padding: 5px;
