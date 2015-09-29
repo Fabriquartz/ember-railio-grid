@@ -1,5 +1,21 @@
 import Ember from 'ember';
 
+function buildLargeList(length) {
+  const list = [];
+
+  for (let i = 1; i <= length;i++) {
+    const object = Ember.Object.create({
+      id:   i,
+      name: 'Name' + i,
+      type: 'type' + i
+    });
+
+    list.push(object);
+  }
+
+  return list;
+}
+
 export default Ember.Component.extend({
   list: [
     Ember.Object.create({
@@ -18,6 +34,8 @@ export default Ember.Component.extend({
       type: 'cat'
     })
   ],
+
+  largeList: buildLargeList(12),
 
   properties: [
     { key: 'id', label: 'nr' },

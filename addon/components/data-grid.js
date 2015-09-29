@@ -62,7 +62,7 @@ export default Ember.Component.extend({
 
     let end = start + 4;
 
-    if (end > pageAmount) { end = pageAmount; start = pageAmount - 4 }
+    if (end > pageAmount) { end = pageAmount; start = pageAmount - 4; }
 
     for (let i = start; i <= end; i++) {
       pages.push(i);

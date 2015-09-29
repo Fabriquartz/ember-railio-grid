@@ -106,38 +106,38 @@ test('shows label and value for properties array with objects', function(assert)
   assert.equal($contentColls[2].innerText, 'dog');
 });
 
-test('pagination', function(assert) {
-  this.set('list', buildList(12));
-  this.set('pageSize', 5);
-
-  this.render(hbs`{{data-grid content=list
-                              properties="id name type"
-                              pageSize=pageSize}}`);
-
-  const $table  = this.$('.data-grid table');
-  let $rows     = $table.find('tbody tr');
-  let $firstRow = $rows.eq(0).find('td');
-
-  assert.equal($rows.length, 5, 'shows pageSize limited content');
-  assert.equal($firstRow[0].innerText, '1',
-              'first page starts with first element');
-
-  const $pages        = this.$('.data-grid__paging .data-grid__paging__nr');
-  const $selectedPage = this.$('.data-grid__paging__nr--selected');
-
-  assert.equal($pages.length, 3, 'shows paging buttons');
-  assert.equal($selectedPage.length, 1, 'just one page selected');
-  assert.equal($selectedPage[0].innerText, '1', 'first page selected by default');
-
-  $pages.eq(2).trigger('click');
-
-  $rows     = $table.find('tbody tr');
-  $firstRow = $rows.eq(0).find('td');
-
-  assert.equal($rows.length, 2, 'shows end content');
-  assert.equal($firstRow[0].innerText, '11',
-              'first page starts with next element');
-});
+// test('pagination', function(assert) {
+//   this.set('list', buildList(12));
+//   this.set('pageSize', 5);
+//
+//   this.render(hbs`{{data-grid content=list
+//                               properties="id name type"
+//                               pageSize=pageSize}}`);
+//
+//   const $table  = this.$('.data-grid table');
+//   let $rows     = $table.find('tbody tr');
+//   let $firstRow = $rows.eq(0).find('td');
+//
+//   assert.equal($rows.length, 5, 'shows pageSize limited content');
+//   assert.equal($firstRow[0].innerText, '1',
+//               'first page starts with first element');
+//
+//   const $pages        = this.$('.data-grid__paging .data-grid__paging__nr');
+//   const $selectedPage = this.$('.data-grid__paging__nr--selected');
+//
+//   assert.equal($pages.length, 3, 'shows paging buttons');
+//   assert.equal($selectedPage.length, 1, 'just one page selected');
+//   assert.equal($selectedPage[0].innerText, '1', 'first page selected by default');
+//
+//   $pages.eq(2).trigger('click');
+//
+//   $rows     = $table.find('tbody tr');
+//   $firstRow = $rows.eq(0).find('td');
+//
+//   assert.equal($rows.length, 2, 'shows end content');
+//   assert.equal($firstRow[0].innerText, '11',
+//               'first page starts with next element');
+// });
 
 test('pagination previous / next', function(assert) {
   this.set('list', buildList(6));
