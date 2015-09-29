@@ -1,16 +1,38 @@
 .data-grid {
-  border:          1px solid lightgrey;
-  border-collapse: collapse;
+  table {
+    border:          1px solid lightgrey;
+    border-collapse: collapse;
+    width: 100%;
 
-  th, td {
-    padding-left: 5px;
-    padding-right: 1em;
+    th, td {
+      padding-left: 5px;
+      padding-right: 1em;
+    }
+
+    thead {
+      background-color: grey;
+      color:            white;
+      text-transform:   uppercase;
+      text-align:       left;
+    }
   }
 
-  thead {
-    background-color: grey;
-    color:            white;
-    text-transform:   uppercase;
-    text-align:       left;
+  &__paging {
+    margin: 1em 0;
+    text-align: center;
+
+    &__nr {
+      display: inline-block;
+      padding: 5px;
+
+      border: 1px solid grey;
+      cursor: pointer;
+
+      &--selected {
+        background-color: #E5E5E5;
+        border-color: lightgrey;
+        color: grey;
+      }
+    }
   }
 }
