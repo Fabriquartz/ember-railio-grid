@@ -25,17 +25,17 @@
     <div class="data-grid__paging__first" {{action "goToPage" 1 on="click"}}>
       &lt;&lt;
     </div>
-    <div class="data-grid__paging__previous" {{action "goToPreviousPage" on="click"}}>
+    <div class="data-grid__paging__previous" {{action "previousPage" on="click"}}>
       &lt;
     </div>
 
-    {{page-number value=currentPage maxValue=pageAmount}}
+    {{page-number value=page maxValue=pageAmount}}
     /
     <div class="data-grid__paging__max">
       {{pageAmount}}
     </div>
 
-    <div class="data-grid__paging__next" {{action "goToNextPage" on="click"}}>
+    <div class="data-grid__paging__next" {{action "nextPage" on="click"}}>
       &gt;
     </div>
     <div class="data-grid__paging__last" {{action "goToPage" pageAmount on="click"}}>

@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import layout from 'ember-railio-grid/templates/components/data-grid';
+import Paginator from 'ember-railio-grid/utils/paginator';
 
 const { computed } = Ember;
+const { alias } = computed;
 
 function getPropertiesList(properties) {
   let list = null;
@@ -32,7 +34,6 @@ export default Ember.Component.extend({
   classNames: ['data-grid'],
   attributeBindings: ['widthString:style'],
 
-  currentPage: 1,
   showHeader: true,
 
   widthString: computed('width', function() {
@@ -42,46 +43,43 @@ export default Ember.Component.extend({
     return  'width: ' + width + 'px';
   }),
 
+  paginator: computed({
+    set(key, value) {
+      this.set('_paginator', value);
+      return value;
+    },
+    get() {
+      return this.get('_paginator') || Paginator.create();
+    }
+  }),
+
+  didReceiveAttrs() {
+    this.set('paginator.content', this.getAttr('content') || this.get('content'));
+    this._super(...arguments);
+  },
+
+  page:        alias('paginator.page'),
+  pageSize:    alias('paginator.pageSize'),
+  pageContent: alias('paginator.currentPage'),
+  pageAmount:  alias('paginator.pageAmount'),
+
   propertiesList: computed('properties', function() {
     const properties = this.get('properties');
 
     return getPropertiesList(properties);
   }),
 
-  pageAmount: computed('pageSize', 'content.length', function() {
-    return Math.ceil(this.get('content.length') / this.get('pageSize'));
-  }),
-
-  pageContent: computed('pageSize', 'currentPage', 'content.@each', function() {
-    const pageSize    = this.get('pageSize');
-    const currentPage = this.get('currentPage');
-    const content     = this.get('content');
-
-    if (pageSize && pageSize < content.length) {
-      const start = 0 + ((currentPage - 1) * pageSize);
-      const end = start + pageSize;
-
-      return content.slice(start, end);
-    }
-
-    return content;
-  }),
-
   actions: {
     goToPage(pageNr) {
-      const pageAmount = this.get('pageAmount');
+      this.set('paginator.page', pageNr);
+    },
 
-      if (pageNr > 0 && pageNr <= pageAmount) {
-        this.set('currentPage', pageNr);
-      }
+    previousPage() {
+      this.get('paginator').previousPage();
     },
-    goToPreviousPage() {
-      const current = this.get('currentPage');
-      this.send('goToPage', current - 1);
-    },
-    goToNextPage() {
-      const current = this.get('currentPage');
-      this.send('goToPage', current + 1);
+
+    nextPage() {
+      this.get('paginator').nextPage();
     }
   }
 });
