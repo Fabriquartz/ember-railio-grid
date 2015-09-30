@@ -1,3 +1,7 @@
+{{#if topPaginator}}
+  {{component topPaginator paginator=paginator class="paginator--top"}}
+{{/if}}
+
 <table>
   {{#if showHeader}}
     <thead>
@@ -20,4 +24,6 @@
   </tbody>
 </table>
 
-{{component "page-picker-paginator" paginator=paginator}}
+{{#if bottomPaginator}}
+  {{component bottomPaginator paginator=paginator class="paginator--bottom"}}
+{{/if}}

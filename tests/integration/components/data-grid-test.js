@@ -89,3 +89,41 @@ test('shows label and value for properties array with objects', function(assert)
   assert.equal($contentColls[1].innerText, 'Ben');
   assert.equal($contentColls[2].innerText, 'dog');
 });
+
+test('shows given topPaginator', function(assert) {
+  const paginator = "page-picker-paginator";
+  this.set('list', buildSmallList());
+  this.set('topPaginator', null);
+
+  this.render(hbs`{{data-grid content=list
+                              topPaginator=topPaginator
+                              width=800}}`);
+
+  let $topPaginator = this.$('.paginator--top');
+  assert.equal($topPaginator.length, 0, 'no top paginator by default');
+
+  this.set('topPaginator', paginator);
+
+  $topPaginator = this.$('.paginator--top');
+  assert.ok($topPaginator.hasClass(paginator),
+            'shows given top paginator');
+});
+
+test('shows given bottomPaginator', function(assert) {
+  const paginator = "page-picker-paginator";
+  this.set('list', buildSmallList());
+  this.set('bottomPaginator', null);
+
+  this.render(hbs`{{data-grid content=list
+                              bottomPaginator=bottomPaginator
+                              width=800}}`);
+
+  let $bottomPaginator = this.$('.paginator--bottom');
+  assert.equal($bottomPaginator.length, 0, 'no bottom paginator by default');
+
+  this.set('bottomPaginator', paginator);
+
+  $bottomPaginator = this.$('.paginator--bottom');
+  assert.ok($bottomPaginator.hasClass(paginator),
+            'shows given bottom paginator');
+});
