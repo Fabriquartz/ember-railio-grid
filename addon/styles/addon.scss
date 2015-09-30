@@ -16,46 +16,6 @@
       text-align:       left;
     }
   }
-
-  &__paging {
-    margin: 1em 0;
-    text-align: center;
-
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
-
-    &__nr, &__first, &__last, &__previous, &__next, &__current, &__max {
-      display:     inline-block;
-      box-sizing:  border-box;
-      height:      30px;
-      max-width:   4em;
-      line-height: 30px;
-      padding:     0 5px;
-
-      font-size: inherit;
-      font-family: inherit;
-      border: 1px solid grey;
-      cursor: pointer;
-
-      &--selected {
-        background-color: #E5E5E5;
-        border-color: lightgrey;
-        color: grey;
-      }
-    }
-
-    &__current {
-      margin-left: 10px;
-
-      text-align: right;
-      cursor:     auto;
-    }
-
-    &__max {
-      margin-right: 10px;
-      border: none;
-    }
-  }
 }
+
+@import 'components/paginator';

@@ -1,0 +1,35 @@
+.paginator {
+  margin: 1em 0;
+  text-align: center;
+
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+
+  &__button, &__number-input, &__max-pages {
+    display:     inline-block;
+    box-sizing:  border-box;
+    height:      30px;
+    max-width:   4em;
+    line-height: 30px;
+    padding:     0 5px;
+
+    font-size:   inherit;
+    font-family: inherit;
+    border:      1px solid grey;
+    cursor:      pointer;
+  }
+
+  &__number-input {
+    margin-left: 10px;
+
+    text-align: right;
+    cursor:     auto;
+  }
+
+  &__max-pages {
+    margin-right: 10px;
+    border: none;
+  }
+}

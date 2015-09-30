@@ -10,7 +10,7 @@ function handleChanged() {
 export default Ember.Component.extend({
   tagName: 'input',
   attributeBindings: ['value'],
-  classNames: ['data-grid__paging__current'],
+  classNames: ['paginator__number-input'],
 
   input:  handleChanged,
   change: handleChanged,
@@ -41,14 +41,7 @@ export default Ember.Component.extend({
 
   actions: {
     changed(value) {
-      const oldValue = this.get('value');
-      const max = this.get('maxValue');
-
-      if (value > 0 && value <= max) {
-        this.set('value', value);
-      } else {
-        this.$().val(oldValue);
-      }
+      this.set('value', value);
     }
   }
 });

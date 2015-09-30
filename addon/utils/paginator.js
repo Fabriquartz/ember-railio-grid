@@ -60,5 +60,13 @@ export default Ember.Object.extend({
     if (this.get('hasNextPage')) {
       this.set('page', this.get('page') + 1);
     }
+  },
+
+  firstPage() {
+    this.set('page', 1);
+  },
+
+  lastPage() {
+    this.set('page', this.get('pageAmount'));
   }
 });

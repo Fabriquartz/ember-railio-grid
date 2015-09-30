@@ -65,6 +65,28 @@ test('go to previous page', function(assert) {
   assert.equal(paginator.get('page'), 1);
 });
 
+test('go to first page', function(assert) {
+  const paginator = Paginator.create({
+    content: [1, 2, 3, 4, 5],
+    pageSize: 1,
+    page: 4
+  });
+
+  paginator.firstPage();
+  assert.equal(paginator.get('page'), 1);
+});
+
+test('go to last page', function(assert) {
+  const paginator = Paginator.create({
+    content: [1, 2, 3, 4, 5],
+    pageSize: 1,
+    page: 4
+  });
+
+  paginator.lastPage();
+  assert.equal(paginator.get('page'), 5);
+});
+
 test('has previous page', function(assert) {
   const paginator = Paginator.create({
     content: [1, 2, 3, 4],

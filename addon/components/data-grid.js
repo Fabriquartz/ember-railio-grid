@@ -61,25 +61,10 @@ export default Ember.Component.extend({
   page:        alias('paginator.page'),
   pageSize:    alias('paginator.pageSize'),
   pageContent: alias('paginator.currentPage'),
-  pageAmount:  alias('paginator.pageAmount'),
 
   propertiesList: computed('properties', function() {
     const properties = this.get('properties');
 
     return getPropertiesList(properties);
-  }),
-
-  actions: {
-    goToPage(pageNr) {
-      this.set('paginator.page', pageNr);
-    },
-
-    previousPage() {
-      this.get('paginator').previousPage();
-    },
-
-    nextPage() {
-      this.get('paginator').nextPage();
-    }
-  }
+  })
 });
