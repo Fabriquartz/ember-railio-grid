@@ -106,72 +106,93 @@ test('shows label and value for properties array with objects', function(assert)
   assert.equal($contentColls[2].innerText, 'dog');
 });
 
-// test('pagination', function(assert) {
-//   this.set('list', buildList(12));
-//   this.set('pageSize', 5);
-//
-//   this.render(hbs`{{data-grid content=list
-//                               properties="id name type"
-//                               pageSize=pageSize}}`);
-//
-//   const $table  = this.$('.data-grid table');
-//   let $rows     = $table.find('tbody tr');
-//   let $firstRow = $rows.eq(0).find('td');
-//
-//   assert.equal($rows.length, 5, 'shows pageSize limited content');
-//   assert.equal($firstRow[0].innerText, '1',
-//               'first page starts with first element');
-//
-//   const $pages        = this.$('.data-grid__paging .data-grid__paging__nr');
-//   const $selectedPage = this.$('.data-grid__paging__nr--selected');
-//
-//   assert.equal($pages.length, 3, 'shows paging buttons');
-//   assert.equal($selectedPage.length, 1, 'just one page selected');
-//   assert.equal($selectedPage[0].innerText, '1', 'first page selected by default');
-//
-//   $pages.eq(2).trigger('click');
-//
-//   $rows     = $table.find('tbody tr');
-//   $firstRow = $rows.eq(0).find('td');
-//
-//   assert.equal($rows.length, 2, 'shows end content');
-//   assert.equal($firstRow[0].innerText, '11',
-//               'first page starts with next element');
-// });
-
-test('pagination previous / next', function(assert) {
-  this.set('list', buildList(6));
-  this.set('pageSize', 1);
+test('pagination', function(assert) {
+  this.set('list', buildList(12));
 
   this.render(hbs`{{data-grid content=list
                               properties="id name type"
-                              pageSize=pageSize}}`);
+                              pageSize=5}}`);
+
+  const $table  = this.$('.data-grid table');
+  let $rows     = $table.find('tbody tr');
+  let $firstRow = $rows.eq(0).find('td');
+
+  assert.equal($rows.length, 5, 'shows pageSize limited content');
+  assert.equal($firstRow[0].innerText, '1',
+              'first page starts with first element');
+
+  const $currentPage = this.$('.data-grid__paging__current');
+  assert.equal($currentPage.val(), '1', 'first page selected by default');
+
+  $currentPage.focusin();
+  $currentPage.val('3');
+  $currentPage.focusout();
+
+  $rows     = $table.find('tbody tr');
+  $firstRow = $rows.eq(0).find('td');
+
+  assert.equal($rows.length, 2, 'shows end content');
+  assert.equal($firstRow[0].innerText, '11',
+              'third page starts with right element');
+});
+
+test('pagination input arrow up/down', function(assert) {
+  this.set('list', buildList(4));
+
+  this.render(hbs`{{data-grid content=list
+                              properties="id name type"
+                              pageSize=1}}`);
+
+  const $table  = this.$('.data-grid table');
+  let $rows     = $table.find('tbody tr');
+  let $firstRow = $rows.eq(0).find('td');
+
+  const $currentPage = this.$('.data-grid__paging__current');
+  assert.equal($currentPage.val(), '1', 'first page selected by default');
+
+  $currentPage.trigger('focusin');
+  $currentPage.trigger($.Event('keydown', { keyCode: 38 }));
+  $currentPage.trigger($.Event('keydown', { keyCode: 38 }));
+
+  assert.equal($currentPage.val(), '3', 'arrow up increases page');
+
+  $rows     = $table.find('tbody tr');
+  $firstRow = $rows.eq(0).find('td');
+
+  assert.equal($firstRow[0].innerText, '3',
+              'third page starts with right element');
+
+  $currentPage.trigger('focusin');
+  $currentPage.trigger($.Event('keydown', { keyCode: 40 }));
+
+  assert.equal($currentPage.val(), '2', 'arrow down decreases page');
+});
+
+test('pagination previous / next', function(assert) {
+  this.set('list', buildList(6));
+
+  this.render(hbs`{{data-grid content=list
+                              properties="id name type"
+                              pageSize=1}}`);
 
   const $first    = this.$('.data-grid__paging__first:eq(0)');
   const $previous = this.$('.data-grid__paging__previous:eq(0)');
   const $next     = this.$('.data-grid__paging__next:eq(0)');
   const $last     = this.$('.data-grid__paging__last:eq(0)');
 
-  let $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
-  assert.equal($selectedPage.innerText, '1', 'first page selected by default');
+  const $currentPage = this.$('.data-grid__paging__current');
+
+  assert.equal($currentPage.val(), '1', 'first page selected by default');
 
   $next.trigger('click');
-
-  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
-  assert.equal($selectedPage.innerText, '2', 'next page selected');
+  assert.equal($currentPage.val(), '2', 'next page selected');
 
   $last.trigger('click');
-
-  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
-  assert.equal($selectedPage.innerText, '6', 'last page selected');
+  assert.equal($currentPage.val(), '6', 'last page selected');
 
   $previous.trigger('click');
-
-  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
-  assert.equal($selectedPage.innerText, '5', 'previous page selected');
+  assert.equal($currentPage.val(), '5', 'previous page selected');
 
   $first.trigger('click');
-
-  $selectedPage = this.$('.data-grid__paging__nr--selected')[0];
-  assert.equal($selectedPage.innerText, '1', 'first page selected');
+  assert.equal($currentPage.val(), '1', 'first page selected');
 });

@@ -52,25 +52,6 @@ export default Ember.Component.extend({
     return Math.ceil(this.get('content.length') / this.get('pageSize'));
   }),
 
-  pageNumbers: computed('pageAmount', 'currentPage', function() {
-    const pages = [];
-    const pageAmount = this.get('pageAmount');
-    const currentPage = this.get('currentPage');
-
-    let start = currentPage - 2;
-    if (start < 1) { start = 1; }
-
-    let end = start + 4;
-
-    if (end > pageAmount) { end = pageAmount; start = pageAmount - 4; }
-
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-
-    return pages;
-  }),
-
   pageContent: computed('pageSize', 'currentPage', 'content.@each', function() {
     const pageSize    = this.get('pageSize');
     const currentPage = this.get('currentPage');

@@ -29,31 +29,7 @@
       &lt;
     </div>
 
-    {{#each pageNumbers as |page|}}
-      <div class="data-grid__paging__nr
-                 {{if (is-equal currentPage page) 'data-grid__paging__nr--selected'}}"
-         {{action "goToPage" page on="click"}}>
-        {{page}}
-      </div>
-    {{/each}}
-
-    <div class="data-grid__paging__next" {{action "goToNextPage" on="click"}}>
-      &gt;
-    </div>
-    <div class="data-grid__paging__last" {{action "goToPage" pageAmount on="click"}}>
-      &gt;&gt;
-    </div>
-  </div>
-
-  <div class="data-grid__paging">
-    <div class="data-grid__paging__first" {{action "goToPage" 1 on="click"}}>
-      &lt;&lt;
-    </div>
-    <div class="data-grid__paging__previous" {{action "goToPreviousPage" on="click"}}>
-      &lt;
-    </div>
-
-    {{input type="number" value=currentPage class="data-grid__paging__current"}}
+    {{page-number value=currentPage maxValue=pageAmount}}
     /
     <div class="data-grid__paging__max">
       {{pageAmount}}
