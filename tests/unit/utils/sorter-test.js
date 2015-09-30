@@ -5,6 +5,8 @@ let sorter;
 const Ben   = { id: 1, name: 'Ben', type: 'dog' };
 const Alex  = { id: 2, name: 'Alex', type: 'dog' };
 const Chris = { id: 3, name: 'Chris', type: 'cat' };
+const Edwin = { id: 4, name: 'Edwin', type: 'dog' };
+const Dirk  = { id: 5, name: 'Dirk', type: 'cat' };
 
 module('Unit | Utility | sorter', {
   beforeEach: function() {
@@ -35,6 +37,22 @@ test('toggle()', function(assert) {
   sorter.toggle('name');
   assert.deepEqual(sorter.get('sortedContent'), [ Alex, Ben, Chris ],
                    'fourth time toggled sort ascending');
+});
+
+test('multiple sorting', function(assert) {
+  sorter.content = [ Ben, Alex, Chris, Edwin, Dirk ];
+
+  sorter.toggle('type');
+  assert.deepEqual(sorter.get('sortedContent'), [ Chris, Dirk, Ben, Alex, Edwin ],
+                   'sort on one key');
+
+  sorter.toggle('name');
+  assert.deepEqual(sorter.get('sortedContent'), [ Chris, Dirk, Alex, Ben, Edwin ],
+                   'sort on second key');
+
+  sorter.toggle('name');
+  assert.deepEqual(sorter.get('sortedContent'), [ Dirk, Chris, Edwin, Ben, Alex ],
+                   'toggle sort on second key');
 });
 
 test('resetSortKeys()', function(assert) {
