@@ -2,6 +2,8 @@ import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 
+const { run } = Ember;
+
 function buildSmallList() {
   return [
     Ember.Object.create({ id: 1, name: 'Ben', type: 'dog' }),
@@ -78,16 +80,16 @@ test('shows label and value for properties array with objects', function(assert)
                               properties=properties}}`);
 
   const $table        = this.$('.data-grid table');
-  const $headerColls  = $table.find('thead tr').eq(0).find('th');
-  const $contentColls = $table.find('tbody tr').eq(0).find('td');
+  const $headerCols  = $table.find('thead tr').eq(0).find('th');
+  const $contentCols = $table.find('tbody tr').eq(0).find('td');
 
-  assert.equal($headerColls[0].innerText.toUpperCase(), 'NR');
-  assert.equal($headerColls[1].innerText.toUpperCase(), 'NAME');
-  assert.equal($headerColls[2].innerText.toUpperCase(), 'SPECIES');
+  assert.equal($headerCols[0].innerText.toUpperCase(), 'NR');
+  assert.equal($headerCols[1].innerText.toUpperCase(), 'NAME');
+  assert.equal($headerCols[2].innerText.toUpperCase(), 'SPECIES');
 
-  assert.equal($contentColls[0].innerText, '1');
-  assert.equal($contentColls[1].innerText, 'Ben');
-  assert.equal($contentColls[2].innerText, 'dog');
+  assert.equal($contentCols[0].innerText, '1');
+  assert.equal($contentCols[1].innerText, 'Ben');
+  assert.equal($contentCols[2].innerText, 'dog');
 });
 
 test('shows given topPaginator', function(assert) {
@@ -96,8 +98,7 @@ test('shows given topPaginator', function(assert) {
   this.set('topPaginator', null);
 
   this.render(hbs`{{data-grid content=list
-                              topPaginator=topPaginator
-                              width=800}}`);
+                              topPaginator=topPaginator}}`);
 
   let $topPaginator = this.$('.paginator--top');
   assert.equal($topPaginator.length, 0, 'no top paginator by default');
@@ -115,8 +116,7 @@ test('shows given bottomPaginator', function(assert) {
   this.set('bottomPaginator', null);
 
   this.render(hbs`{{data-grid content=list
-                              bottomPaginator=bottomPaginator
-                              width=800}}`);
+                              bottomPaginator=bottomPaginator}}`);
 
   let $bottomPaginator = this.$('.paginator--bottom');
   assert.equal($bottomPaginator.length, 0, 'no bottom paginator by default');
@@ -126,4 +126,41 @@ test('shows given bottomPaginator', function(assert) {
   $bottomPaginator = this.$('.paginator--bottom');
   assert.ok($bottomPaginator.hasClass(paginator),
             'shows given bottom paginator');
+});
+
+test('sort on clicking header', function(assert) {
+  this.set('list', [
+    { id: 1, name: 'Ben', type: 'dog' },
+    { id: 2, name: 'Alex', type: 'dog' },
+    { id: 3, name: 'Chris', type: 'cat' },
+    { id: 4, name: 'Edward', type: 'dog' },
+    { id: 5, name: 'Dwight', type: 'cat' }
+  ]);
+  this.render(hbs`{{data-grid content=list
+                              properties="id name type"}}`);
+
+  const $table       = this.$('.data-grid table');
+  const $headerCols  = $table.find('thead tr').eq(0).find('th');
+
+  run(() => {
+    $headerCols.eq(1).trigger('click');
+  });
+
+  let $rows = $table.find('tbody tr');
+  assert.equal($rows.eq(0).find('td')[1].innerText, 'Alex');
+  assert.equal($rows.eq(1).find('td')[1].innerText, 'Ben');
+  assert.equal($rows.eq(2).find('td')[1].innerText, 'Chris');
+  assert.equal($rows.eq(3).find('td')[1].innerText, 'Dwight');
+  assert.equal($rows.eq(4).find('td')[1].innerText, 'Edward');
+
+  run(() => {
+    $headerCols.eq(1).trigger('click');
+  });
+
+  $rows = $table.find('tbody tr');
+  assert.equal($rows.eq(0).find('td')[1].innerText, 'Edward');
+  assert.equal($rows.eq(1).find('td')[1].innerText, 'Dwight');
+  assert.equal($rows.eq(2).find('td')[1].innerText, 'Chris');
+  assert.equal($rows.eq(3).find('td')[1].innerText, 'Ben');
+  assert.equal($rows.eq(4).find('td')[1].innerText, 'Alex');
 });

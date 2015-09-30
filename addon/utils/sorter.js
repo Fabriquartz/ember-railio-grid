@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
-
-const { compare, computed, get } = Ember;
+const { compare, computed, get, set } = Ember;
 
 function orderBy(list, sortProperties) {
   if (!sortProperties || sortProperties.length === 0) {
@@ -36,11 +35,12 @@ export default Ember.Object.extend({
     return Ember.A();
   }),
 
-  sortedContent: computed('content.[]', 'sortKeys.[]', function() {
+  sortedContent: computed('content.[]', 'sortKeys.@each.{key,descending}', function() {
     return orderBy(this.get('content'), this.get('sortKeys'));
   }),
 
   addSortKey(key, descending = false) {
+
     const sortKeys = this.get('sortKeys');
     const keyCurrent = sortKeys.findBy('key', key);
     const index = sortKeys.indexOf(keyCurrent);
@@ -48,7 +48,7 @@ export default Ember.Object.extend({
     if (!keyCurrent) {
       sortKeys.pushObject({ key: key, descending: descending });
     } else {
-      keyCurrent.descending = descending;
+      set(keyCurrent, 'descending', descending);
       sortKeys.replace(index, 1, [keyCurrent]);
     }
   },

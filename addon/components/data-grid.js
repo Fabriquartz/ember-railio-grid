@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from 'ember-railio-grid/templates/components/data-grid';
 import Paginator from 'ember-railio-grid/utils/paginator';
+import Sorter from 'ember-railio-grid/utils/sorter';
 
 const { computed } = Ember;
 const { alias } = computed;
@@ -53,18 +54,43 @@ export default Ember.Component.extend({
     }
   }),
 
+  sorter: computed({
+    set(key, value) {
+      this.set('_sorter', value);
+      return value;
+    },
+    get() {
+      return this.get('_sorter') || Sorter.create();
+    }
+  }),
+
   didReceiveAttrs() {
-    this.set('paginator.content', this.getAttr('content') || this.get('content'));
+    this.set('sorter.content', this.getAttr('content') || this.get('content'));
+    this._bindSortedToPaginator();
     this._super(...arguments);
   },
 
-  page:        alias('paginator.page'),
-  pageSize:    alias('paginator.pageSize'),
-  pageContent: alias('paginator.currentPage'),
+  _bindSortedToPaginator() {
+    let binding = this.get('sorterPaginatorBinding');
+    if (binding  != null) { binding.disconnect(this); }
+    binding = Ember.bind(this, 'paginator.content', 'sorter.sortedContent');
+    this.set('sorterPaginatorBinding', binding);
+  },
+
+  page:          alias('paginator.page'),
+  pageSize:      alias('paginator.pageSize'),
+  sortedContent: alias('sorter.sortedContent'),
+  pageContent:   alias('paginator.currentPage'),
 
   propertiesList: computed('properties', function() {
     const properties = this.get('properties');
 
     return getPropertiesList(properties);
-  })
+  }),
+
+  actions: {
+    sortBy(key) {
+      this.get('sorter').toggle(key);
+    }
+  }
 });

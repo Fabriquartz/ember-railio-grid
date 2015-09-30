@@ -7,7 +7,7 @@
     <thead>
       <tr>
         {{#each propertiesList as |property|}}
-          <th>{{property.label}}</th>
+        <th {{action "sortBy" property.key on="click"}}>{{property.label}}</th>
         {{/each}}
       </tr>
     </thead>
