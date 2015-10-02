@@ -6,8 +6,8 @@ const { run } = Ember;
 
 function buildSmallList() {
   return [
-    Ember.Object.create({ id: 1, name: 'Ben', type: 'dog' }),
-    Ember.Object.create({ id: 2, name: 'Alex', type: 'dog' }),
+    Ember.Object.create({ id: 1, name: 'Ben',   type: 'dog' }),
+    Ember.Object.create({ id: 2, name: 'Alex',  type: 'dog' }),
     Ember.Object.create({ id: 3, name: 'Chris', type: 'cat' })
   ];
 }
@@ -79,7 +79,7 @@ test('shows label and value for properties array with objects', function(assert)
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 
-  const $table        = this.$('.data-grid table');
+  const $table       = this.$('.data-grid table');
   const $headerCols  = $table.find('thead tr').eq(0).find('th');
   const $contentCols = $table.find('tbody tr').eq(0).find('td');
 
@@ -130,9 +130,9 @@ test('shows given bottomPaginator', function(assert) {
 
 test('sort on clicking header', function(assert) {
   this.set('list', [
-    { id: 1, name: 'Ben', type: 'dog' },
-    { id: 2, name: 'Alex', type: 'dog' },
-    { id: 3, name: 'Chris', type: 'cat' },
+    { id: 1, name: 'Ben',    type: 'dog' },
+    { id: 2, name: 'Alex',   type: 'dog' },
+    { id: 3, name: 'Chris',  type: 'cat' },
     { id: 4, name: 'Edward', type: 'dog' },
     { id: 5, name: 'Dwight', type: 'cat' }
   ]);
@@ -163,4 +163,24 @@ test('sort on clicking header', function(assert) {
   assert.equal($rows.eq(2).find('td')[1].innerText, 'Chris');
   assert.equal($rows.eq(3).find('td')[1].innerText, 'Ben');
   assert.equal($rows.eq(4).find('td')[1].innerText, 'Alex');
+});
+
+test('shows actions on each row', function(assert) {
+  this.set('list', [
+    { id: 1, name: 'Ben',   type: 'dog' },
+    { id: 2, name: 'Alex',  type: 'dog' },
+    { id: 3, name: 'Chris', type: 'cat' }
+  ]);
+
+  this.set('listActions', [
+    { label: "edit",   action() {}},
+    { label: "delete", action() {}}
+  ]);
+
+  this.render(hbs`{{data-grid content=list
+                              actions=listActions
+                              properties="id name type"}}`);
+
+  const $actions = this.$('.data-grid table tbody tr .data-grid__actions');
+  assert.equal($actions.length, 3, 'shows actions for each row');
 });

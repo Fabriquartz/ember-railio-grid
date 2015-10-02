@@ -25,5 +25,16 @@ export default Ember.Component.extend({
     { key: 'id', label: 'nr' },
     'name',
     { key: 'type', label: 'species' }
+  ],
+
+  actionList: [
+    {
+      label: "edit",
+      action() { console.log('edit object'); }
+    },
+    {
+      label: "delete",
+      action() { console.log('delete object'); }
+    },
   ]
 });

@@ -19,6 +19,7 @@
           </span>
         </th>
         {{/each}}
+        {{#if actions}}<th></th>{{/if}}
       </tr>
     </thead>
   {{/if}}
@@ -29,6 +30,9 @@
         {{#each propertiesList as |property|}}
           {{data-col key=property.key item=item}}
         {{/each}}
+        {{#if actions}}
+          <td>{{data-actions object=item actions=actions}}</td>
+        {{/if}}
     </tr>
     {{/each}}
   </tbody>
