@@ -7,7 +7,17 @@
     <thead>
       <tr>
         {{#each propertiesList as |property|}}
-        <th {{action "sortBy" property.key on="click"}}>{{property.label}}</th>
+        <th>
+          <span {{action "sortBy" property.key on="click"}}>
+          {{property.label}}
+          {{#if property.sorting}}
+            {{#if (is-equal property.sorting 'ASC')}}{{fa-icon "sort-asc"}}{{/if}}
+            {{#if (is-equal property.sorting 'DESC')}}{{fa-icon "sort-desc"}}{{/if}}
+          {{else}}
+            {{fa-icon "sort"}}
+          {{/if}}
+          </span>
+        </th>
         {{/each}}
       </tr>
     </thead>

@@ -65,10 +65,13 @@ export default Ember.Object.extend({
 
     if (!keyCurrent) {
       this.addSortKey(key, false);
+      return 'ASC';
     } else if (!keyCurrent.descending) {
       this.addSortKey(key, true);
+      return 'DESC';
     } else {
       this.removeSortKey(key);
+      return false;
     }
   },
 

@@ -58,9 +58,9 @@ test('shows label and value for properties string', function(assert) {
   const $headerColls  = $table.find('thead tr').eq(0).find('th');
   const $contentColls = $table.find('tbody tr').eq(0).find('td');
 
-  assert.equal($headerColls[0].innerText.toUpperCase(), 'ID');
-  assert.equal($headerColls[1].innerText.toUpperCase(), 'NAME');
-  assert.equal($headerColls[2].innerText.toUpperCase(), 'TYPE');
+  assert.equal($headerColls[0].innerText.toUpperCase().trim(), 'ID');
+  assert.equal($headerColls[1].innerText.toUpperCase().trim(), 'NAME');
+  assert.equal($headerColls[2].innerText.toUpperCase().trim(), 'TYPE');
 
   assert.equal($contentColls[0].innerText, '1');
   assert.equal($contentColls[1].innerText, 'Ben');
@@ -83,9 +83,9 @@ test('shows label and value for properties array with objects', function(assert)
   const $headerCols  = $table.find('thead tr').eq(0).find('th');
   const $contentCols = $table.find('tbody tr').eq(0).find('td');
 
-  assert.equal($headerCols[0].innerText.toUpperCase(), 'NR');
-  assert.equal($headerCols[1].innerText.toUpperCase(), 'NAME');
-  assert.equal($headerCols[2].innerText.toUpperCase(), 'SPECIES');
+  assert.equal($headerCols[0].innerText.toUpperCase().trim(), 'NR');
+  assert.equal($headerCols[1].innerText.toUpperCase().trim(), 'NAME');
+  assert.equal($headerCols[2].innerText.toUpperCase().trim(), 'SPECIES');
 
   assert.equal($contentCols[0].innerText, '1');
   assert.equal($contentCols[1].innerText, 'Ben');
@@ -140,7 +140,7 @@ test('sort on clicking header', function(assert) {
                               properties="id name type"}}`);
 
   const $table       = this.$('.data-grid table');
-  const $headerCols  = $table.find('thead tr').eq(0).find('th');
+  const $headerCols  = $table.find('thead tr').eq(0).find('th span');
 
   run(() => {
     $headerCols.eq(1).trigger('click');

@@ -3,7 +3,7 @@ import layout from 'ember-railio-grid/templates/components/data-grid';
 import Paginator from 'ember-railio-grid/utils/paginator';
 import Sorter from 'ember-railio-grid/utils/sorter';
 
-const { computed } = Ember;
+const { computed, set } = Ember;
 const { alias } = computed;
 
 function getPropertiesList(properties) {
@@ -15,6 +15,8 @@ function getPropertiesList(properties) {
     list = propertyList.map(function(property) {
       return { key: property, label: property };
     });
+
+    list = Ember.A(list);
   } else if (properties !== null && Ember.isArray(properties)) {
     list = properties.map(function(property) {
       if (typeof property === 'string') {
@@ -25,6 +27,8 @@ function getPropertiesList(properties) {
         return property;
       }
     });
+
+    list = Ember.A(list);
   }
 
   return list;
@@ -90,7 +94,11 @@ export default Ember.Component.extend({
 
   actions: {
     sortBy(key) {
-      this.get('sorter').toggle(key);
+      const sort = this.get('sorter').toggle(key);
+
+      const propertiesList = this.get('propertiesList');
+      const property = propertiesList.findBy('key', key);
+      set(property, 'sorting', sort);
     }
   }
 });
