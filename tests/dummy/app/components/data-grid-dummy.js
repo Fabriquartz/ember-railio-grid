@@ -30,11 +30,11 @@ export default Ember.Component.extend({
   actionList: [
     {
       label: "edit",
-      action() { console.log('edit object'); }
+      action() { }
     },
     {
       label: "delete",
-      action() { console.log('delete object'); }
+      action() { }
     },
   ]
 });

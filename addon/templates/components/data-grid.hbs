@@ -1,3 +1,7 @@
+{{#if filterEnabled}}
+  {{filter-bar filter=filter properties=propertiesList}}
+{{/if}}
+
 {{#if topPaginator}}
   {{component topPaginator paginator=paginator class="paginator--top"}}
 {{/if}}

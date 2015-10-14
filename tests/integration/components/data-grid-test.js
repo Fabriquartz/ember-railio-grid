@@ -184,3 +184,18 @@ test('shows actions on each row', function(assert) {
   const $actions = this.$('.data-grid table tbody tr .data-grid__actions');
   assert.equal($actions.length, 3, 'shows actions for each row');
 });
+
+test('shows filter bar', function(assert) {
+  this.set('filterEnabled', false);
+
+  this.render(hbs`{{data-grid filterEnabled=filterEnabled}}`);
+
+  let $filterBar = this.$('.filter-bar');
+  assert.equal($filterBar.length, 0, 'no filterBar by default');
+
+  this.set('filterEnabled', true);
+
+  $filterBar = this.$('.filter-bar');
+  assert.equal($filterBar.length, 1, 'show filterBar');
+});
+

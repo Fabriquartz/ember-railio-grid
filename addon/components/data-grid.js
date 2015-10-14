@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from 'ember-railio-grid/templates/components/data-grid';
 import Paginator from 'ember-railio-grid/utils/paginator';
 import Sorter from 'ember-railio-grid/utils/sorter';
+import Filter from 'ember-railio-grid/utils/filter';
 
 const { computed, set } = Ember;
 const { alias } = computed;
@@ -68,10 +69,28 @@ export default Ember.Component.extend({
     }
   }),
 
+  filter: computed({
+    set(key, value) {
+      this.set('_filter', value);
+      return value;
+    },
+    get() {
+      return this.get('_filter') || Filter.create();
+    }
+  }),
+
   didReceiveAttrs() {
-    this.set('sorter.content', this.getAttr('content') || this.get('content'));
+    this.set('filter.content', this.getAttr('content') || this.get('content'));
+    this._bindFilteredToSorter();
     this._bindSortedToPaginator();
     this._super(...arguments);
+  },
+
+  _bindFilteredToSorter() {
+    let binding = this.get('filterSorterBinding');
+    if (binding  != null) { binding.disconnect(this); }
+    binding = Ember.bind(this, 'sorter.content', 'filter.filteredContent');
+    this.set('filterSorterBinding', binding);
   },
 
   _bindSortedToPaginator() {
@@ -81,10 +100,11 @@ export default Ember.Component.extend({
     this.set('sorterPaginatorBinding', binding);
   },
 
-  page:          alias('paginator.page'),
-  pageSize:      alias('paginator.pageSize'),
-  sortedContent: alias('sorter.sortedContent'),
-  pageContent:   alias('paginator.currentPage'),
+  page:            alias('paginator.page'),
+  pageSize:        alias('paginator.pageSize'),
+  sortedContent:   alias('sorter.sortedContent'),
+  filteredContent: alias('filter.fiteredContent'),
+  pageContent:     alias('paginator.currentPage'),
 
   propertiesList: computed('properties', function() {
     const properties = this.get('properties');

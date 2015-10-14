@@ -33,12 +33,14 @@ const FILTERS = {
 };
 
 function filter(filters, list) {
+  if (!list) { return []; }
+
   return list.filter(function(item) {
     let isOk = true;
 
     filters.forEach(function(filter) {
       const itemValue = get(item, filter.propertyPath);
-      const filterFn = FILTERS[filter.filterName];
+      const filterFn = FILTERS[filter.filter.filter];
       const OK = filterFn(itemValue, filter.value);
 
       if (!OK) { isOk = false; }
@@ -58,22 +60,32 @@ export default Ember.Object.extend({
     return Ember.A();
   }),
 
-  filterTypes: [
-    { label: 'Equals',                filter: 'equals' },
-    { label: 'Contains',              filter: 'contains' },
-    { label: 'Greater than',          filter: 'greaterThan' },
-    { label: 'Greater than or equal', filter: 'greaterThanEqual' },
-    { label: 'Lower than',            filter: 'lowerThan' },
-    { label: 'Lower than or equal',   filter: 'lowerThanEqual' },
-    { label: 'Starts with',           filter: 'startsWith' },
-    { label: 'Ends with',             filter: 'endsWith' }
-  ],
+  filterTypes: computed(function() {
+    return Ember.A([
+      { label: 'equals',                      filter: 'equals' },
+      { label: 'contains',                    filter: 'contains' },
+      { label: 'is greater than',             filter: 'greaterThan' },
+      { label: 'is greater than or equal to', filter: 'greaterThanEqual' },
+      { label: 'is lower than',               filter: 'lowerThan' },
+      { label: 'is lower than or equal to',   filter: 'lowerThanEqual' },
+      { label: 'starts with',                 filter: 'startsWith' },
+      { label: 'ends with',                   filter: 'endsWith' }
+    ]);
+  }),
 
-  addFilter(filterName, propertyPath, value) {
-    this.get('filters').pushObject({
-      filterName:   filterName,
-      propertyPath: propertyPath,
-      value:        value
-    });
+  addFilter(propertyPath, filterName, value) {
+    if (propertyPath && filterName && value) {
+      const filter = this.get('filterTypes').findBy('filter', filterName);
+
+      this.get('filters').pushObject({
+        propertyPath: propertyPath,
+        filter:       filter,
+        value:        value
+      });
+    }
+  },
+
+  removeFilter(filter) {
+    this.get('filters').removeObject(filter);
   }
 });

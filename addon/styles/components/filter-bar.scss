@@ -1,0 +1,82 @@
+.filter-bar {
+  &__filter,
+  &__new--value,
+  &__new--property,
+  &__new--type,
+  &__new--submit {
+    height: 24px;
+    line-height: 22px;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+    padding: 0 5px;
+    background-color: white;
+  }
+
+  &__filters {
+    line-height: 40px;
+    min-height: 40px;
+  }
+
+  &__filter {
+    display: inline-block;
+    position: relative;
+    padding-right: 30px;
+
+    &__property {
+      font-weight: bold;
+    }
+
+    &__type {
+
+    }
+
+    &__value {
+      font-style: italic;
+    }
+
+    &__remove {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      text-align: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #EFEFEF;
+      }
+    }
+  }
+
+  &__new {
+    line-height: 40px;
+
+    &--title {
+      font-weight: bold;
+      margin-right: 1em;
+    }
+
+    &--property, &--type, &--submit {
+      position: relative;
+      cursor: pointer;
+    }
+
+    &--submit {
+      text-align: center;
+      padding: 0 1em;
+      background-color: #EFEFEF;
+
+      &:hover {
+        border-color: grey;
+      }
+
+      &:disabled {
+        cursor: initial;
+
+        &:hover {
+          border-color: lightgrey;
+        }
+      }
+    }
+  }
+}

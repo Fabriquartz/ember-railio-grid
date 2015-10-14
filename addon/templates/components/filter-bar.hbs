@@ -1,0 +1,53 @@
+<div class="filter-bar__filters">
+  {{#each filter.filters as |activeFilter|}}
+    <div class="filter-bar__filter">
+      <span class="filter-bar__filter__property">{{activeFilter.propertyPath}}</span>
+      <span class="filter-bar__filter__type">{{activeFilter.filter.label}}</span>
+      <span class="filter-bar__filter__value">{{activeFilter.value}}</span>
+      <span class="filter-bar__filter__remove"
+            {{action "removeFilter" activeFilter on="click"}}>
+        {{fa-icon "times"}}
+      </span>
+    </div>
+  {{/each}}
+</div>
+<div class="filter-bar__new">
+  <span class="filter-bar__new--title">Add filter:</span>
+
+  <select onchange={{action "changedProperty" value="target.value"}}
+          class="filter-bar__new--property">
+    <option value='' selected={{is-equal null newFilterProperty}}>
+      Choose column
+    </option>
+    {{#each properties as |property|}}
+      <option value="{{property.key}}"
+              selected={{is-equal property newFilterProperty}}>
+        {{property.label}}
+      </option>
+    {{/each}}
+  </select>
+
+  <select onchange={{action "changedType" value="target.value"}}
+          class="filter-bar__new--type">
+    <option value='' selected={{is-equal null newFilterType}}>
+      Choose filter type
+    </option>
+    {{#each filter.filterTypes as |filterType|}}
+      <option value="{{filterType.filter}}"
+              selected={{is-equal filterType newFilterType}}>
+        {{filterType.label}}
+      </option>
+    {{/each}}
+  </select>
+
+  <input type="text"
+         value={{newFilterQuery}}
+         class="filter-bar__new--value"
+         placeholder="Filter query"
+         oninput={{action "changedQuery" value="target.value"}} >
+
+  <button class="filter-bar__new--submit"
+          disabled={{addButtonDisabled}}
+            {{action "createNewFilter" on="click"}}
+          >Add</button>
+</div>
