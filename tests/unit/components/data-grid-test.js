@@ -1,54 +1,26 @@
-import Paginator from 'ember-railio-grid/utils/paginator';
-import Sorter from 'ember-railio-grid/utils/sorter';
-import Filter from 'ember-railio-grid/utils/filter';
+import Ember from 'ember';
+import DataManager from 'ember-railio-grid/utils/data-manager';
 import { moduleForComponent, test } from 'ember-qunit';
+
+const { run } = Ember;
 
 moduleForComponent('data-grid', 'Unit | Component | data-grid', {
   unit: true
 });
 
-test('creates a default paginator with content', function(assert) {
-  const dataGrid = this.subject({
-    content: [1, 2, 3, 4],
-    page: 1
+test('creates a default dataManager with content', function(assert) {
+  let dataGrid;
+  run(() => {
+    dataGrid = this.subject({
+      content: [1, 2, 3, 4]
+    });
   });
 
-  const paginator = dataGrid.get('paginator');
+  const dataManager = dataGrid.get('dataManager');
 
-  assert.notEqual(paginator, null);
-  assert.ok(paginator instanceof Paginator);
-  assert.deepEqual(paginator.get('content'), [1, 2, 3, 4]);
-});
-
-test('assigns attributes to paginator', function(assert) {
-  const dataGrid = this.subject({
-    content:   [1, 2, 3, 4],
-    paginator: Paginator.create(),
-    page:      2,
-    pageSize:  2
-  });
-
-  assert.equal(dataGrid.get('paginator.page'), 2);
-  assert.equal(dataGrid.get('paginator.pageSize'), 2);
-  assert.deepEqual(dataGrid.get('paginator.content'), [1, 2, 3, 4]);
-});
-
-test('creates a default sorter with content', function(assert) {
-  const dataGrid = this.subject({
-    content: [1, 2, 3, 4]
-  });
-
-  assert.notEqual(dataGrid.get('sorter'), null);
-  assert.ok(dataGrid.get('sorter') instanceof Sorter);
-  assert.deepEqual(dataGrid.get('sorter.content'), [1, 2, 3, 4]);
-});
-
-test('creates a default filter with content', function(assert) {
-  const dataGrid = this.subject({
-    content: [1, 2, 3, 4]
-  });
-
-  assert.notEqual(dataGrid.get('filter'), null);
-  assert.ok(dataGrid.get('filter') instanceof Filter);
-  assert.deepEqual(dataGrid.get('filter.content'), [1, 2, 3, 4]);
+  assert.notEqual(dataManager, null, 'dataManager is defined');
+  assert.ok(dataManager instanceof DataManager,
+            'dataManager is of type DataManager');
+  assert.deepEqual(dataManager.get('content'), [1, 2, 3, 4],
+                   'dataManager gets content');
 });
