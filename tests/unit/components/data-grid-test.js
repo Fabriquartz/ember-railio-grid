@@ -13,8 +13,11 @@ test('creates a default paginator with content', function(assert) {
     page: 1
   });
 
-  assert.notEqual(dataGrid.get('paginator'), null);
-  assert.ok(dataGrid.get('paginator') instanceof Paginator);
+  const paginator = dataGrid.get('paginator');
+
+  assert.notEqual(paginator, null);
+  assert.ok(paginator instanceof Paginator);
+  assert.deepEqual(paginator.get('content'), [1, 2, 3, 4]);
 });
 
 test('assigns attributes to paginator', function(assert) {
