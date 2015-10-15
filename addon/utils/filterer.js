@@ -52,40 +52,11 @@ function filter(filters, list) {
 
 export default Ember.Object.extend({
   filteredContent: computed(
-  'content.[]', 'filters.@each.{value,propertyPath}', function() {
-    return filter(this.get('filters'), this.get('content'));
+  'content.[]', 'handler.filters.@each.{value,propertyPath}', function() {
+    return filter(this.get('handler.filters'), this.get('content'));
   }),
 
   filters: computed(function() {
     return Ember.A();
   }),
-
-  filterTypes: computed(function() {
-    return Ember.A([
-      { label: 'equals',                      filter: 'equals' },
-      { label: 'contains',                    filter: 'contains' },
-      { label: 'is greater than',             filter: 'greaterThan' },
-      { label: 'is greater than or equal to', filter: 'greaterThanEqual' },
-      { label: 'is lower than',               filter: 'lowerThan' },
-      { label: 'is lower than or equal to',   filter: 'lowerThanEqual' },
-      { label: 'starts with',                 filter: 'startsWith' },
-      { label: 'ends with',                   filter: 'endsWith' }
-    ]);
-  }),
-
-  addFilter(propertyPath, filterName, value) {
-    if (propertyPath && filterName && value) {
-      const filter = this.get('filterTypes').findBy('filter', filterName);
-
-      this.get('filters').pushObject({
-        propertyPath: propertyPath,
-        filter:       filter,
-        value:        value
-      });
-    }
-  },
-
-  removeFilter(filter) {
-    this.get('filters').removeObject(filter);
-  }
 });

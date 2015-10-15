@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import Filterer from 'ember-railio-grid/utils/filterer';
+import FilteringHandler from 'ember-railio-grid/utils/filtering-handler';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -9,7 +9,7 @@ moduleForComponent('filter-bar', 'Integration | Component | {{filter-bar}}', {
   integration: true,
 
   beforeEach: function() {
-    this.set('filterer', Filterer.create({
+    this.set('filteringHandler', FilteringHandler.create({
       content: [1, 2, 3, 4, 5, 6]
     }));
 
@@ -19,7 +19,7 @@ moduleForComponent('filter-bar', 'Integration | Component | {{filter-bar}}', {
       {key: "type", label: "type"}
     ]);
 
-    this.render(hbs`{{filter-bar filterer=filterer properties=properties}}`);
+    this.render(hbs`{{filter-bar handler=filteringHandler properties=properties}}`);
   }
 });
 
@@ -83,7 +83,7 @@ test('adding new filter', function(assert) {
 
 test('removing filter', function(assert) {
   run(() => {
-    this.get('filterer').addFilter('contains', 'name', 'abc');
+    this.get('filteringHandler').addFilter('contains', 'name', 'abc');
   });
 
   const $addedFilter = this.$('.filter-bar__filter').eq(0);
