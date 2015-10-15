@@ -1,4 +1,5 @@
 import Sorter from '../../../utils/sorter';
+import SortingHandler from '../../../utils/sorting-handler';
 import { module, test } from 'qunit';
 
 let sorter;
@@ -10,8 +11,10 @@ const Dirk  = { id: 5, name: 'Dirk', type: 'cat' };
 
 module('Unit | Utility | sorter', {
   beforeEach: function() {
+    const sortingHandler = SortingHandler.create();
     sorter = Sorter.create({
-      content: [ Ben, Alex, Chris ]
+      content: [ Ben, Alex, Chris ],
+      handler: sortingHandler
     });
   }
 });
@@ -21,42 +24,28 @@ test('create a sorter with content array', function(assert) {
                    'by default unsorted');
 });
 
-test('toggle()', function(assert) {
-  sorter.toggle('name');
+test('sorts on one column', function(assert) {
+  sorter.get('handler').toggle('name');
   assert.deepEqual(sorter.get('sortedContent'), [ Alex, Ben, Chris ],
-                   'once toggled sort ascending');
+                   'sorting ascending');
 
-  sorter.toggle('name');
+  sorter.get('handler').toggle('name');
   assert.deepEqual(sorter.get('sortedContent'), [ Chris, Ben, Alex ],
-                   'twice toggled sort descending');
-
-  sorter.toggle('name');
-  assert.deepEqual(sorter.get('sortedContent'), [ Ben, Alex, Chris ],
-                   'third time toggled remove sorting');
-
-  sorter.toggle('name');
-  assert.deepEqual(sorter.get('sortedContent'), [ Alex, Ben, Chris ],
-                   'fourth time toggled sort ascending');
+                   'sorting descending');
 });
 
 test('multiple sorting', function(assert) {
   sorter.content = [ Ben, Alex, Chris, Edwin, Dirk ];
 
-  sorter.toggle('type');
+  sorter.get('handler').toggle('type');
   assert.deepEqual(sorter.get('sortedContent'), [ Chris, Dirk, Ben, Alex, Edwin ],
                    'sort on one key');
 
-  sorter.toggle('name');
+  sorter.get('handler').toggle('name');
   assert.deepEqual(sorter.get('sortedContent'), [ Chris, Dirk, Alex, Ben, Edwin ],
                    'sort on second key');
 
-  sorter.toggle('name');
+  sorter.get('handler').toggle('name');
   assert.deepEqual(sorter.get('sortedContent'), [ Dirk, Chris, Edwin, Ben, Alex ],
                    'toggle sort on second key');
-});
-
-test('resetSortKeys()', function(assert) {
-  sorter.addSortKey('name');
-  sorter.resetSortKeys();
-  assert.equal(sorter.get('sortKeys.length'), 0, 'resets sortKeys');
 });

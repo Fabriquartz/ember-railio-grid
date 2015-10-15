@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { compare, computed, get, set } = Ember;
+const { compare, computed, get } = Ember;
 
 function orderBy(list, sortProperties) {
   if (!sortProperties || sortProperties.length === 0) {
@@ -31,51 +31,7 @@ function orderBy(list, sortProperties) {
 }
 
 export default Ember.Object.extend({
-  sortKeys: computed(function() {
-    return Ember.A();
+  sortedContent: computed('content.[]', 'handler.sortKeys.@each.{key,descending}', function() {
+    return orderBy(this.get('content'), this.get('handler.sortKeys'));
   }),
-
-  sortedContent: computed('content.[]', 'sortKeys.@each.{key,descending}', function() {
-    return orderBy(this.get('content'), this.get('sortKeys'));
-  }),
-
-  addSortKey(key, descending = false) {
-
-    const sortKeys = this.get('sortKeys');
-    const keyCurrent = sortKeys.findBy('key', key);
-    const index = sortKeys.indexOf(keyCurrent);
-
-    if (!keyCurrent) {
-      sortKeys.pushObject({ key: key, descending: descending });
-    } else {
-      set(keyCurrent, 'descending', descending);
-      sortKeys.replace(index, 1, [keyCurrent]);
-    }
-  },
-
-  removeSortKey(key) {
-    const sortKeys = this.get('sortKeys');
-    const keyCurrent = sortKeys.findBy('key', key);
-
-    sortKeys.removeObject(keyCurrent);
-  },
-
-  toggle(key) {
-    const keyCurrent = this.get('sortKeys').findBy('key', key);
-
-    if (!keyCurrent) {
-      this.addSortKey(key, false);
-      return 'ASC';
-    } else if (!keyCurrent.descending) {
-      this.addSortKey(key, true);
-      return 'DESC';
-    } else {
-      this.removeSortKey(key);
-      return false;
-    }
-  },
-
-  resetSortKeys() {
-    this.set('sortKeys', Ember.A());
-  }
 });
