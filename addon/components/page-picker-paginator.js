@@ -7,23 +7,23 @@ export default Ember.Component.extend({
 
   actions: {
     goToPage(pageNr) {
-      this.set('paginator.page', pageNr);
+      this.set('handler.page', pageNr);
     },
 
     firstPage() {
-      this.get('paginator').firstPage();
+      this.get('handler').firstPage();
     },
 
     lastPage() {
-      this.get('paginator').lastPage();
+      this.get('handler').lastPage();
     },
 
     previousPage() {
-      this.get('paginator').previousPage();
+      this.get('handler').previousPage();
     },
 
     nextPage() {
-      this.get('paginator').nextPage();
+      this.get('handler').nextPage();
     }
   }
 });

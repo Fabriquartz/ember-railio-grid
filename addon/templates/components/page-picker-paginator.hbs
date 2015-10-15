@@ -1,4 +1,4 @@
-{{#if paginator.pageAmount}}
+{{#if handler.pageAmount}}
     <div class="paginator__button paginator__button--first"
          {{action "firstPage" on="click"}}>
       &lt;&lt;
@@ -8,10 +8,10 @@
       &lt;
     </div>
 
-    {{page-number value=paginator.page maxValue=paginator.pageAmount}}
+    {{page-number value=handler.page maxValue=handler.pageAmount}}
     /
     <div class="paginator__max-pages">
-      {{paginator.pageAmount}}
+      {{handler.pageAmount}}
     </div>
 
     <div class="paginator__button paginator__button--next"
