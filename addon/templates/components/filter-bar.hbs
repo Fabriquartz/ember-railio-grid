@@ -1,5 +1,5 @@
 <div class="filter-bar__filters">
-  {{#each filter.filters as |activeFilter|}}
+  {{#each filterer.filters as |activeFilter|}}
     <div class="filter-bar__filter">
       <span class="filter-bar__filter__property">{{activeFilter.propertyPath}}</span>
       <span class="filter-bar__filter__type">{{activeFilter.filter.label}}</span>
@@ -32,7 +32,7 @@
     <option value='' selected={{is-equal null newFilterType}}>
       Choose filter type
     </option>
-    {{#each filter.filterTypes as |filterType|}}
+    {{#each filterer.filterTypes as |filterType|}}
       <option value="{{filterType.filter}}"
               selected={{is-equal filterType newFilterType}}>
         {{filterType.label}}

@@ -34,7 +34,7 @@ export default Ember.Component.extend({
       const query    = this.get('newFilterQuery');
 
       if (property && filter && query) {
-        this.get('filter').addFilter(property, filter, query);
+        this.get('filterer').addFilter(property, filter, query);
 
         this.set('newFilterProperty', null);
         this.set('newFilterType', null);
@@ -42,7 +42,7 @@ export default Ember.Component.extend({
       }
     },
     removeFilter(filter) {
-      this.get('filter').removeFilter(filter);
+      this.get('filterer').removeFilter(filter);
     }
   }
 });

@@ -62,7 +62,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
   },
 
-  filter:    alias('dataManager.filter'),
+  filterer:  alias('dataManager.filterer'),
   sorter:    alias('dataManager.sorter'),
   paginator: alias('dataManager.paginator'),
 

@@ -2,7 +2,7 @@ import Ember       from 'ember';
 import DataManager from 'ember-railio-grid/utils/data-manager';
 import Paginator   from 'ember-railio-grid/utils/paginator';
 import Sorter      from 'ember-railio-grid/utils/sorter';
-import Filter      from 'ember-railio-grid/utils/filter';
+import Filterer    from 'ember-railio-grid/utils/filterer';
 
 import { module, test } from 'qunit';
 
@@ -48,11 +48,11 @@ test('creates a default filter with content', function(assert) {
     content: [1, 2, 3, 4]
   });
 
-  const filter = dataManager.get('filter');
+  const filterer = dataManager.get('filterer');
 
-  assert.notEqual(filter, null);
-  assert.ok(filter instanceof Filter);
-  assert.deepEqual(filter.get('content'), [1, 2, 3, 4]);
+  assert.notEqual(filterer, null);
+  assert.ok(filterer instanceof Filterer);
+  assert.deepEqual(filterer.get('content'), [1, 2, 3, 4]);
 });
 
 test('managedContent modified by filter, sorter and paginator', function(assert) {
@@ -67,7 +67,7 @@ test('managedContent modified by filter, sorter and paginator', function(assert)
   });
 
   run(() => {
-    dataManager.get('filter').addFilter('name', 'contains', 'a');
+    dataManager.get('filterer').addFilter('name', 'contains', 'a');
     dataManager.get('sorter').addSortKey('name');
     dataManager.set('paginator.pageSize', 2);
   });

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-import Filter    from 'ember-railio-grid/utils/filter';
+import Filterer  from 'ember-railio-grid/utils/filterer';
 import Sorter    from 'ember-railio-grid/utils/sorter';
 import Paginator from 'ember-railio-grid/utils/paginator';
 
@@ -28,35 +28,35 @@ export default Ember.Object.extend({
     }
   }),
 
-  filter: computed({
+  filterer: computed({
     set(key, value) {
-      this.set('_filter', value);
+      this.set('_filterer', value);
       return value;
     },
     get() {
-      return this.get('_filter') || Filter.create();
+      return this.get('_filterer') || Filterer.create();
     }
   }),
 
   init: function() {
-    this._bindContentToFilter();
+    this._bindContentToFilterer();
     this._bindFilteredToSorter();
     this._bindSortedToPaginator();
     this._super(...arguments);
   },
 
-  _bindContentToFilter() {
-    let binding = this.get('contentFilterBinding');
+  _bindContentToFilterer() {
+    let binding = this.get('contentFiltererBinding');
     if (binding  != null) { binding.disconnect(this); }
-    binding = Ember.bind(this, 'filter.content', 'content');
-    this.set('contentFilterBinding', binding);
+    binding = Ember.bind(this, 'filterer.content', 'content');
+    this.set('contentFiltererBinding', binding);
   },
 
   _bindFilteredToSorter() {
-    let binding = this.get('filterSorterBinding');
+    let binding = this.get('filtererSorterBinding');
     if (binding  != null) { binding.disconnect(this); }
-    binding = Ember.bind(this, 'sorter.content', 'filter.filteredContent');
-    this.set('filterSorterBinding', binding);
+    binding = Ember.bind(this, 'sorter.content', 'filterer.filteredContent');
+    this.set('filtererSorterBinding', binding);
   },
 
   _bindSortedToPaginator() {
