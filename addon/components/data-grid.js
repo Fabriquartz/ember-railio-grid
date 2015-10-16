@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import layout from 'ember-railio-grid/templates/components/data-grid';
-import DataManager from 'ember-railio-grid/utils/data-manager';
+import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 
 const { computed, set } = Ember;
 const { alias } = computed;
@@ -53,7 +53,7 @@ export default Ember.Component.extend({
       return value;
     },
     get() {
-      return this.get('_dataManager') || DataManager.create();
+      return this.get('_dataManager') || ArrayDataManager.create();
     }
   }),
 
@@ -62,12 +62,12 @@ export default Ember.Component.extend({
     this._super(...arguments);
   },
 
-  filterer:  alias('dataManager.filterer'),
-  sorter:    alias('dataManager.sorter'),
-  paginator: alias('dataManager.paginator'),
+  filteringHandler:  alias('dataManager.filteringHandler'),
+  sortingHandler:    alias('dataManager.sortingHandler'),
+  paginatingHandler: alias('dataManager.paginatingHandler'),
 
-  page:     alias('paginator.page'),
-  pageSize: alias('paginator.pageSize'),
+  page:     alias('paginatingHandler.page'),
+  pageSize: alias('paginatingHandler.pageSize'),
 
   managedContent: alias('dataManager.managedContent'),
 
@@ -79,7 +79,7 @@ export default Ember.Component.extend({
 
   actions: {
     sortBy(key) {
-      const sort = this.get('sorter').toggle(key);
+      const sort = this.get('sortingHandler').toggle(key);
 
       const propertiesList = this.get('propertiesList');
       const property = propertiesList.findBy('key', key);

@@ -1,9 +1,9 @@
 {{#if filterEnabled}}
-  {{filter-bar filterer=filterer properties=propertiesList}}
+  {{filter-bar handler=filteringHandler properties=propertiesList}}
 {{/if}}
 
 {{#if topPaginator}}
-  {{component topPaginator paginator=paginator class="paginator--top"}}
+  {{component topPaginator handler=paginatingHandler class="paginator--top"}}
 {{/if}}
 
 <table>
@@ -43,5 +43,5 @@
 </table>
 
 {{#if bottomPaginator}}
-  {{component bottomPaginator paginator=paginator class="paginator--bottom"}}
+  {{component bottomPaginator handler=paginatingHandler class="paginator--bottom"}}
 {{/if}}

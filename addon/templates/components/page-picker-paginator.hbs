@@ -1,25 +1,25 @@
 {{#if handler.pageAmount}}
-    <div class="paginator__button paginator__button--first"
-         {{action "firstPage" on="click"}}>
-      &lt;&lt;
-    </div>
-    <div class="paginator__button paginator__button--previous"
-         {{action "previousPage" on="click"}}>
-      &lt;
-    </div>
+  <div class="paginator__button paginator__button--first"
+       {{action "firstPage" on="click"}}>
+    &lt;&lt;
+  </div>
+  <div class="paginator__button paginator__button--previous"
+       {{action "previousPage" on="click"}}>
+    &lt;
+  </div>
 
-    {{page-number value=handler.page maxValue=handler.pageAmount}}
-    /
-    <div class="paginator__max-pages">
-      {{handler.pageAmount}}
-    </div>
+  {{page-number value=handler.page maxValue=handler.pageAmount}}
+  /
+  <div class="paginator__max-pages">
+    {{handler.pageAmount}}
+  </div>
 
-    <div class="paginator__button paginator__button--next"
-         {{action "nextPage" on="click"}}>
-      &gt;
-    </div>
-    <div class="paginator__button paginator__button--last"
-         {{action "lastPage" on="click"}}>
-      &gt;&gt;
-    </div>
+  <div class="paginator__button paginator__button--next"
+       {{action "nextPage" on="click"}}>
+    &gt;
+  </div>
+  <div class="paginator__button paginator__button--last"
+       {{action "lastPage" on="click"}}>
+    &gt;&gt;
+  </div>
 {{/if}}
