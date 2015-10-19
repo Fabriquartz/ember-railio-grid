@@ -2,7 +2,7 @@ Actions
 {{fa-icon "angle-down"}}
 
 <ul class="data-grid__actions__list">
-  {{#each actions as |action|}}
+  {{#each actionList as |action|}}
     <li class="data-grid__actions__list__action" {{action "callAction" action.action}}>
       {{action.label}}
     </li>

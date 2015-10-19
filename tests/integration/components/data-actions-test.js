@@ -11,7 +11,7 @@ test('by default actions are hidden', function(assert) {
     { label: "delete", action() {}}
   ]);
 
-  this.render(hbs`{{data-actions actions=listActions}}`);
+  this.render(hbs`{{data-actions actionList=listActions}}`);
 
   const $actionList = this.$('.data-grid__actions__list');
   assert.equal($actionList.css('display'), 'none', 'by default hide list');
@@ -23,7 +23,7 @@ test('shows given actions', function(assert) {
     { label: "delete", action() {}}
   ]);
 
-  this.render(hbs`{{data-actions actions=listActions}}`);
+  this.render(hbs`{{data-actions actionList=listActions}}`);
 
   const $actions = this.$('.data-grid__actions');
   assert.equal($actions.length, 1, 'shows actions');
@@ -59,7 +59,7 @@ test('clicking action calls action', function(assert) {
   ]);
 
   this.render(hbs`{{data-actions object=object
-                                 actions=listActions}}`);
+                                 actionList=listActions}}`);
 
   const $actionList = this.$('.data-grid__actions__list__action');
   $actionList.eq(0).trigger('click');

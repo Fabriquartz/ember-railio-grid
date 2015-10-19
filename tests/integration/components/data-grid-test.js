@@ -178,7 +178,7 @@ test('shows actions on each row', function(assert) {
   ]);
 
   this.render(hbs`{{data-grid content=list
-                              actions=listActions
+                              actionList=listActions
                               properties="id name type"}}`);
 
   const $actions = this.$('.data-grid table tbody tr .data-grid__actions');
