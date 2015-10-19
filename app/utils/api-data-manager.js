@@ -1,0 +1,1 @@
+export { default } from 'ember-railio-grid/utils/api-data-manager';

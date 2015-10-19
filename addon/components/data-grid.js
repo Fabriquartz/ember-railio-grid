@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from 'ember-railio-grid/templates/components/data-grid';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
+import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
 
 const { computed, set } = Ember;
 const { alias } = computed;
@@ -53,12 +54,19 @@ export default Ember.Component.extend({
       return value;
     },
     get() {
+      if (this.get('modelName')) {
+        return this.get('_dataManager') || APIDataManager.create();
+      }
       return this.get('_dataManager') || ArrayDataManager.create();
     }
   }),
 
   didReceiveAttrs() {
     this.set('dataManager.content', this.getAttr('content') || this.get('content'));
+    if (this.get('modelName')) {
+      Ember.bind(this, 'dataManager.modelName', 'modelName');
+      Ember.bind(this, 'dataManager.store', 'store');
+    }
     this._super(...arguments);
   },
 

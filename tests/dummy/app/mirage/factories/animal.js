@@ -10,7 +10,7 @@ export default Mirage.Factory.extend({
     if (i < 12) { return animalNames[i]; }
     return 'Animal' + i;
   },
-  specy(i) {
+  type(i) {
     if (i % 2 === 0) { return 'cat'; }
     return 'dog';
   }

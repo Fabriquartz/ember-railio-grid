@@ -1,3 +1,7 @@
+import Ember from 'ember';
+
+const { compare, get } = Ember;
+
 export default function() {
 
   // These comments are here to help you get started. Feel free to delete them.
@@ -28,9 +32,49 @@ export default function() {
     this.get('/contacts/:id', ['contact', 'addresses']);
   */
 
-this.get('/animals', function(db) {
+this.get('/animals', function(db, query) {
+  let content = db.animals;
+
+  if (query.queryParams['filter[type_eq]']) {
+    const filterValue = query.queryParams['filter[type_eq]'];
+
+    content = db.animals.filter(function(animal) {
+      return animal.type === filterValue;
+    });
+  }
+
+  if (query.queryParams['filter[sorts][0][name]']) {
+    if (typeof content.sort !== 'function' && typeof content.toArray === 'function') {
+      content = content.toArray();
+    }
+
+    const sortKey = query.queryParams['filter[sorts][0][name]'];
+    const sortDir = query.queryParams['filter[sorts][0][dir]'];
+
+    content = [].concat(content).sort((item1, item2) => {
+      let result = 0;
+
+      result = compare(get(item1, sortKey), get(item2, sortKey));
+      if (result !== 0 && sortDir === 'DESC') {
+        result = result * -1;
+      }
+
+      return result;
+    });
+  }
+
+  if (query.queryParams.page && query.queryParams.per_page) {
+    const page = query.queryParams.page;
+    const pageSize = query.queryParams.per_page;
+
+    const start = 0 + ((page - 1) * pageSize);
+    const end = start + pageSize;
+
+    content = db.animals.slice(start, end);
+  }
+
   return {
-    data: db.animals.map(function(attrs) {
+    data: content.map(function(attrs) {
       return { type:       'animals',
                id:         attrs.id,
                attributes: attrs };
