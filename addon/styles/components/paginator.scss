@@ -18,7 +18,11 @@
     font-size:   inherit;
     font-family: inherit;
     border:      1px solid grey;
-    cursor:      pointer;
+  }
+
+  &__button {
+    background-color: white;
+    cursor:           pointer;
   }
 
   &__number-input {
