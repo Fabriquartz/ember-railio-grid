@@ -3,28 +3,28 @@ import Ember from 'ember';
 const { computed, get } = Ember;
 
 const FILTERS = {
-  equals(value, comparison) {
+  eq(value, comparison) {
     return value.toUpperCase() === comparison.toUpperCase();
   },
-  contains(value, contains) {
+  cont(value, contains) {
     return value.toUpperCase().indexOf(contains.toUpperCase()) !== -1;
   },
-  greaterThan(value, comparison) {
+  gt(value, comparison) {
     return value > comparison;
   },
-  greaterThanEqual(value, comparison) {
+  gte(value, comparison) {
     return value >= comparison;
   },
-  lowerThan(value, comparison) {
+  lt(value, comparison) {
     return value < comparison;
   },
-  lowerThanEqual(value, comparison) {
+  lte(value, comparison) {
     return value <= comparison;
   },
-  startsWith(value, part) {
+  start(value, part) {
     return value.toUpperCase().indexOf(part.toUpperCase()) === 0;
   },
-  endsWith(value, part) {
+  end(value, part) {
     const valueLength = value.length;
     const partLength = part.length;
 

@@ -9,14 +9,14 @@ export default Ember.Object.extend({
 
   filterTypes: computed(function() {
     return Ember.A([
-      { label: 'equals',                      filter: 'equals' },
-      { label: 'contains',                    filter: 'contains' },
-      { label: 'is greater than',             filter: 'greaterThan' },
-      { label: 'is greater than or equal to', filter: 'greaterThanEqual' },
-      { label: 'is lower than',               filter: 'lowerThan' },
-      { label: 'is lower than or equal to',   filter: 'lowerThanEqual' },
-      { label: 'starts with',                 filter: 'startsWith' },
-      { label: 'ends with',                   filter: 'endsWith' }
+      { label: 'equals',                      filter: 'eq' },
+      { label: 'contains',                    filter: 'cont' },
+      { label: 'is greater than',             filter: 'gt' },
+      { label: 'is greater than or equal to', filter: 'gte' },
+      { label: 'is lower than',               filter: 'lt' },
+      { label: 'is lower than or equal to',   filter: 'lte' },
+      { label: 'starts with',                 filter: 'start' },
+      { label: 'ends with',                   filter: 'end' }
     ]);
   }),
 

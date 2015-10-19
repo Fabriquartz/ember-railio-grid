@@ -24,7 +24,7 @@ test('can add filters', function(assert) {
 
   assert.equal(filters.length, 0, 'by default no filters');
 
-  filteringHandler.addFilter('name', 'contains', 'e');
+  filteringHandler.addFilter('name', 'cont', 'e');
   assert.equal(filters.length, 1, 'added a filter');
 
   const addedFilter = filters[0];
@@ -37,9 +37,9 @@ test('can add filters', function(assert) {
 test('can add multiple filters', function(assert) {
   const filters = filteringHandler.get('filters');
 
-  filteringHandler.addFilter('name', 'contains', 'e');
-  filteringHandler.addFilter('id', 'startsWith', 's');
-  filteringHandler.addFilter('type', 'equals', 'dog');
+  filteringHandler.addFilter('name', 'cont', 'e');
+  filteringHandler.addFilter('id', 'start', 's');
+  filteringHandler.addFilter('type', 'eq', 'dog');
 
   assert.equal(filters.length, 3, 'added multiple filters');
 });
@@ -47,9 +47,9 @@ test('can add multiple filters', function(assert) {
 test('can remove filters', function(assert) {
   const filters = filteringHandler.get('filters');
 
-  filteringHandler.addFilter('name', 'contains', 'e');
-  filteringHandler.addFilter('id', 'startsWith', 's');
-  filteringHandler.addFilter('type', 'equals', 'dog');
+  filteringHandler.addFilter('name', 'cont', 'e');
+  filteringHandler.addFilter('id', 'start', 's');
+  filteringHandler.addFilter('type', 'eq', 'dog');
 
   assert.equal(filters.length, 3, 'added 3 filters');
 

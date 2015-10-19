@@ -62,7 +62,7 @@ test('adding new filter', function(assert) {
     $inputProperty.val('name');
     $inputProperty.trigger('change');
 
-    $inputType.val('startsWith');
+    $inputType.val('start');
     $inputType.trigger('change');
 
     $inputValue.trigger('focusin');
@@ -83,7 +83,7 @@ test('adding new filter', function(assert) {
 
 test('removing filter', function(assert) {
   run(() => {
-    this.get('filteringHandler').addFilter('contains', 'name', 'abc');
+    this.get('filteringHandler').addFilter('cont', 'name', 'abc');
   });
 
   const $addedFilter = this.$('.filter-bar__filter').eq(0);

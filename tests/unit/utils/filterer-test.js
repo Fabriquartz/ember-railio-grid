@@ -29,64 +29,64 @@ test('create a filterer with content array', function(assert) {
 });
 
 test('filter on one field: equals', function(assert) {
-  filterer.get('handler').addFilter('name', 'equals', 'alex');
+  filterer.get('handler').addFilter('name', 'eq', 'alex');
 
   assert.deepEqual(filterer.get('filteredContent'), [ Alex, Alex2 ],
                    'content filtered by name');
 });
 
 test('filter on one field: contains', function(assert) {
-  filterer.get('handler').addFilter('name', 'contains', 'e');
+  filterer.get('handler').addFilter('name', 'cont', 'e');
 
   assert.deepEqual(filterer.get('filteredContent'), [ Alex, Ben, Dice, Erben, Alex2 ],
                    'content filtered by partial name');
 });
 
 test('filter on one field: greaterThan', function(assert) {
-  filterer.get('handler').addFilter('id', 'greaterThan', 4);
+  filterer.get('handler').addFilter('id', 'gt', 4);
 
   assert.deepEqual(filterer.get('filteredContent'), [ Erben, Alex2 ],
                    'content filtered by greater than');
 });
 
 test('filter on one field: greaterThanEqual', function(assert) {
-  filterer.get('handler').addFilter('id', 'greaterThanEqual', 4);
+  filterer.get('handler').addFilter('id', 'gte', 4);
 
   assert.deepEqual(filterer.get('filteredContent'), [ Dice, Erben, Alex2 ],
                    'content filtered by greater than or equal');
 });
 
 test('filter on one field: lowerThan', function(assert) {
-  filterer.get('handler').addFilter('id', 'lowerThan', 3);
+  filterer.get('handler').addFilter('id', 'lt', 3);
 
   assert.deepEqual(filterer.get('filteredContent'), [ Alex, Ben ],
                    'content filtered by lower than');
 });
 
 test('filter on one field: lowerThanEqual', function(assert) {
-  filterer.get('handler').addFilter('id', 'lowerThanEqual', 3);
+  filterer.get('handler').addFilter('id', 'lte', 3);
 
   assert.deepEqual(filterer.get('filteredContent'), [ Alex, Ben, Chris ],
                    'content filtered by lower than or equal');
 });
 
 test('filter on one field: startsWith', function(assert) {
-  filterer.get('handler').addFilter('name', 'startsWith', 'be');
+  filterer.get('handler').addFilter('name', 'start', 'be');
 
   assert.deepEqual(filterer.get('filteredContent'), [ Ben ],
                    'content filtered by starts with');
 });
 
 test('filter on one field: endsWith', function(assert) {
-  filterer.get('handler').addFilter('name', 'endsWith', 'e');
+  filterer.get('handler').addFilter('name', 'end', 'e');
 
   assert.deepEqual(filterer.get('filteredContent'), [ Dice ],
                    'content filtered by ends with');
 });
 
 test('multiple filters: equals and greaterThan', function(assert) {
-  filterer.get('handler').addFilter('name', 'equals', 'alex');
-  filterer.get('handler').addFilter('id', 'greaterThan', 4);
+  filterer.get('handler').addFilter('name', 'eq', 'alex');
+  filterer.get('handler').addFilter('id', 'gte', 4);
 
   assert.deepEqual(filterer.get('filteredContent'), [ Alex2 ],
                    'content filtered by equals and greater than');

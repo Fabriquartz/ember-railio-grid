@@ -95,7 +95,7 @@ test('managedContent modified by filter, sorter and paginator', function(assert)
   });
 
   run(() => {
-    arrayDataManager.get('filteringHandler').addFilter('name', 'contains', 'a');
+    arrayDataManager.get('filteringHandler').addFilter('name', 'cont', 'a');
   });
 
   assert.deepEqual(arrayDataManager.get('managedContent'),
