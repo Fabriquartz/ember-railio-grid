@@ -8,7 +8,9 @@
     &lt;
   </div>
 
-  {{page-number value=handler.page maxValue=handler.pageAmount}}
+  {{lazy-number value=handler.page
+                maxValue=handler.pageAmount
+                classNames="paginator_page-number"}}
   /
   <div class="paginator__max-pages">
     {{handler.pageAmount}}
