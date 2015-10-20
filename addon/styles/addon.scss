@@ -25,6 +25,17 @@
       }
     }
   }
+
+  &__row {
+    &--selected {
+      background-color: #EFEFEF;
+    }
+  }
+
+  &__selection {
+    display: inline-block;
+    float: right;
+  }
 }
 
 @import 'components/paginator';

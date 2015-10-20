@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import $ from 'jquery';
 import layout from 'ember-railio-grid/templates/components/data-grid';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
@@ -85,6 +86,10 @@ export default Ember.Component.extend({
     return getPropertiesList(properties);
   }),
 
+  selection: computed(function() {
+    return Ember.A();
+  }),
+
   actions: {
     sortBy(key) {
       const sort = this.get('sortingHandler').toggle(key);
@@ -92,6 +97,25 @@ export default Ember.Component.extend({
       const propertiesList = this.get('propertiesList');
       const property = propertiesList.findBy('key', key);
       set(property, 'sorting', sort);
+    },
+
+    selectItem(item, event) {
+      if (!event.ctrlKey && !event.metaKey) {
+        this.set('selection', Ember.A());
+        $('.data-grid__row--selected').removeClass('data-grid__row--selected');
+        return;
+      }
+
+      const selection = this.get('selection');
+      const $row      = $(event.target).closest('tr.data-grid__row');
+
+        if (selection.indexOf(item) === -1) {
+          $row.addClass('data-grid__row--selected');
+          selection.pushObject(item);
+        } else {
+          selection.removeObject(item);
+          $row.removeClass('data-grid__row--selected');
+        }
     }
   }
 });

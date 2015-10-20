@@ -4,12 +4,14 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 const { run } = Ember;
 
+const Ben    = { id: 1, name: 'Ben',   type: 'dog' };
+const Alex   = { id: 2, name: 'Alex',   type: 'dog' };
+const Chris  = { id: 3, name: 'Chris',   type: 'cat' };
+const Edward = { id: 4, name: 'Edward', type: 'dog' };
+const Dwight = { id: 5, name: 'Dwight', type: 'cat' };
+
 function buildSmallList() {
-  return [
-    Ember.Object.create({ id: 1, name: 'Ben',   type: 'dog' }),
-    Ember.Object.create({ id: 2, name: 'Alex',  type: 'dog' }),
-    Ember.Object.create({ id: 3, name: 'Chris', type: 'cat' })
-  ];
+  return [Ben, Alex, Chris];
 }
 
 moduleForComponent('data-grid', 'Integration | Component | {{data-grid}}', {
@@ -129,13 +131,7 @@ test('shows given bottomPaginator', function(assert) {
 });
 
 test('sort on clicking header', function(assert) {
-  this.set('list', [
-    { id: 1, name: 'Ben',    type: 'dog' },
-    { id: 2, name: 'Alex',   type: 'dog' },
-    { id: 3, name: 'Chris',  type: 'cat' },
-    { id: 4, name: 'Edward', type: 'dog' },
-    { id: 5, name: 'Dwight', type: 'cat' }
-  ]);
+  this.set('list', [Ben, Alex, Chris, Edward, Dwight]);
   this.render(hbs`{{data-grid content=list
                               properties="id name type"}}`);
 
@@ -165,26 +161,6 @@ test('sort on clicking header', function(assert) {
   assert.equal($rows.eq(4).find('td')[1].innerText, 'Alex');
 });
 
-test('shows actions on each row', function(assert) {
-  this.set('list', [
-    { id: 1, name: 'Ben',   type: 'dog' },
-    { id: 2, name: 'Alex',  type: 'dog' },
-    { id: 3, name: 'Chris', type: 'cat' }
-  ]);
-
-  this.set('listActions', [
-    { label: "edit",   action() {}},
-    { label: "delete", action() {}}
-  ]);
-
-  this.render(hbs`{{data-grid content=list
-                              actionList=listActions
-                              properties="id name type"}}`);
-
-  const $actions = this.$('.data-grid table tbody tr .data-grid__actions');
-  assert.equal($actions.length, 3, 'shows actions for each row');
-});
-
 test('shows filter bar', function(assert) {
   this.set('filterEnabled', false);
 
@@ -199,3 +175,67 @@ test('shows filter bar', function(assert) {
   assert.equal($filterBar.length, 1, 'show filterBar');
 });
 
+test('select items', function(assert) {
+  const list = [
+    { id: 1, name: 'Ben',   type: 'dog' },
+    { id: 2, name: 'Alex',  type: 'dog' },
+    { id: 3, name: 'Chris', type: 'cat' }
+  ];
+
+  this.set('list', list);
+
+  this.render(hbs`{{data-grid content=list
+                              actionList=listActions
+                              properties="id name type"}}`);
+
+  let $selected = $('.data-grid__row--selected');
+  assert.equal($selected.length, 0, 'no items selected by default');
+
+  let event;
+
+  run(() => {
+    event = $.Event('click', {ctrlKey: true});
+    $('.data-grid__row').eq(1).trigger(event);
+    $selected = $('.data-grid__row--selected');
+  });
+
+  assert.equal($selected.length, 1, 'item selected');
+
+  run(() => {
+    event = $.Event('click', {ctrlKey: true});
+    $('.data-grid__row').eq(2).trigger(event);
+    $selected = $('.data-grid__row--selected');
+  });
+
+  assert.equal($selected.length, 2, 'multiple item selected');
+});
+
+test('shows actions for selected items', function(assert) {
+  assert.expect(3);
+
+  this.set('list', [ Alex, Ben, Chris ]);
+
+  this.set('listActions', [
+    { label: "edit",
+      action(objects) { assert.deepEqual(objects, [Ben, Chris]); }},
+    { label: "delete", action() {}}
+  ]);
+
+  this.render(hbs`{{data-grid content=list
+                              actionList=listActions
+                              properties="id name type"}}`);
+
+  let $actions = this.$('.data-grid__actions');
+  assert.equal($actions.length, 0, 'do not show actions on default');
+
+  run(() => {
+    const event = $.Event('click', {ctrlKey: true});
+    $('.data-grid__row').eq(1).trigger(event);
+    $('.data-grid__row').eq(2).trigger(event);
+  });
+
+  $actions = this.$('.data-grid__actions');
+  assert.equal($actions.length, 1, 'show actions when items selected');
+
+  $actions.find('.data-grid__actions__list__action').eq(0).trigger('click');
+});

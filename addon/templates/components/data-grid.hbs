@@ -6,6 +6,15 @@
   {{component topPaginator handler=paginatingHandler class="paginator--top"}}
 {{/if}}
 
+{{#if selection.length}}
+  <div class="data-grid__selection">
+    {{selection.length}} selected
+    {{#if actionList.length}}
+      {{data-actions objects=selection actionList=actionList}}
+    {{/if}}
+  </div>
+{{/if}}
+
 <table>
   {{#if showHeader}}
     <thead>
@@ -23,20 +32,17 @@
           </span>
         </th>
         {{/each}}
-        {{#if actionList}}<th></th>{{/if}}
       </tr>
     </thead>
   {{/if}}
 
   <tbody>
     {{#each managedContent as |item|}}
-    <tr>
+    <tr class="data-grid__row"
+        onclick={{action "selectItem" item}}>
         {{#each propertiesList as |property|}}
           {{data-col key=property.key item=item}}
         {{/each}}
-        {{#if actionList}}
-          <td>{{data-actions object=item actionList=actionList}}</td>
-        {{/if}}
     </tr>
     {{/each}}
   </tbody>

@@ -13,10 +13,9 @@ export default Ember.Component.extend({
 
   actions: {
     callAction(action) {
-      const object = this.get('object');
-
       if (typeof action === 'function') {
-        action(object);
+        const objects = this.get('objects');
+        action(objects);
       }
     }
   }

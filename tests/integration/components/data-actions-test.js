@@ -37,28 +37,31 @@ test('shows given actions', function(assert) {
                'shows label of second action');
 });
 
-test('clicking action calls action', function(assert) {
+test('clicking action calls action with objects', function(assert) {
   assert.expect(2);
 
-  const Alex = { id: 1, name: 'Alex',   type: 'dog' };
-  this.set('object', Alex);
+  const Alex = { id: 1, name: 'Alex' };
+  const Bart = { id: 2, name: 'Bart' };
+  const list = [Alex, Bart];
+
+  this.set('objects', list);
 
   this.set('listActions', [
     {
       label: "edit",
-      action(object) {
-        assert.equal(object, Alex, 'calls first action with right object');
+      action(objects) {
+        assert.deepEqual(objects, list, 'calls first action with objects');
       }
     },
     {
       label: "delete",
-      action(object) {
-        assert.equal(object, Alex, 'calls second action with right object');
+      action(objects) {
+        assert.deepEqual(objects, list, 'calls second action with objects');
       }
     },
   ]);
 
-  this.render(hbs`{{data-actions object=object
+  this.render(hbs`{{data-actions objects=objects
                                  actionList=listActions}}`);
 
   const $actionList = this.$('.data-grid__actions__list__action');
