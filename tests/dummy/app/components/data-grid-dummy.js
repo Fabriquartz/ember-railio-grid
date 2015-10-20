@@ -4,7 +4,7 @@ function buildLargeList(length) {
   const list = [];
 
   for (let i = 1; i <= length;i++) {
-    const object = { id:   i, name: 'Name' + i, type: 'type' + i };
+    const object = { id: i, name: 'Name' + i, type: 'type' + i };
     list.push(object);
   }
 
@@ -19,7 +19,7 @@ export default Ember.Component.extend({
     { id: 4, name: 'Chris', type: 'cat' }
   ],
 
-  largeList: buildLargeList(12),
+  largeList: buildLargeList(120),
 
   properties: [
     { key: 'id', label: 'nr' },

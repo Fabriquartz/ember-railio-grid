@@ -14,7 +14,7 @@ moduleForComponent('page-picker-paginator', 'Integration | Component | {{page-pi
     }));
 
     this.render(hbs`{{page-picker-paginator handler=handler}}`);
-    $currentPage = this.$('.paginator__number-input');
+    $currentPage = this.$('.paginator__page-number');
   }
 });
 

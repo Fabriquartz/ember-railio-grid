@@ -1,0 +1,18 @@
+Page size:
+
+{{#each sizeOptions as |size|}}
+<div class="page-size-picker__size
+     {{if (is-equal size.value value) 'page-size-picker__size--selected'}}"
+     onclick={{action "setPageSize" size.value}}>
+    {{size.label}}
+  </div>
+{{/each}}
+
+{{#if inputActive}}
+  {{lazy-number value=value classNames="page-size-picker__input"}}
+{{else}}
+  <div class="page-size-picker__size"
+       onclick={{action "showInput"}}>
+    other
+  </div>
+{{/if}}

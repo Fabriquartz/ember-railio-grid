@@ -1,6 +1,7 @@
 .paginator {
   margin: 1em 0;
   text-align: center;
+  line-height: 30px;
 
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -35,5 +36,19 @@
   &__max-pages {
     margin-right: 10px;
     border: none;
+  }
+}
+
+.page-size-picker {
+  display: inline-block;
+  float: right;
+
+  &__size {
+    display: inline-block;
+    cursor: pointer;
+
+    &--selected {
+      text-decoration: underline;
+    }
   }
 }

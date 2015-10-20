@@ -10,7 +10,7 @@
 
   {{lazy-number value=handler.page
                 maxValue=handler.pageAmount
-                classNames="paginator_page-number"}}
+                classNames="paginator__page-number"}}
   /
   <div class="paginator__max-pages">
     {{handler.pageAmount}}
@@ -24,4 +24,8 @@
        {{action "lastPage" on="click"}}>
     &gt;&gt;
   </div>
+
+  {{page-size-picker value=handler.pageSize
+                     maxValue=handler.contentLength
+                     classNames="paginator__page-size"}}
 {{/if}}
