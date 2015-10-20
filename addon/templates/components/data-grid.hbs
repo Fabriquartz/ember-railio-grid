@@ -39,7 +39,8 @@
   <tbody>
     {{#each managedContent as |item|}}
     <tr class="data-grid__row"
-        onclick={{action "selectItem" item}}>
+        onclick={{action "selectItem" item}}
+        ondblclick={{action "doubleClickItem" item}}>
         {{#each propertiesList as |property|}}
           {{data-col key=property.key item=item}}
         {{/each}}

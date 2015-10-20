@@ -99,6 +99,14 @@ export default Ember.Component.extend({
       set(property, 'sorting', sort);
     },
 
+    doubleClickItem(item) {
+      const doubleClickFn = this.get('doubleClickAction');
+
+      if (typeof doubleClickFn === 'function') {
+        doubleClickFn(item);
+      }
+    },
+
     selectItem(item, event) {
       if (!event.ctrlKey && !event.metaKey) {
         this.set('selection', Ember.A());

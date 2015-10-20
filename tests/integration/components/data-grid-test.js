@@ -239,3 +239,21 @@ test('shows actions for selected items', function(assert) {
 
   $actions.find('.data-grid__actions__list__action').eq(0).trigger('click');
 });
+
+test('double clicking item calls doubleClickAction with item', function(assert) {
+  assert.expect(1);
+
+  const Alex = { id: 1, name: 'Alex' };
+  const Bart = { id: 2, name: 'Bart' };
+
+  this.set('list', [Alex, Bart]);
+
+  this.set('doubleClickAction', function(object) {
+    assert.deepEqual(object, Bart, 'calls with clicked item');
+  });
+
+  this.render(hbs`{{data-grid content=list
+                                 doubleClickAction=doubleClickAction}}`);
+
+  this.$('.data-grid__row').eq(1).trigger('dblclick');
+});

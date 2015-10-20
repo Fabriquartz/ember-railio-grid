@@ -36,5 +36,7 @@ export default Ember.Component.extend({
       label: "delete",
       action() { }
     },
-  ]
+  ],
+
+  doubleClickAction: function() { }
 });
