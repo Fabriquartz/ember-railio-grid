@@ -19,7 +19,7 @@
   {{#if showHeader}}
     <thead>
       <tr>
-        {{#each propertiesList as |property|}}
+        {{#each managedPropertiesList as |property|}}
         <th>
           <span {{action "sortBy" property.key on="click"}}>
           {{property.label}}
@@ -29,6 +29,9 @@
           {{else}}
             {{fa-icon "sort"}}
           {{/if}}
+            <span class="data-grid__header__sorting-order">
+              {{property.sortingOrder}}
+            </span>
           </span>
         </th>
         {{/each}}

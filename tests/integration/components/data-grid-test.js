@@ -21,7 +21,7 @@ moduleForComponent('data-grid', 'Integration | Component | {{data-grid}}', {
 test('renders the table with given content', function(assert) {
   this.set('list', buildSmallList());
 
-  this.render(hbs`{{data-grid content=list}}`);
+  this.render(hbs`{{data-grid content=list properties="id name type"}}`);
 
   const $table = this.$('.data-grid table');
   const $rows  = $table.find('tbody tr');
@@ -35,6 +35,7 @@ test('renders with display options', function(assert) {
   this.set('showHeader', true);
 
   this.render(hbs`{{data-grid content=list
+                              properties="id name type"
                               showHeader=showHeader
                               width=800}}`);
 
@@ -100,6 +101,7 @@ test('shows given topPaginator', function(assert) {
   this.set('topPaginator', null);
 
   this.render(hbs`{{data-grid content=list
+                              properties="id name type"
                               topPaginator=topPaginator}}`);
 
   let $topPaginator = this.$('.paginator--top');
@@ -118,6 +120,7 @@ test('shows given bottomPaginator', function(assert) {
   this.set('bottomPaginator', null);
 
   this.render(hbs`{{data-grid content=list
+                              properties="id name type"
                               bottomPaginator=bottomPaginator}}`);
 
   let $bottomPaginator = this.$('.paginator--bottom');
@@ -136,10 +139,9 @@ test('sort on clicking header', function(assert) {
                               properties="id name type"}}`);
 
   const $table       = this.$('.data-grid table');
-  const $headerCols  = $table.find('thead tr').eq(0).find('th span');
 
   run(() => {
-    $headerCols.eq(1).trigger('click');
+    $table.find('thead tr th').eq(1).find('span').eq(0).trigger('click');
   });
 
   let $rows = $table.find('tbody tr');
@@ -150,7 +152,7 @@ test('sort on clicking header', function(assert) {
   assert.equal($rows.eq(4).find('td')[1].innerText, 'Edward');
 
   run(() => {
-    $headerCols.eq(1).trigger('click');
+    $table.find('thead tr th').eq(1).find('span').eq(0).trigger('click');
   });
 
   $rows = $table.find('tbody tr');
@@ -164,10 +166,11 @@ test('sort on clicking header', function(assert) {
 test('shows filter bar', function(assert) {
   this.set('filterEnabled', false);
 
-  this.render(hbs`{{data-grid filterEnabled=filterEnabled}}`);
+  this.render(hbs`{{data-grid properties="id name type"
+                              filterEnabled=filterEnabled}}`);
 
   let $filterBar = this.$('.filter-bar');
-  assert.equal($filterBar.length, 0, 'no filterBar by default');
+    assert.equal($filterBar.length, 0, 'no filterBar by default');
 
   this.set('filterEnabled', true);
 
@@ -253,7 +256,29 @@ test('double clicking item calls doubleClickAction with item', function(assert) 
   });
 
   this.render(hbs`{{data-grid content=list
-                                 doubleClickAction=doubleClickAction}}`);
+                              properties="id name"
+                              doubleClickAction=doubleClickAction}}`);
 
   this.$('.data-grid__row').eq(1).trigger('dblclick');
+});
+
+test('show sorting order', function(assert) {
+  this.set('list', [Ben, Alex, Chris, Edward, Dwight]);
+  this.render(hbs`{{data-grid content=list
+                              properties="id name type"}}`);
+
+  const $table       = this.$('.data-grid table');
+
+  run(() => {
+    $table.find('thead tr th').eq(1).find('span').eq(0).trigger('click');
+    $table.find('thead tr th').eq(0).find('span').eq(0).trigger('click');
+  });
+
+  const $order1 = $table.find('thead tr th').eq(1)
+                        .find('.data-grid__header__sorting-order')[0];
+  const $order2 = $table.find('thead tr th').eq(0)
+                        .find('.data-grid__header__sorting-order')[0];
+
+  assert.equal($order1.innerText, '1', 'sorting order 1');
+  assert.equal($order2.innerText, '2', 'sorting order 2');
 });

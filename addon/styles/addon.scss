@@ -36,6 +36,16 @@
     display: inline-block;
     float: right;
   }
+
+  &__header__sorting-order {
+    display: inline-block;
+    width: 2em;
+
+    vertical-align: text-top;
+    font-weight: normal;
+    font-size: 0.7em;
+    color: lightgrey;
+  }
 }
 
 @import 'components/paginator';

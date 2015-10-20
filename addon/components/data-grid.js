@@ -4,7 +4,7 @@ import layout from 'ember-railio-grid/templates/components/data-grid';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
 
-const { computed, set } = Ember;
+const { computed } = Ember;
 const { alias } = computed;
 
 function getPropertiesList(properties) {
@@ -86,17 +86,32 @@ export default Ember.Component.extend({
     return getPropertiesList(properties);
   }),
 
+  managedPropertiesList: computed(
+    'propertiesList.@each{label,key}',
+    'sortingHandler.sortKeys.@each.{key,descending}',
+  function() {
+    const properties = this.get('propertiesList');
+    const sortings = this.get('sortingHandler.sortKeys');
+
+    return properties.map(function(property) {
+      property = Ember.Object.create(property);
+      const sorting = sortings.findBy('key', property.key);
+      if (sorting) {
+        const dir = sorting.descending ? 'DESC' : 'ASC';
+        property.set('sorting', dir);
+        property.set('sortingOrder', sortings.indexOf(sorting) + 1);
+      }
+      return property;
+    });
+  }),
+
   selection: computed(function() {
     return Ember.A();
   }),
 
   actions: {
     sortBy(key) {
-      const sort = this.get('sortingHandler').toggle(key);
-
-      const propertiesList = this.get('propertiesList');
-      const property = propertiesList.findBy('key', key);
-      set(property, 'sorting', sort);
+      this.get('sortingHandler').toggle(key);
     },
 
     doubleClickItem(item) {
