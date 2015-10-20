@@ -66,7 +66,6 @@ test(`clicking on a size sets pageSize`, function(assert) {
     $sizes.eq(1).trigger('click');
   });
 
-  const $input = this.$('.page-size-picker__input');
   assert.equal(this.get('value'), 50, 'pageSize is set to clicked size');
 });
 
