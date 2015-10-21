@@ -1,7 +1,5 @@
 .data-grid {
   table {
-    background-color: white;
-    border:          1px solid lightgrey;
     border-collapse: collapse;
     width: 100%;
 
@@ -13,8 +11,11 @@
     thead {
       background-color: grey;
       color:            white;
-      text-transform:   uppercase;
       text-align:       left;
+
+      th {
+        font-weight: normal;
+      }
 
       span {
         cursor: pointer;
