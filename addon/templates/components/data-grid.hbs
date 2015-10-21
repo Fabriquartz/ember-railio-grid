@@ -19,7 +19,7 @@
   {{#if showHeader}}
     <thead>
       <tr>
-        {{#each managedPropertiesList as |property|}}
+        {{#each propertiesList as |property|}}
         <th>
           <span {{action "sortBy" property.key on="click"}}>
           {{property.label}}
@@ -45,7 +45,7 @@
         onclick={{action "selectItem" item}}
         ondblclick={{action "doubleClickItem" item}}>
         {{#each propertiesList as |property|}}
-          {{data-col key=property.key item=item}}
+          {{data-col property=property item=item}}
         {{/each}}
     </tr>
     {{/each}}

@@ -10,18 +10,27 @@ const Chris  = { id: 3, name: 'Chris',   type: 'cat' };
 const Edward = { id: 4, name: 'Edward', type: 'dog' };
 const Dwight = { id: 5, name: 'Dwight', type: 'cat' };
 
+const properties = [
+  { key: 'id', label: 'nr' },
+  { key: 'name', label: 'name' },
+  { key: 'type', label: 'species' }
+];
+
 function buildSmallList() {
   return [Ben, Alex, Chris];
 }
 
 moduleForComponent('data-grid', 'Integration | Component | {{data-grid}}', {
-  integration: true
+  integration: true,
+  beforeEach: function() {
+    this.set('properties', properties);
+  }
 });
 
 test('renders the table with given content', function(assert) {
   this.set('list', buildSmallList());
 
-  this.render(hbs`{{data-grid content=list properties="id name type"}}`);
+  this.render(hbs`{{data-grid content=list properties=properties}}`);
 
   const $table = this.$('.data-grid table');
   const $rows  = $table.find('tbody tr');
@@ -35,7 +44,7 @@ test('renders with display options', function(assert) {
   this.set('showHeader', true);
 
   this.render(hbs`{{data-grid content=list
-                              properties="id name type"
+                              properties=properties
                               showHeader=showHeader
                               width=800}}`);
 
@@ -51,47 +60,8 @@ test('renders with display options', function(assert) {
   assert.equal($header.length, 0, 'hides header on showHeader=false');
 });
 
-test('shows label and value for properties string', function(assert) {
-  this.set('list', buildSmallList());
-
-  this.render(hbs`{{data-grid content=list
-                              properties="id name type"}}`);
-
-  const $table        = this.$('.data-grid table');
-  const $headerColls  = $table.find('thead tr').eq(0).find('th');
-  const $contentColls = $table.find('tbody tr').eq(0).find('td');
-
-  assert.equal($headerColls[0].innerText.toUpperCase().trim(), 'ID');
-  assert.equal($headerColls[1].innerText.toUpperCase().trim(), 'NAME');
-  assert.equal($headerColls[2].innerText.toUpperCase().trim(), 'TYPE');
-
-  assert.equal($contentColls[0].innerText, '1');
-  assert.equal($contentColls[1].innerText, 'Ben');
-  assert.equal($contentColls[2].innerText, 'dog');
-});
-
-test('decamelize properties label', function(assert) {
-  this.set('list', [{ id: 1, animalName: 'Frank' }]);
-
-  this.render(hbs`{{data-grid content=list
-                              properties="id animalName"}}`);
-
-  const $table        = this.$('.data-grid table');
-  const $headerColls  = $table.find('thead tr').eq(0).find('th');
-
-  assert.equal($headerColls[0].innerText.toUpperCase().trim(), 'ID');
-  assert.equal($headerColls[1].innerText.toUpperCase().trim(), 'ANIMAL NAME');
-});
-
 test('shows label and value for properties array with objects', function(assert) {
-  const properties = [
-    { key: 'id', label: 'nr' },
-    'name',
-    { key: 'type', label: 'species' }
-  ];
-
   this.set('list', buildSmallList());
-  this.set('properties', properties);
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 
@@ -114,7 +84,7 @@ test('shows given topPaginator', function(assert) {
   this.set('topPaginator', null);
 
   this.render(hbs`{{data-grid content=list
-                              properties="id name type"
+                              properties=properties
                               topPaginator=topPaginator}}`);
 
   let $topPaginator = this.$('.paginator--top');
@@ -133,7 +103,7 @@ test('shows given bottomPaginator', function(assert) {
   this.set('bottomPaginator', null);
 
   this.render(hbs`{{data-grid content=list
-                              properties="id name type"
+                              properties=properties
                               bottomPaginator=bottomPaginator}}`);
 
   let $bottomPaginator = this.$('.paginator--bottom');
@@ -149,7 +119,7 @@ test('shows given bottomPaginator', function(assert) {
 test('sort on clicking header', function(assert) {
   this.set('list', [Ben, Alex, Chris, Edward, Dwight]);
   this.render(hbs`{{data-grid content=list
-                              properties="id name type"}}`);
+                              properties=properties}}`);
 
   const $table       = this.$('.data-grid table');
 
@@ -179,7 +149,7 @@ test('sort on clicking header', function(assert) {
 test('shows filter bar', function(assert) {
   this.set('filterEnabled', false);
 
-  this.render(hbs`{{data-grid properties="id name type"
+  this.render(hbs`{{data-grid properties=properties
                               filterEnabled=filterEnabled}}`);
 
   let $filterBar = this.$('.filter-bar');
@@ -202,7 +172,7 @@ test('select items', function(assert) {
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
-                              properties="id name type"}}`);
+                              properties=properties}}`);
 
   let $selected = $('.data-grid__row--selected');
   assert.equal($selected.length, 0, 'no items selected by default');
@@ -239,7 +209,7 @@ test('shows actions for selected items', function(assert) {
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
-                              properties="id name type"}}`);
+                              properties=properties}}`);
 
   let $actions = this.$('.data-grid__actions');
   assert.equal($actions.length, 0, 'do not show actions on default');
@@ -269,7 +239,7 @@ test('double clicking item calls doubleClickAction with item', function(assert) 
   });
 
   this.render(hbs`{{data-grid content=list
-                              properties="id name"
+                              properties=properties
                               doubleClickAction=doubleClickAction}}`);
 
   this.$('.data-grid__row').eq(1).trigger('dblclick');
@@ -278,7 +248,7 @@ test('double clicking item calls doubleClickAction with item', function(assert) 
 test('show sorting order', function(assert) {
   this.set('list', [Ben, Alex, Chris, Edward, Dwight]);
   this.render(hbs`{{data-grid content=list
-                              properties="id name type"}}`);
+                              properties=properties}}`);
 
   const $table       = this.$('.data-grid table');
 

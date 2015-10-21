@@ -7,36 +7,6 @@ import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
 const { computed } = Ember;
 const { alias } = computed;
 
-function getPropertiesList(properties) {
-  let list = null;
-
-  if (typeof properties === 'string') {
-    const propertyList = properties.split(' ');
-
-    list = propertyList.map(function(property) {
-      const label = Ember.String.decamelize(property).replace('_', ' ');
-      return { key: property, label: label };
-    });
-
-    list = Ember.A(list);
-  } else if (properties !== null && Ember.isArray(properties)) {
-    list = properties.map(function(property) {
-      if (typeof property === 'string') {
-        const label = Ember.String.decamelize(property).replace('_', ' ');
-        return { key: property, label: label };
-      } else if (typeof property === 'object' &&
-                 property.hasOwnProperty('key') &&
-                 property.hasOwnProperty('label')) {
-        return property;
-      }
-    });
-
-    list = Ember.A(list);
-  }
-
-  return list;
-}
-
 export default Ember.Component.extend({
   layout: layout,
   classNames: ['data-grid'],
@@ -82,17 +52,11 @@ export default Ember.Component.extend({
 
   managedContent: alias('dataManager.managedContent'),
 
-  propertiesList: computed('properties', function() {
-    const properties = this.get('properties');
-
-    return getPropertiesList(properties);
-  }),
-
-  managedPropertiesList: computed(
-    'propertiesList.@each{label,key}',
+  propertiesList: computed(
+    'properties.@each{label,key}',
     'sortingHandler.sortKeys.@each.{key,descending}',
   function() {
-    const properties = this.get('propertiesList');
+    const properties = this.get('properties');
     const sortings = this.get('sortingHandler.sortKeys');
 
     return properties.map(function(property) {

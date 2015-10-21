@@ -23,7 +23,7 @@ export default Ember.Component.extend({
 
   properties: [
     { key: 'id', label: 'nr' },
-    'name',
+    { key: 'name', label: 'animal name' },
     { key: 'type', label: 'species' }
   ],
 
