@@ -14,14 +14,16 @@ function getPropertiesList(properties) {
     const propertyList = properties.split(' ');
 
     list = propertyList.map(function(property) {
-      return { key: property, label: property };
+      const label = Ember.String.decamelize(property).replace('_', ' ');
+      return { key: property, label: label };
     });
 
     list = Ember.A(list);
   } else if (properties !== null && Ember.isArray(properties)) {
     list = properties.map(function(property) {
       if (typeof property === 'string') {
-        return { key: property, label: property };
+        const label = Ember.String.decamelize(property).replace('_', ' ');
+        return { key: property, label: label };
       } else if (typeof property === 'object' &&
                  property.hasOwnProperty('key') &&
                  property.hasOwnProperty('label')) {

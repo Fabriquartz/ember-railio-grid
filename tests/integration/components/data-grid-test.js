@@ -70,6 +70,19 @@ test('shows label and value for properties string', function(assert) {
   assert.equal($contentColls[2].innerText, 'dog');
 });
 
+test('decamelize properties label', function(assert) {
+  this.set('list', [{ id: 1, animalName: 'Frank' }]);
+
+  this.render(hbs`{{data-grid content=list
+                              properties="id animalName"}}`);
+
+  const $table        = this.$('.data-grid table');
+  const $headerColls  = $table.find('thead tr').eq(0).find('th');
+
+  assert.equal($headerColls[0].innerText.toUpperCase().trim(), 'ID');
+  assert.equal($headerColls[1].innerText.toUpperCase().trim(), 'ANIMAL NAME');
+});
+
 test('shows label and value for properties array with objects', function(assert) {
   const properties = [
     { key: 'id', label: 'nr' },
