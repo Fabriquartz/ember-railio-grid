@@ -20,6 +20,7 @@ export default Ember.Component.extend({
 
   actions: {
     changedQuery(value) {
+      console.log('change');
       this.set('newFilterQuery', value);
     },
     changedProperty(property) {
@@ -28,7 +29,8 @@ export default Ember.Component.extend({
     changedType(type) {
       this.set('newFilterType', type);
     },
-    createNewFilter() {
+    createNewFilter(event) {
+      event.preventDefault();
       const property = this.get('newFilterProperty');
       const filter   = this.get('newFilterType');
       const query    = this.get('newFilterQuery');
@@ -40,6 +42,7 @@ export default Ember.Component.extend({
         this.set('newFilterType', null);
         this.set('newFilterQuery', null);
       }
+      return false;
     },
     removeFilter(filter) {
       this.get('handler').removeFilter(filter);

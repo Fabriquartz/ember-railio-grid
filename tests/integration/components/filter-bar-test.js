@@ -28,14 +28,14 @@ test('shows inputs for new filter', function(assert) {
   const $inputValue    = $newValue.find('input.filter-bar__new--value');
   const $inputProperty = $newValue.find('select.filter-bar__new--property');
   const $inputType     = $newValue.find('select.filter-bar__new--type');
-  const $inputSubmit   = $newValue.find('button');
+  const $inputSubmit   = $newValue.find('input[type="submit"]');
 
   assert.equal($newValue.length,      1, 'shows new value bar');
   assert.equal($inputValue.length,    1, 'shows input value');
   assert.equal($inputProperty.length, 1, 'shows select property');
   assert.equal($inputType.length,     1, 'shows select type');
   assert.equal($inputSubmit.length,   1, 'shows submit button');
-  assert.equal($inputSubmit.text(), 'Add', 'shows submit button Add');
+  assert.equal($inputSubmit.val(), 'Add', 'shows submit button Add');
 });
 
 test('new filter shows list of properties', function(assert) {
@@ -56,7 +56,6 @@ test('adding new filter', function(assert) {
   const $inputValue    = this.$('input.filter-bar__new--value');
   const $inputProperty = this.$('select.filter-bar__new--property');
   const $inputType     = this.$('select.filter-bar__new--type');
-  const $inputSubmit   = this.$('.filter-bar button');
 
   run(() => {
     $inputProperty.val('name');
@@ -68,10 +67,8 @@ test('adding new filter', function(assert) {
     $inputValue.trigger('focusin');
     $inputValue.val('abc');
     $inputValue.trigger('input');
-
+    $inputValue.trigger('submit');
   });
-
-  $inputSubmit.trigger('click');
 
   const $addedFilter = this.$('.filter-bar__filter');
   assert.equal($addedFilter.length, 1, 'shows added filter');

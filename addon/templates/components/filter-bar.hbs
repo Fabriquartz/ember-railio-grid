@@ -14,40 +14,42 @@
 <div class="filter-bar__new">
   <span class="filter-bar__new--title">Add filter:</span>
 
-  <select onchange={{action "changedProperty" value="target.value"}}
-          class="filter-bar__new--property">
-    <option value='' selected={{is-equal null newFilterProperty}}>
-      Choose column
-    </option>
-    {{#each properties as |property|}}
-      <option value="{{property.key}}"
-              selected={{is-equal property newFilterProperty}}>
-        {{property.label}}
+  <form onsubmit={{action "createNewFilter"}}>
+    <select onchange={{action "changedProperty" value="target.value"}}
+            class="filter-bar__new--property">
+      <option value='' selected={{is-equal null newFilterProperty}}>
+        Choose column
       </option>
-    {{/each}}
-  </select>
+      {{#each properties as |property|}}
+        <option value="{{property.key}}"
+                selected={{is-equal property newFilterProperty}}>
+          {{property.label}}
+        </option>
+      {{/each}}
+    </select>
 
-  <select onchange={{action "changedType" value="target.value"}}
-          class="filter-bar__new--type">
-    <option value='' selected={{is-equal null newFilterType}}>
-      Choose filter type
-    </option>
-    {{#each handler.filterTypes as |filterType|}}
-      <option value="{{filterType.filter}}"
-              selected={{is-equal filterType newFilterType}}>
-        {{filterType.label}}
+    <select onchange={{action "changedType" value="target.value"}}
+            class="filter-bar__new--type">
+      <option value='' selected={{is-equal null newFilterType}}>
+        Choose filter type
       </option>
-    {{/each}}
-  </select>
+      {{#each handler.filterTypes as |filterType|}}
+        <option value="{{filterType.filter}}"
+                selected={{is-equal filterType newFilterType}}>
+          {{filterType.label}}
+        </option>
+      {{/each}}
+    </select>
 
-  <input type="text"
-         value={{newFilterQuery}}
-         class="filter-bar__new--value"
-         placeholder="Filter query"
-         oninput={{action "changedQuery" value="target.value"}} >
+    <input type="text"
+           value={{newFilterQuery}}
+           class="filter-bar__new--value"
+           placeholder="Filter query"
+           oninput={{action "changedQuery" value="target.value"}}>
 
-  <button class="filter-bar__new--submit"
-          disabled={{addButtonDisabled}}
-            {{action "createNewFilter" on="click"}}
-          >Add</button>
+    <input type="submit"
+           value="Add"
+           class="filter-bar__new--submit"
+           disabled={{addButtonDisabled}} />
+  </form>
 </div>
