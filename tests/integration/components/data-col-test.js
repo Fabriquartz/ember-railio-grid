@@ -14,6 +14,15 @@ test('shows the right value from the object', function(assert) {
   assert.equal(this.$('td')[0].innerText, 'Foo Bar');
 });
 
+test('shows multiple properties from the object', function(assert) {
+  this.set('item', { id: 1, firstName: 'Foo', lastName: 'Bar' });
+  this.set('property', { key: ['firstName','lastName'], label: 'name' });
+
+  this.render(hbs`{{data-col item=item property=property}}`);
+
+  assert.equal(this.$('td')[0].innerText, 'Foo, Bar');
+});
+
 test('formats the value by the format function', function(assert) {
   this.set('item', { id: 1, name: 'Foo Bar' });
   this.set('property', {
@@ -29,6 +38,21 @@ test('formats the value by the format function', function(assert) {
   assert.equal(this.$('td')[0].innerText, 'name: Foo Bar');
 });
 
+test('formats for multiple values', function(assert) {
+  this.set('item', { id: 1, firstName: 'Foo', lastName: 'Bar' });
+  this.set('property', {
+    key:   ['firstName', 'lastName'],
+    label: 'name',
+    format: function(firstName, lastName) {
+      return `${firstName} - ${lastName}`;
+    }
+  });
+
+  this.render(hbs`{{data-col item=item property=property}}`);
+
+  assert.equal(this.$('td')[0].innerText, 'Foo - Bar');
+});
+
 test('styles the cell with given styling', function(assert) {
   this.set('item', { id: 1, name: 'Foo' });
   this.set('property', {
@@ -36,17 +60,13 @@ test('styles the cell with given styling', function(assert) {
     label: 'animal name',
     style:  {
       width:           20,
-
       horizontalAlign: 'center',
       verticalAlign:   'bottom',
-
       backgroundColor: 'red',
-
       fontFamily:      'Sans',
       fontWeight:      300,
       italic:          true,
       fontColor:       'green',
-
       borderWidth:     4,
       borderColor:     'blue',
       borderStyle:     'dotted'

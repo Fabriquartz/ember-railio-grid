@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import $ from 'jquery';
 
-const { computed, defineProperty } = Ember;
-const { reads } = computed;
+const { get, computed, defineProperty } = Ember;
 
 const defaultPropertyObject = {
-  format: function(value) { return value; },
+  format: function() {
+    return Array.prototype.slice.call(arguments, 0).join(', ');
+  },
   style: {
     width:           'auto',
 
@@ -37,23 +38,23 @@ export default Ember.Component.extend({
     return $.extend({}, defaultPropertyObject, this.get('property'));
   }),
 
-  style: computed('_value', '_property.style',
+  style: computed('_values', '_property.style',
   function() {
-    const value = this.get('_value');
-    const style = copy(this.get('_property.style'));
+    const values = this.get('_values');
+    const style  = copy(this.get('_property.style'));
 
     // if style property is a function, return style depending on value
     for (const property in style) {
       if (style.hasOwnProperty(property) &&
           typeof style[property] === 'function') {
-        style[property] = style[property](value);
+        style[property] = style[property].apply(null, values);
       }
       if (typeof style[property] === 'boolean') {
         style[property] = style[property] ? property : 'inherit';
       }
     }
 
-    return `
+    return Ember.String.htmlSafe(`
       width:            ${style.width}em;
       text-align:       ${style.horizontalAlign};
       vertical-align:   ${style.verticalAlign};
@@ -65,20 +66,29 @@ export default Ember.Component.extend({
       border-width:     ${style.borderWidth}px;
       border-color:     ${style.borderColor};
       border-style:     ${style.borderStyle};
-    `;
+    `);
   }),
 
-  value: computed('_value', '_property.{format}', function() {
-    const value  = this.get('_value');
+  value: computed('_values', '_property.{format}', function() {
+    const values = this.get('_values');
     const format = this.get('_property.format');
 
-    return format(value);
+    return format.apply(null, values);
   }),
 
   didReceiveAttrs: function() {
     this._super(...arguments);
 
-    const propertyPath = this.get('property.key');
-    defineProperty(this, '_value', reads(`item.${propertyPath}`));
+    let propertyPaths = this.get('property.key');
+    if (!Ember.isArray(propertyPaths)) {
+      propertyPaths = [propertyPaths];
+    }
+
+    defineProperty(this, '_values', computed(`item.{${propertyPaths.join(',')}}`,
+    function() {
+      return propertyPaths.map((key) => {
+        return get(this, `item.${key}`);
+      });
+    }));
   }
 });
