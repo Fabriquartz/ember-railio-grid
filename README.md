@@ -21,10 +21,11 @@ In your Handlebars templates when using an existing list:
             properties=listProperties}}
 ```
 
-When you want to get the content from the store:
+When you want to get the content from the store, keep in mind you have to pass the store in your current project to the data-grid.
 
 ```handlebars
 {{data-grid model="modelName"
+            store=store
             properties=listProperties}}
 ```
 
