@@ -1,10 +1,6 @@
-Actions
-{{fa-icon "angle-down"}}
-
-<ul class="data-grid__actions__list">
-  {{#each actionList as |action|}}
-    <li class="data-grid__actions__list__action" {{action "callAction" action.action}}>
-      {{action.label}}
-    </li>
-  {{/each}}
-</ul>
+{{#each actionList as |action|}}
+  <button class="data-grid__actions__action"
+          {{action "callAction" action.action}}>
+    {{action.label}}
+  </button>
+{{/each}}

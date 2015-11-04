@@ -223,7 +223,7 @@ test('shows actions for selected items', function(assert) {
   $actions = this.$('.data-grid__actions');
   assert.equal($actions.length, 1, 'show actions when items selected');
 
-  $actions.find('.data-grid__actions__list__action').eq(0).trigger('click');
+  $actions.find('.data-grid__actions__action').eq(0).trigger('click');
 });
 
 test('double clicking item calls doubleClickAction with item', function(assert) {
