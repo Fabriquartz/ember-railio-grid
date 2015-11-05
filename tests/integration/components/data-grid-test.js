@@ -161,7 +161,7 @@ test('shows filter bar', function(assert) {
   assert.equal($filterBar.length, 1, 'show filterBar');
 });
 
-test('select items', function(assert) {
+test('shows checkboxes only when actionList passed', function(assert) {
   const list = [
     { id: 1, name: 'Ben',   type: 'dog' },
     { id: 2, name: 'Alex',  type: 'dog' },
@@ -174,26 +174,88 @@ test('select items', function(assert) {
                               actionList=listActions
                               properties=properties}}`);
 
-  let $selected = $('.data-grid__row--selected');
-  assert.equal($selected.length, 0, 'no items selected by default');
+  const $table = this.$('.data-grid table');
 
-  let event;
+  let $checkAll = $table.find('thead tr th').eq(0).find('input[type="checkbox"]');
+  let $checkRow = $table.find('tbody tr td').eq(0).find('input[type="checkbox"]');
+
+  assert.equal($checkAll.length, 0, 'No checkAll when no actions passed');
+  assert.equal($checkRow.length, 0, 'No checkboxes when no actions passed');
+
+  this.set('listActions', [
+    { label: "edit",   action(objects) { assert.deepEqual(objects, list); }},
+  ]);
+
+  $checkAll = $table.find('thead tr th').eq(0).find('input[type="checkbox"]');
+  $checkRow = $table.find('tbody tr td').eq(0).find('input[type="checkbox"]');
+
+  assert.equal($checkAll.length, 1, 'CheckAll when actions passed');
+  assert.equal($checkRow.length, 1, 'Checkboxes when actions passed');
+});
+
+test('select items', function(assert) {
+  this.set('list', [ Ben, Alex, Chris ]);
+
+  this.set('selection', Ember.A());
+
+  this.set('listActions', [ { label: "edit",   action() { } } ]);
+
+  this.render(hbs`{{data-grid content=list
+                              selection=selection
+                              actionList=listActions
+                              properties=properties}}`);
+
+  const $checkboxes = this.$('.data-grid table tbody input[type="checkbox"]');
+
+  const $checkRow1 = $checkboxes.eq(0);
+  const $checkRow2 = $checkboxes.eq(1);
 
   run(() => {
-    event = $.Event('click', {ctrlKey: true});
-    $('.data-grid__row').eq(1).trigger(event);
-    $selected = $('.data-grid__row--selected');
+    $checkRow1.trigger('click');
   });
 
-  assert.equal($selected.length, 1, 'item selected');
+  assert.equal($checkRow1[0].checked, true, 'item selected');
+  assert.equal(this.get('selection.length'), 1, 'item added to selection');
 
   run(() => {
-    event = $.Event('click', {ctrlKey: true});
-    $('.data-grid__row').eq(2).trigger(event);
-    $selected = $('.data-grid__row--selected');
+    $checkRow2.trigger('click');
   });
 
-  assert.equal($selected.length, 2, 'multiple item selected');
+  assert.equal($checkRow2[0].checked, true, 'item selected');
+  assert.equal(this.get('selection.length'), 2, 'item added to selection');
+});
+
+test('select and deselect all items', function(assert) {
+  const done = assert.async();
+  this.set('list', [ Ben, Alex, Chris ]);
+
+  this.set('selection', Ember.A());
+
+  this.set('listActions', [ { label: "edit",   action() { } } ]);
+
+  this.render(hbs`{{data-grid content=list
+                              selection=selection
+                              actionList=listActions
+                              properties=properties}}`);
+
+  const $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
+
+  run(() => {
+    $checkbox.trigger('click');
+  });
+
+  run.next(() => {
+    assert.equal(this.get('selection.length'), 3, 'all items selected');
+
+    run(() => {
+      $checkbox.trigger('click');
+    });
+
+    run.next(() => {
+      assert.equal(this.get('selection.length'), 0, 'none items selected');
+      done();
+    });
+  });
 });
 
 test('shows actions for selected items', function(assert) {
@@ -204,7 +266,6 @@ test('shows actions for selected items', function(assert) {
   this.set('listActions', [
     { label: "edit",
       action(objects) { assert.deepEqual(objects, [Ben, Chris]); }},
-    { label: "delete", action() {}}
   ]);
 
   this.render(hbs`{{data-grid content=list
@@ -214,10 +275,11 @@ test('shows actions for selected items', function(assert) {
   let $actions = this.$('.data-grid__actions');
   assert.equal($actions.length, 0, 'do not show actions on default');
 
+  const $checkboxes = this.$('.data-grid table tbody input[type="checkbox"]');
+
   run(() => {
-    const event = $.Event('click', {ctrlKey: true});
-    $('.data-grid__row').eq(1).trigger(event);
-    $('.data-grid__row').eq(2).trigger(event);
+    $checkboxes.eq(1).trigger('click');
+    $checkboxes.eq(2).trigger('click');
   });
 
   $actions = this.$('.data-grid__actions');

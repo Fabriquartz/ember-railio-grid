@@ -1,9 +1,15 @@
 import Ember from 'ember';
 
+const { set } = Ember;
+
 export default Ember.Component.extend({
   classNames: ['paginator'],
 
   actions: {
+    update(object, propertyPath, value) {
+      set(object, propertyPath, value);
+    },
+
     goToPage(pageNr) {
       this.set('handler.page', pageNr);
     },

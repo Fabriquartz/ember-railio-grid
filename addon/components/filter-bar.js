@@ -20,7 +20,6 @@ export default Ember.Component.extend({
 
   actions: {
     changedQuery(value) {
-      console.log('change');
       this.set('newFilterQuery', value);
     },
     changedProperty(property) {

@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import $ from 'jquery';
 import layout from 'ember-railio-grid/templates/components/data-grid';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
 
-const { computed } = Ember;
+const { computed, set, get } = Ember;
 const { alias } = computed;
 
 export default Ember.Component.extend({
@@ -88,23 +87,28 @@ export default Ember.Component.extend({
       }
     },
 
-    selectItem(item, event) {
-      if (!event.ctrlKey && !event.metaKey) {
-        this.set('selection', Ember.A());
-        $('.data-grid__row--selected').removeClass('data-grid__row--selected');
-        return;
-      }
-
+    selectItem(selected, item) {
       const selection = this.get('selection');
-      const $row      = $(event.target).closest('tr.data-grid__row');
 
         if (selection.indexOf(item) === -1) {
-          $row.addClass('data-grid__row--selected');
           selection.pushObject(item);
         } else {
           selection.removeObject(item);
-          $row.removeClass('data-grid__row--selected');
         }
+    },
+
+    selectAll() {
+      const selectionLength = this.get('selection.length');
+      const list            = this.get('managedContent');
+      let selection = Ember.A();
+
+      if (selectionLength !== get(list, 'length')) {
+        selection = Ember.A([].concat(list));
+      }
+
+      set(this, 'selection', Ember.A());
+
+      Ember.run.next(() => set(this, 'selection', selection));
     }
   }
 });

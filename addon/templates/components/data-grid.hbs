@@ -6,19 +6,16 @@
   {{component topPaginator handler=paginatingHandler class="paginator--top"}}
 {{/if}}
 
-{{#if selection.length}}
-  <div class="data-grid__selection">
-    {{selection.length}} selected
-    {{#if actionList.length}}
-      {{data-actions objects=selection actionList=actionList}}
-    {{/if}}
-  </div>
-{{/if}}
-
 <table>
   {{#if showHeader}}
     <thead>
       <tr>
+        {{#if actionList.length}}
+          <th>
+            {{check-box value=(is-equal managedContent.length selection.length)
+                        updated=(action "selectAll")}}
+          </th>
+        {{/if}}
         {{#each propertiesList as |property|}}
         <th>
           <span {{action "sortBy" property.key on="click"}}>
@@ -42,8 +39,14 @@
   <tbody>
     {{#each managedContent as |item|}}
     <tr class="data-grid__row"
-        onclick={{action "selectItem" item}}
         ondblclick={{action "doubleClickItem" item}}>
+        {{#if actionList.length}}
+          <td>
+            {{check-box value=(in-list item selection)
+                        object=item
+                        updated=(action "selectItem")}}
+          </td>
+        {{/if}}
         {{#each propertiesList as |property|}}
           {{data-col property=property item=item}}
         {{/each}}
@@ -54,4 +57,13 @@
 
 {{#if bottomPaginator}}
   {{component bottomPaginator handler=paginatingHandler class="paginator--bottom"}}
+{{/if}}
+
+{{#if selection.length}}
+  <div class="data-grid__selection">
+    {{selection.length}} selected
+    {{#if actionList.length}}
+      {{data-actions objects=selection actionList=actionList}}
+    {{/if}}
+  </div>
 {{/if}}
