@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/data-actions';
 
+const { set } = Ember;
+
 export default Ember.Component.extend({
   layout: layout,
   tagName: 'span',
@@ -10,7 +12,9 @@ export default Ember.Component.extend({
     callAction(action) {
       if (typeof action === 'function') {
         const objects = this.get('objects');
-        action(objects);
+        const message = action(objects);
+
+        set(this, 'message', message);
       }
     }
   }

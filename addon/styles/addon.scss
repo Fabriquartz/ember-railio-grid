@@ -37,6 +37,12 @@
     text-align: right;
   }
 
+  &__actions {
+    &__message {
+      float: left;
+    }
+  }
+
   &__header__sorting-order {
     display: inline-block;
     width: 2em;
