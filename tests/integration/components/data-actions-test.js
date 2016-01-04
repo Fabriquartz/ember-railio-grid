@@ -56,3 +56,31 @@ test('clicking action calls action with objects', function(assert) {
   $actionList.eq(0).trigger('click');
   $actionList.eq(1).trigger('click');
 });
+
+test('finishing action shows return message', function(assert) {
+  const Alex = { id: 1, name: 'Alex' };
+  const Bart = { id: 2, name: 'Bart' };
+  const list = [Alex, Bart];
+
+  this.set('objects', list);
+
+  this.set('listActions', [
+    {
+      label: "edit",
+      action(objects) {
+        const names = objects.map((o) => { return o.name;}).join(' and ');
+        return `Objects ${names} are updated`;
+      }
+    }
+  ]);
+
+  this.render(hbs`{{data-actions objects=objects
+                                 actionList=listActions}}`);
+
+  const $actionList = this.$('.data-grid__actions__action');
+  $actionList.eq(0).trigger('click');
+
+  const message = this.$('.data-grid__actions__message')[0].innerText;
+  assert.equal(message, 'Objects Alex and Bart are updated');
+  debugger;
+});
