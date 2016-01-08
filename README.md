@@ -1,4 +1,5 @@
 # Ember-railio-grid
+[![npm version](https://badge.fury.io/js/ember-railio-grid.svg)](http://badge.fury.io/js/ember-railio-grid) [![Build Status](https://travis-ci.org/Fabriquartz/ember-railio-grid.svg)](https://travis-ci.org/Fabriquartz/ember-railio-grid) [![Ember Observer Score](http://emberobserver.com/badges/ember-railio-grid.svg)](http://emberobserver.com/addons/ember-railio-grid) [![Code Climate](https://codeclimate.com/github/Fabriquartz/ember-railio-grid/badges/gpa.svg)](https://codeclimate.com/github/Fabriquartz/ember-railio-grid)
 
 An Ember addon to display a list of Objects, and be able to filter, sort and paginate this list. With build-in selection and be able to give actions for the selected objects.
 
