@@ -194,3 +194,21 @@ And can be passed to the grid like:
             properties=listProperties
             actionList=actionList}}
 ```
+
+##### doubleClick action
+
+You could also pass a doubleClickAction, which will be called after double-clicking a row. It passes the object of that row to the function.
+
+```js
+  editObject(object) {
+    // do something with this object
+  }
+```
+
+And can be passed to the grid like:
+
+```handlebars
+{{data-grid content=list
+            properties=listProperties
+            doubleClickAction=editObject}}
+```
