@@ -1,9 +1,8 @@
-import APIDataManager from '../../../utils/api-data-manager';
 import { moduleForComponent, test } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 
 import startMirage from '../../helpers/setup-mirage-for-integration';
 
+let APIDataManager;
 let dataManager;
 moduleForComponent('Unit | Utility | api-data-manager', {
   integration: true,
@@ -11,9 +10,8 @@ moduleForComponent('Unit | Utility | api-data-manager', {
   beforeEach: function() {
     startMirage(this.container);
     server.createList('animal', 12);
-    this.render(hbs`test`);
+    APIDataManager = this.container.lookupFactory('util:api-data-manager');
     dataManager = APIDataManager.create({
-      container: this.container,
       modelName: 'animal'
     });
   }

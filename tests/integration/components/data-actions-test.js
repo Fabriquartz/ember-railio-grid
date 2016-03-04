@@ -82,5 +82,4 @@ test('finishing action shows return message', function(assert) {
 
   const message = this.$('.data-grid__actions__message')[0].innerText;
   assert.equal(message, 'Objects Alex and Bart are updated');
-  debugger;
 });
