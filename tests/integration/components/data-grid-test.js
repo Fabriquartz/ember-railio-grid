@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
+import wait from 'ember-test-helpers/wait';
 import { moduleForComponent, test } from 'ember-qunit';
 
 const { run } = Ember;
@@ -201,7 +202,7 @@ test('select items', function(assert) {
   this.set('listActions', [ { label: "edit",   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
-                              selection=selection
+                              _selection=selection
                               actionList=listActions
                               properties=properties}}`);
 
@@ -210,52 +211,56 @@ test('select items', function(assert) {
   const $checkRow1 = $checkboxes.eq(0);
   const $checkRow2 = $checkboxes.eq(1);
 
-  run(() => {
-    $checkRow1.trigger('click');
-  });
-
-  assert.equal($checkRow1[0].checked, true, 'item selected');
-  assert.equal(this.get('selection.length'), 1, 'item added to selection');
-
-  run(() => {
-    $checkRow2.trigger('click');
-  });
-
-  assert.equal($checkRow2[0].checked, true, 'item selected');
-  assert.equal(this.get('selection.length'), 2, 'item added to selection');
+  return wait()
+    .then(() => {
+      $checkRow1.trigger('click');
+      return wait();
+    })
+    .then(() => {
+      assert.equal($checkRow1[0].checked, true, 'item selected');
+      assert.equal(this.get('selection.length'), 1, 'item added to selection');
+      return wait();
+    })
+    .then(() => {
+      $checkRow2.trigger('click');
+      return wait();
+    })
+    .then(() => {
+      assert.equal($checkRow2[0].checked, true, 'item selected');
+      assert.equal(this.get('selection.length'), 2, 'item added to selection');
+      return wait();
+    });
 });
 
 test('select and deselect all items', function(assert) {
-  const done = assert.async();
   this.set('list', [ Ben, Alex, Chris ]);
-
-  this.set('selection', Ember.A());
 
   this.set('listActions', [ { label: "edit",   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
-                              selection=selection
                               actionList=listActions
                               properties=properties}}`);
 
   const $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
 
-  run(() => {
-    $checkbox.trigger('click');
-  });
-
-  run.next(() => {
-    assert.equal(this.get('selection.length'), 3, 'all items selected');
-
-    run(() => {
+  return wait()
+    .then(() => {
       $checkbox.trigger('click');
+      return wait();
+    })
+    .then(() => {
+      assert.equal(this.$(".data-grid__selection:contains('3 selected')").length, 1,
+                   'all items selected');
+      return wait();
+    })
+    .then(() => {
+      $checkbox.trigger('click');
+      return wait();
+    })
+    .then(() => {
+      assert.equal(this.$(".data-grid__selection").length, 0, 'none items selected');
+      return wait();
     });
-
-    run.next(() => {
-      assert.equal(this.get('selection.length'), 0, 'none items selected');
-      done();
-    });
-  });
 });
 
 test('shows actions for selected items', function(assert) {
@@ -286,6 +291,38 @@ test('shows actions for selected items', function(assert) {
   assert.equal($actions.length, 1, 'show actions when items selected');
 
   $actions.find('.data-grid__actions__action').eq(0).trigger('click');
+});
+
+test('selection updates on updating or deleting items', function(assert) {
+  this.set('list', Ember.A([ Ben, Alex, Chris ]));
+
+  this.set('listActions', [ { label: "edit",   action() { } } ]);
+
+  this.render(hbs`{{data-grid content=list
+                              actionList=listActions
+                              properties=properties}}`);
+
+  const $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
+
+  return wait()
+    .then(() => {
+      $checkbox.trigger('click');
+      return wait();
+    })
+    .then(() => {
+      assert.equal(this.$(".data-grid__selection:contains('3 selected')").length, 1,
+                   'all items selected');
+      return wait();
+    })
+    .then(() => {
+      this.get('list').removeAt(1);
+      return wait();
+    })
+    .then(() => {
+      assert.equal(this.$(".data-grid__selection:contains('2 selected')").length, 1,
+                   'selection updated on remove object');
+      return wait();
+    });
 });
 
 test('double clicking item calls doubleClickAction with item', function(assert) {

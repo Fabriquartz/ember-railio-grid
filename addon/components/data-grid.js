@@ -70,8 +70,17 @@ export default Ember.Component.extend({
     });
   }),
 
-  selection: computed(function() {
+  _selection: computed(function() {
     return Ember.A();
+  }),
+
+  selection: computed('_selection.[]', 'managedContent.[]', function() {
+    const content   = this.get('managedContent');
+    const selection = this.get('_selection');
+
+    return content.filter((item) => {
+      return selection.indexOf(item) !== -1;
+    });
   }),
 
   actions: {
@@ -88,7 +97,7 @@ export default Ember.Component.extend({
     },
 
     selectItem(selected, item) {
-      const selection = this.get('selection');
+      const selection = this.get('_selection');
 
         if (selection.indexOf(item) === -1) {
           selection.pushObject(item);
@@ -106,9 +115,9 @@ export default Ember.Component.extend({
         selection = Ember.A([].concat(list));
       }
 
-      set(this, 'selection', Ember.A());
+      set(this, '_selection', Ember.A());
 
-      Ember.run.next(() => set(this, 'selection', selection));
+      Ember.run.next(() => set(this, '_selection', selection));
     }
   }
 });
