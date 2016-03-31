@@ -4,20 +4,20 @@ import { module, test } from 'qunit';
 let sortingHandler;
 
 module('Unit | Utility | sorting-handler', {
-  beforeEach: function() {
+  beforeEach() {
     sortingHandler = SortingHandler.create();
   }
 });
 
 test('toggle sort property', function(assert) {
-  const sortings = sortingHandler.get('sortKeys');
+  let sortings = sortingHandler.get('sortKeys');
 
   assert.equal(sortings.length, 0, 'by default no sortings');
 
   sortingHandler.toggle('name');
   assert.equal(sortings.length, 1, 'added a sorting');
 
-  let addedSorting = sortings[0];
+  let [ addedSorting ] = sortings;
 
   assert.equal(addedSorting.key, 'name', 'added sorting property');
   assert.equal(addedSorting.descending, false, 'first sort ascending');
@@ -32,7 +32,7 @@ test('toggle sort property', function(assert) {
 
   sortingHandler.toggle('name');
 
-  addedSorting = sortings[0];
+  [ addedSorting ] = sortings;
   assert.equal(sortings.length, 1, 'fourth time toggled added sorting asc');
   assert.equal(addedSorting.descending, false, 'fourth toggle sort ascending');
 });

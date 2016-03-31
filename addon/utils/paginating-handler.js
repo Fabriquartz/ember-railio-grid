@@ -24,7 +24,7 @@ export default Ember.Object.extend({
   }),
 
   pageAmount: computed('pageSize', 'contentLength', function() {
-    const pageSize = this.get('pageSize');
+    let pageSize = this.get('pageSize');
 
     if (!pageSize || isNaN(pageSize)) { return 1; }
     return Math.ceil(this.get('contentLength') / pageSize);

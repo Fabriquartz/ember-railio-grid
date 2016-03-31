@@ -16,12 +16,12 @@ export default Ember.Component.extend({
   change: handleChanged,
 
   focusOut() {
-    const value = parseInt(this.$().val());
+    let value = parseInt(this.$().val());
     this.send('changed', value);
   },
 
   keyDown(e) {
-    const value = parseInt(this.$().val());
+    let value = parseInt(this.$().val());
 
     // 38 = up
     if (e.keyCode === 38) {

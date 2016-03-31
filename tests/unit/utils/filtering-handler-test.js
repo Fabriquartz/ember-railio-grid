@@ -5,13 +5,13 @@ import { module, test } from 'qunit';
 let filteringHandler;
 
 module('Unit | Utility | filtering-handler', {
-  beforeEach: function() {
+  beforeEach() {
     filteringHandler = FilteringHandler.create();
   }
 });
 
 test('creates a filtering-handler with a list of filterTypes', function(assert) {
-  const filterTypes = filteringHandler.get('filterTypes');
+  let filterTypes = filteringHandler.get('filterTypes');
 
   assert.ok(Ember.isArray(filterTypes), 'has a filterTypes array');
 
@@ -20,14 +20,14 @@ test('creates a filtering-handler with a list of filterTypes', function(assert) 
 });
 
 test('can add filters', function(assert) {
-  const filters = filteringHandler.get('filters');
+  let filters = filteringHandler.get('filters');
 
   assert.equal(filters.length, 0, 'by default no filters');
 
   filteringHandler.addFilter('name', 'cont', 'e');
   assert.equal(filters.length, 1, 'added a filter');
 
-  const addedFilter = filters[0];
+  let [ addedFilter ] = filters;
 
   assert.equal(addedFilter.propertyPath, 'name', 'added filter property');
   assert.equal(addedFilter.filter.label, 'contains', 'added filter');
@@ -35,7 +35,7 @@ test('can add filters', function(assert) {
 });
 
 test('can add multiple filters', function(assert) {
-  const filters = filteringHandler.get('filters');
+  let filters = filteringHandler.get('filters');
 
   filteringHandler.addFilter('name', 'cont', 'e');
   filteringHandler.addFilter('id', 'start', 's');
@@ -45,7 +45,7 @@ test('can add multiple filters', function(assert) {
 });
 
 test('can remove filters', function(assert) {
-  const filters = filteringHandler.get('filters');
+  let filters = filteringHandler.get('filters');
 
   filteringHandler.addFilter('name', 'cont', 'e');
   filteringHandler.addFilter('id', 'start', 's');

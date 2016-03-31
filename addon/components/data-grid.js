@@ -7,17 +7,19 @@ const { computed, set, get } = Ember;
 const { alias } = computed;
 
 export default Ember.Component.extend({
-  layout: layout,
+  layout,
   classNames: ['data-grid'],
   attributeBindings: ['widthString:style'],
 
   showHeader: true,
 
   widthString: computed('width', function() {
-    const width = this.get('width') + '';
-    if (width.indexOf('%') > 0) { return width; }
+    let width = `${this.get('width')}`;
+    if (width.indexOf('%') > 0) {
+      return width;
+    }
 
-    return  'width: ' + width + 'px';
+    return Ember.String.htmlSafe(`width: ${width}px`);
   }),
 
   dataManager: computed({
@@ -55,14 +57,14 @@ export default Ember.Component.extend({
     'properties.@each{label,key}',
     'sortingHandler.sortKeys.@each.{key,descending}',
   function() {
-    const properties = this.get('properties');
-    const sortings = this.get('sortingHandler.sortKeys');
+    let properties = this.get('properties');
+    let sortings = this.get('sortingHandler.sortKeys');
 
     return properties.map(function(property) {
       property = Ember.Object.create(property);
-      const sorting = sortings.findBy('key', property.key);
+      let sorting = sortings.findBy('key', property.key);
       if (sorting) {
-        const dir = sorting.descending ? 'DESC' : 'ASC';
+        let dir = sorting.descending ? 'DESC' : 'ASC';
         property.set('sorting', dir);
         property.set('sortingOrder', sortings.indexOf(sorting) + 1);
       }
@@ -75,8 +77,8 @@ export default Ember.Component.extend({
   }),
 
   selection: computed('_selection.[]', 'managedContent.[]', function() {
-    const content   = this.get('managedContent');
-    const selection = this.get('_selection');
+    let content   = this.get('managedContent');
+    let selection = this.get('_selection');
 
     return content.filter((item) => {
       return selection.indexOf(item) !== -1;
@@ -89,7 +91,7 @@ export default Ember.Component.extend({
     },
 
     doubleClickItem(item) {
-      const doubleClickFn = this.get('doubleClickAction');
+      let doubleClickFn = this.get('doubleClickAction');
 
       if (typeof doubleClickFn === 'function') {
         doubleClickFn(item);
@@ -97,18 +99,18 @@ export default Ember.Component.extend({
     },
 
     selectItem(selected, item) {
-      const selection = this.get('_selection');
+      let selection = this.get('_selection');
 
-        if (selection.indexOf(item) === -1) {
-          selection.pushObject(item);
-        } else {
-          selection.removeObject(item);
-        }
+      if (selection.indexOf(item) === -1) {
+        selection.pushObject(item);
+      } else {
+        selection.removeObject(item);
+      }
     },
 
     selectAll() {
-      const selectionLength = this.get('selection.length');
-      const list            = this.get('managedContent');
+      let selectionLength = this.get('selection.length');
+      let list            = this.get('managedContent');
       let selection = Ember.A();
 
       if (selectionLength !== get(list, 'length')) {

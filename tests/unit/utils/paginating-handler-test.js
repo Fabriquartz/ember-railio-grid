@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 let paginatingHandler;
 
 module('Unit | Utility | paginating-handler', {
-  beforeEach: function() {
+  beforeEach() {
     paginatingHandler = PaginatingHandler.create({
       contentLength: 12
     });

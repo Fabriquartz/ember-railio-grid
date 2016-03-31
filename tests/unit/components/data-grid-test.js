@@ -17,7 +17,7 @@ test('with content: has a ArrayDataManager with content', function(assert) {
     });
   });
 
-  const dataManager = dataGrid.get('dataManager');
+  let dataManager = dataGrid.get('dataManager');
 
   assert.notEqual(dataManager, null, 'dataManager is defined');
   assert.ok(dataManager instanceof ArrayDataManager,
@@ -34,7 +34,7 @@ test('with modelName: has a APIDataManager with content from API', function(asse
     });
   });
 
-  const dataManager = dataGrid.get('dataManager');
+  let dataManager = dataGrid.get('dataManager');
 
   assert.notEqual(dataManager, null, 'dataManager is defined');
   assert.ok(dataManager instanceof APIDataManager,

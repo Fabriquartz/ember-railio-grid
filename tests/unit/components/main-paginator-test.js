@@ -5,7 +5,7 @@ let paginator;
 
 moduleForComponent('main-paginator', 'Unit | Component | main-paginator', {
   unit: true,
-  beforeEach: function() {
+  beforeEach() {
     paginator = this.subject({
       handler: PaginatingHandler.create({ contentLength: 8, pageSize: 2 })
     });

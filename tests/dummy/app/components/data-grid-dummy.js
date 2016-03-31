@@ -1,10 +1,14 @@
 import Ember from 'ember';
 
 function buildLargeList(length) {
-  const list = [];
+  let list = [];
 
-  for (let i = 1; i <= length;i++) {
-    const object = { id: i, name: 'Name' + i, type: 'type' + i };
+  for (let i = 1; i <= length; i++) {
+    let object = {
+      id:   i,
+      name: `Name${i}`,
+      type: `type${i}`
+    };
     list.push(object);
   }
 
@@ -29,14 +33,14 @@ export default Ember.Component.extend({
 
   actionList: [
     {
-      label: "edit",
+      label: 'edit',
       action() { }
     },
     {
-      label: "delete",
+      label: 'delete',
       action() { }
-    },
+    }
   ],
 
-  doubleClickAction: function() { }
+  doubleClickAction() { }
 });

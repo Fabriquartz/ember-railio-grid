@@ -5,13 +5,13 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 const { run } = Ember;
 
-const Ben    = { id: 1, name: 'Ben',   type: 'dog' };
-const Alex   = { id: 2, name: 'Alex',   type: 'dog' };
-const Chris  = { id: 3, name: 'Chris',   type: 'cat' };
-const Edward = { id: 4, name: 'Edward', type: 'dog' };
-const Dwight = { id: 5, name: 'Dwight', type: 'cat' };
+let Ben    = { id: 1, name: 'Ben',   type: 'dog' };
+let Alex   = { id: 2, name: 'Alex',   type: 'dog' };
+let Chris  = { id: 3, name: 'Chris',   type: 'cat' };
+let Edward = { id: 4, name: 'Edward', type: 'dog' };
+let Dwight = { id: 5, name: 'Dwight', type: 'cat' };
 
-const properties = [
+let properties = [
   { key: 'id', label: 'nr' },
   { key: 'name', label: 'name' },
   { key: 'type', label: 'species' }
@@ -23,7 +23,7 @@ function buildSmallList() {
 
 moduleForComponent('data-grid', 'Integration | Component | {{data-grid}}', {
   integration: true,
-  beforeEach: function() {
+  beforeEach() {
     this.set('properties', properties);
   }
 });
@@ -33,8 +33,8 @@ test('renders the table with given content', function(assert) {
 
   this.render(hbs`{{data-grid content=list properties=properties}}`);
 
-  const $table = this.$('.data-grid table');
-  const $rows  = $table.find('tbody tr');
+  let $table = this.$('.data-grid table');
+  let $rows  = $table.find('tbody tr');
 
   assert.equal($table.length, 1, 'renders table');
   assert.equal($rows.length, 3, 'renders rows for each item');
@@ -49,7 +49,7 @@ test('renders with display options', function(assert) {
                               showHeader=showHeader
                               width=800}}`);
 
-  const $table = this.$('.data-grid table');
+  let $table = this.$('.data-grid table');
   let $header  = $table.find('thead');
 
   assert.equal($header.length, 1, 'shows header by default');
@@ -66,9 +66,9 @@ test('shows label and value for properties array with objects', function(assert)
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 
-  const $table       = this.$('.data-grid table');
-  const $headerCols  = $table.find('thead tr').eq(0).find('th');
-  const $contentCols = $table.find('tbody tr').eq(0).find('td');
+  let $table       = this.$('.data-grid table');
+  let $headerCols  = $table.find('thead tr').eq(0).find('th');
+  let $contentCols = $table.find('tbody tr').eq(0).find('td');
 
   assert.equal($headerCols[0].innerText.toUpperCase().trim(), 'NR');
   assert.equal($headerCols[1].innerText.toUpperCase().trim(), 'NAME');
@@ -80,7 +80,7 @@ test('shows label and value for properties array with objects', function(assert)
 });
 
 test('shows given topPaginator', function(assert) {
-  const paginator = "page-picker-paginator";
+  let paginator = 'page-picker-paginator';
   this.set('list', buildSmallList());
   this.set('topPaginator', null);
 
@@ -99,7 +99,7 @@ test('shows given topPaginator', function(assert) {
 });
 
 test('shows given bottomPaginator', function(assert) {
-  const paginator = "page-picker-paginator";
+  let paginator = 'page-picker-paginator';
   this.set('list', buildSmallList());
   this.set('bottomPaginator', null);
 
@@ -122,7 +122,7 @@ test('sort on clicking header', function(assert) {
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 
-  const $table       = this.$('.data-grid table');
+  let $table = this.$('.data-grid table');
 
   run(() => {
     $table.find('thead tr th').eq(1).find('span').eq(0).trigger('click');
@@ -154,7 +154,7 @@ test('shows filter bar', function(assert) {
                               filterEnabled=filterEnabled}}`);
 
   let $filterBar = this.$('.filter-bar');
-    assert.equal($filterBar.length, 0, 'no filterBar by default');
+  assert.equal($filterBar.length, 0, 'no filterBar by default');
 
   this.set('filterEnabled', true);
 
@@ -163,7 +163,7 @@ test('shows filter bar', function(assert) {
 });
 
 test('shows checkboxes only when actionList passed', function(assert) {
-  const list = [
+  let list = [
     { id: 1, name: 'Ben',   type: 'dog' },
     { id: 2, name: 'Alex',  type: 'dog' },
     { id: 3, name: 'Chris', type: 'cat' }
@@ -175,7 +175,7 @@ test('shows checkboxes only when actionList passed', function(assert) {
                               actionList=listActions
                               properties=properties}}`);
 
-  const $table = this.$('.data-grid table');
+  let $table = this.$('.data-grid table');
 
   let $checkAll = $table.find('thead tr th').eq(0).find('input[type="checkbox"]');
   let $checkRow = $table.find('tbody tr td').eq(0).find('input[type="checkbox"]');
@@ -184,7 +184,10 @@ test('shows checkboxes only when actionList passed', function(assert) {
   assert.equal($checkRow.length, 0, 'No checkboxes when no actions passed');
 
   this.set('listActions', [
-    { label: "edit",   action(objects) { assert.deepEqual(objects, list); }},
+    {
+      label: 'edit',
+      action(objects) { assert.deepEqual(objects, list); }
+    }
   ]);
 
   $checkAll = $table.find('thead tr th').eq(0).find('input[type="checkbox"]');
@@ -199,17 +202,17 @@ test('select items', function(assert) {
 
   this.set('selection', Ember.A());
 
-  this.set('listActions', [ { label: "edit",   action() { } } ]);
+  this.set('listActions', [ { label: 'edit',   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
                               _selection=selection
                               actionList=listActions
                               properties=properties}}`);
 
-  const $checkboxes = this.$('.data-grid table tbody input[type="checkbox"]');
+  let $checkboxes = this.$('.data-grid table tbody input[type="checkbox"]');
 
-  const $checkRow1 = $checkboxes.eq(0);
-  const $checkRow2 = $checkboxes.eq(1);
+  let $checkRow1 = $checkboxes.eq(0);
+  let $checkRow2 = $checkboxes.eq(1);
 
   return wait()
     .then(() => {
@@ -235,13 +238,13 @@ test('select items', function(assert) {
 test('select and deselect all items', function(assert) {
   this.set('list', [ Ben, Alex, Chris ]);
 
-  this.set('listActions', [ { label: "edit",   action() { } } ]);
+  this.set('listActions', [ { label: 'edit',   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
                               properties=properties}}`);
 
-  const $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
+  let $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
 
   return wait()
     .then(() => {
@@ -258,7 +261,7 @@ test('select and deselect all items', function(assert) {
       return wait();
     })
     .then(() => {
-      assert.equal(this.$(".data-grid__selection").length, 0, 'none items selected');
+      assert.equal(this.$('.data-grid__selection').length, 0, 'none items selected');
       return wait();
     });
 });
@@ -269,8 +272,10 @@ test('shows actions for selected items', function(assert) {
   this.set('list', [ Alex, Ben, Chris ]);
 
   this.set('listActions', [
-    { label: "edit",
-      action(objects) { assert.deepEqual(objects, [Ben, Chris]); }},
+    {
+      label: 'edit',
+      action(objects) { assert.deepEqual(objects, [Ben, Chris]); }
+    }
   ]);
 
   this.render(hbs`{{data-grid content=list
@@ -280,7 +285,7 @@ test('shows actions for selected items', function(assert) {
   let $actions = this.$('.data-grid__actions');
   assert.equal($actions.length, 0, 'do not show actions on default');
 
-  const $checkboxes = this.$('.data-grid table tbody input[type="checkbox"]');
+  let $checkboxes = this.$('.data-grid table tbody input[type="checkbox"]');
 
   run(() => {
     $checkboxes.eq(1).trigger('click');
@@ -296,13 +301,13 @@ test('shows actions for selected items', function(assert) {
 test('selection updates on updating or deleting items', function(assert) {
   this.set('list', Ember.A([ Ben, Alex, Chris ]));
 
-  this.set('listActions', [ { label: "edit",   action() { } } ]);
+  this.set('listActions', [ { label: 'edit',   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
                               properties=properties}}`);
 
-  const $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
+  let $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
 
   return wait()
     .then(() => {
@@ -328,8 +333,8 @@ test('selection updates on updating or deleting items', function(assert) {
 test('double clicking item calls doubleClickAction with item', function(assert) {
   assert.expect(1);
 
-  const Alex = { id: 1, name: 'Alex' };
-  const Bart = { id: 2, name: 'Bart' };
+  let Alex = { id: 1, name: 'Alex' };
+  let Bart = { id: 2, name: 'Bart' };
 
   this.set('list', [Alex, Bart]);
 
@@ -349,17 +354,17 @@ test('show sorting order', function(assert) {
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 
-  const $table       = this.$('.data-grid table');
+  let $table = this.$('.data-grid table');
 
   run(() => {
     $table.find('thead tr th').eq(1).find('span').eq(0).trigger('click');
     $table.find('thead tr th').eq(0).find('span').eq(0).trigger('click');
   });
 
-  const $order1 = $table.find('thead tr th').eq(1)
-                        .find('.data-grid__header__sorting-order')[0];
-  const $order2 = $table.find('thead tr th').eq(0)
-                        .find('.data-grid__header__sorting-order')[0];
+  let $order1 = $table.find('thead tr th').eq(1)
+                       .find('.data-grid__header__sorting-order')[0];
+  let $order2 = $table.find('thead tr th').eq(0)
+                       .find('.data-grid__header__sorting-order')[0];
 
   assert.equal($order1.innerText, '1', 'sorting order 1');
   assert.equal($order2.innerText, '2', 'sorting order 2');

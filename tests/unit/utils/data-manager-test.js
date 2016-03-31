@@ -8,7 +8,7 @@ import { module, test } from 'qunit';
 let dataManager;
 
 module('Unit | Utility | data-manager', {
-  beforeEach: function() {
+  beforeEach() {
     dataManager = DataManager.create({
       content: [1, 2, 3, 4]
     });
@@ -16,19 +16,19 @@ module('Unit | Utility | data-manager', {
 });
 
 test('creates a filtering-handler', function(assert) {
-  const handler = dataManager.get('filteringHandler');
+  let handler = dataManager.get('filteringHandler');
   assert.notEqual(handler, null);
   assert.ok(handler instanceof FilteringHandler);
 });
 
 test('creates a sorting-handler', function(assert) {
-  const handler = dataManager.get('sortingHandler');
+  let handler = dataManager.get('sortingHandler');
   assert.notEqual(handler, null);
   assert.ok(handler instanceof SortingHandler);
 });
 
 test('creates a paginating-handler', function(assert) {
-  const handler = dataManager.get('paginatingHandler');
+  let handler = dataManager.get('paginatingHandler');
   assert.notEqual(handler, null);
   assert.ok(handler instanceof PaginatingHandler);
 });

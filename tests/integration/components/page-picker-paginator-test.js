@@ -7,7 +7,7 @@ let $currentPage;
 moduleForComponent('page-picker-paginator', 'Integration | Component | {{page-picker-paginator}}', {
   integration: true,
 
-  beforeEach: function() {
+  beforeEach() {
     this.set('handler', PaginatingHandler.create({
       contentLength: 5,
       pageSize: 1
@@ -23,7 +23,7 @@ test('shows current page', function(assert) {
 });
 
 test('shows amount of page', function(assert) {
-  const pageAmount = this.$('.paginator__max-pages')[0].innerText;
+  let pageAmount = this.$('.paginator__max-pages')[0].innerText;
   assert.equal(pageAmount, '5');
 });
 

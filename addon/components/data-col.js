@@ -4,7 +4,7 @@ import $ from 'jquery';
 const { get, computed, defineProperty } = Ember;
 
 const defaultPropertyObject = {
-  format: function() {
+  format() {
     return Array.prototype.slice.call(arguments, 0).join(', ');
   },
   style: {
@@ -27,7 +27,7 @@ const defaultPropertyObject = {
 };
 
 function copy(object) {
-  return  $.extend({}, object);
+  return $.extend({}, object);
 }
 
 export default Ember.Component.extend({
@@ -40,14 +40,14 @@ export default Ember.Component.extend({
 
   style: computed('_values', '_property.style',
   function() {
-    const values = this.get('_values');
-    const style  = copy(this.get('_property.style'));
+    let values = this.get('_values');
+    let style  = copy(this.get('_property.style'));
 
     // if style property is a function, return style depending on value
-    for (const property in style) {
+    for (let property in style) {
       if (style.hasOwnProperty(property) &&
           typeof style[property] === 'function') {
-        style[property] = style[property].apply(null, values);
+        style[property] = style[property](...values);
       }
       if (typeof style[property] === 'boolean') {
         style[property] = style[property] ? property : 'inherit';
@@ -70,13 +70,13 @@ export default Ember.Component.extend({
   }),
 
   value: computed('_values', '_property.{format}', function() {
-    const values = this.get('_values');
-    const format = this.get('_property.format');
+    let values = this.get('_values');
+    let format = this.get('_property.format');
 
     return format.apply(null, values);
   }),
 
-  didReceiveAttrs: function() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
     let propertyPaths = this.get('property.key');

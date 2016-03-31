@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 
   actions: {
     changed(value) {
-      const object = this.get('object');
+      let object = this.get('object');
 
       if (typeof this.attrs.updated === 'function') {
         this.attrs.updated(value, object);

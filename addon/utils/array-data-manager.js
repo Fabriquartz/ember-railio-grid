@@ -48,7 +48,7 @@ export default DataManager.extend({
     }
   }),
 
-  init: function() {
+  init() {
     this._super(...arguments);
     this._bindThings();
   },

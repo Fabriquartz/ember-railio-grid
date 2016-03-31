@@ -28,8 +28,8 @@ test('formats the value by the format function', function(assert) {
   this.set('property', {
     key:   'name',
     label: 'animal name',
-    format: function(value) {
-      return 'name: ' + value;
+    format(value) {
+      return `name: ${value}`;
     }
   });
 
@@ -43,7 +43,7 @@ test('formats for multiple values', function(assert) {
   this.set('property', {
     key:   ['firstName', 'lastName'],
     label: 'name',
-    format: function(firstName, lastName) {
+    format(firstName, lastName) {
       return `${firstName} - ${lastName}`;
     }
   });
@@ -75,10 +75,10 @@ test('styles the cell with given styling', function(assert) {
 
   this.render(hbs`{{data-col item=item property=property}}`);
 
-  const $cell = this.$('td').eq(0);
+  let $cell = this.$('td').eq(0);
 
-  const em    = parseInt($cell.css('font-size').replace('px', ''));
-  const width = 20 * em;
+  let em    = parseInt($cell.css('font-size').replace('px', ''));
+  let width = 20 * em;
 
   assert.equal($cell.css('width'),            `${width}px`,     'width');
   assert.equal($cell.css('text-align'),       'center',         'horizontalAlign');
@@ -99,7 +99,7 @@ test('styles the cell depending on value', function(assert) {
     key:   'age',
     label: 'Age',
     style:  {
-      backgroundColor: function(value) {
+      backgroundColor(value) {
         if (value > 0) {
           return 'green';
         }
@@ -110,7 +110,7 @@ test('styles the cell depending on value', function(assert) {
 
   this.render(hbs`{{data-col item=item property=property}}`);
 
-  const $cell = this.$('td').eq(0);
+  let $cell = this.$('td').eq(0);
   assert.equal($cell.css('background-color'), 'rgb(0, 128, 0)');
 
   this.set('item.age', -2);
