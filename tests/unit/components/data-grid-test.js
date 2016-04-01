@@ -1,9 +1,9 @@
-import Ember from 'ember';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
 import { moduleForComponent, test } from 'ember-qunit';
 
-const { run } = Ember;
+import run from 'ember-runloop';
+import get from 'ember-metal/get';
 
 moduleForComponent('data-grid', 'Unit | Component | data-grid', {
   unit: true
@@ -17,7 +17,7 @@ test('with content: has a ArrayDataManager with content', function(assert) {
     });
   });
 
-  let dataManager = dataGrid.get('dataManager');
+  let dataManager = get(dataGrid, 'dataManager');
 
   assert.notEqual(dataManager, null, 'dataManager is defined');
   assert.ok(dataManager instanceof ArrayDataManager,

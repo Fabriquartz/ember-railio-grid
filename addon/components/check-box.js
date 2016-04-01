@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import Component from 'ember-component';
+import { strictInvokeAction } from 'ember-invoke-action';
+import get from 'ember-metal/get';
 
 function handleChanged() {
   this.send('changed', this.readDOMAttr('checked'));
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName:           'input',
   type:              'checkbox',
   attributeBindings: ['type', 'value:checked', 'disabled'],
@@ -14,11 +16,7 @@ export default Ember.Component.extend({
 
   actions: {
     changed(value) {
-      let object = this.get('object');
-
-      if (typeof this.attrs.updated === 'function') {
-        this.attrs.updated(value, object);
-      }
+      strictInvokeAction(this, 'updated', value, get(this, 'object'));
     }
   }
 });

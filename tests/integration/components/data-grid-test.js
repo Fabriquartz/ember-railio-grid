@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
-import { moduleForComponent, test } from 'ember-qunit';
-
-const { run } = Ember;
+import run from 'ember-runloop';
+import { A } from 'ember-array/utils';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
 let Ben    = { id: 1, name: 'Ben',   type: 'dog' };
 let Alex   = { id: 2, name: 'Alex',   type: 'dog' };
@@ -24,12 +25,12 @@ function buildSmallList() {
 moduleForComponent('data-grid', 'Integration | Component | {{data-grid}}', {
   integration: true,
   beforeEach() {
-    this.set('properties', properties);
+    set(this, 'properties', properties);
   }
 });
 
 test('renders the table with given content', function(assert) {
-  this.set('list', buildSmallList());
+  set(this, 'list', buildSmallList());
 
   this.render(hbs`{{data-grid content=list properties=properties}}`);
 
@@ -41,8 +42,8 @@ test('renders the table with given content', function(assert) {
 });
 
 test('renders with display options', function(assert) {
-  this.set('list', buildSmallList());
-  this.set('showHeader', true);
+  set(this, 'list', buildSmallList());
+  set(this, 'showHeader', true);
 
   this.render(hbs`{{data-grid content=list
                               properties=properties
@@ -55,14 +56,14 @@ test('renders with display options', function(assert) {
   assert.equal($header.length, 1, 'shows header by default');
   assert.equal($table.outerWidth(), 800, 'renders with given width');
 
-  this.set('showHeader', false);
+  run(() => set(this, 'showHeader', false));
 
   $header = $table.find('thead');
   assert.equal($header.length, 0, 'hides header on showHeader=false');
 });
 
 test('shows label and value for properties array with objects', function(assert) {
-  this.set('list', buildSmallList());
+  set(this, 'list', buildSmallList());
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 
@@ -81,8 +82,8 @@ test('shows label and value for properties array with objects', function(assert)
 
 test('shows given topPaginator', function(assert) {
   let paginator = 'page-picker-paginator';
-  this.set('list', buildSmallList());
-  this.set('topPaginator', null);
+  set(this, 'list', buildSmallList());
+  set(this, 'topPaginator', null);
 
   this.render(hbs`{{data-grid content=list
                               properties=properties
@@ -91,7 +92,7 @@ test('shows given topPaginator', function(assert) {
   let $topPaginator = this.$('.paginator--top');
   assert.equal($topPaginator.length, 0, 'no top paginator by default');
 
-  this.set('topPaginator', paginator);
+  run(() => set(this, 'topPaginator', paginator));
 
   $topPaginator = this.$('.paginator--top');
   assert.ok($topPaginator.hasClass(paginator),
@@ -100,8 +101,8 @@ test('shows given topPaginator', function(assert) {
 
 test('shows given bottomPaginator', function(assert) {
   let paginator = 'page-picker-paginator';
-  this.set('list', buildSmallList());
-  this.set('bottomPaginator', null);
+  set(this, 'list', buildSmallList());
+  set(this, 'bottomPaginator', null);
 
   this.render(hbs`{{data-grid content=list
                               properties=properties
@@ -110,7 +111,7 @@ test('shows given bottomPaginator', function(assert) {
   let $bottomPaginator = this.$('.paginator--bottom');
   assert.equal($bottomPaginator.length, 0, 'no bottom paginator by default');
 
-  this.set('bottomPaginator', paginator);
+  run(() => set(this, 'bottomPaginator', paginator));
 
   $bottomPaginator = this.$('.paginator--bottom');
   assert.ok($bottomPaginator.hasClass(paginator),
@@ -118,7 +119,7 @@ test('shows given bottomPaginator', function(assert) {
 });
 
 test('sort on clicking header', function(assert) {
-  this.set('list', [Ben, Alex, Chris, Edward, Dwight]);
+  set(this, 'list', [Ben, Alex, Chris, Edward, Dwight]);
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 
@@ -148,7 +149,7 @@ test('sort on clicking header', function(assert) {
 });
 
 test('shows filter bar', function(assert) {
-  this.set('filterEnabled', false);
+  set(this, 'filterEnabled', false);
 
   this.render(hbs`{{data-grid properties=properties
                               filterEnabled=filterEnabled}}`);
@@ -156,7 +157,7 @@ test('shows filter bar', function(assert) {
   let $filterBar = this.$('.filter-bar');
   assert.equal($filterBar.length, 0, 'no filterBar by default');
 
-  this.set('filterEnabled', true);
+  run(() => set(this, 'filterEnabled', true));
 
   $filterBar = this.$('.filter-bar');
   assert.equal($filterBar.length, 1, 'show filterBar');
@@ -169,7 +170,7 @@ test('shows checkboxes only when actionList passed', function(assert) {
     { id: 3, name: 'Chris', type: 'cat' }
   ];
 
-  this.set('list', list);
+  set(this, 'list', list);
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
@@ -183,12 +184,12 @@ test('shows checkboxes only when actionList passed', function(assert) {
   assert.equal($checkAll.length, 0, 'No checkAll when no actions passed');
   assert.equal($checkRow.length, 0, 'No checkboxes when no actions passed');
 
-  this.set('listActions', [
-    {
+  run(() => {
+    set(this, 'listActions', [{
       label: 'edit',
       action(objects) { assert.deepEqual(objects, list); }
-    }
-  ]);
+    }]);
+  });
 
   $checkAll = $table.find('thead tr th').eq(0).find('input[type="checkbox"]');
   $checkRow = $table.find('tbody tr td').eq(0).find('input[type="checkbox"]');
@@ -198,11 +199,11 @@ test('shows checkboxes only when actionList passed', function(assert) {
 });
 
 test('select items', function(assert) {
-  this.set('list', [ Ben, Alex, Chris ]);
+  set(this, 'list', [ Ben, Alex, Chris ]);
 
-  this.set('selection', Ember.A());
+  set(this, 'selection', A());
 
-  this.set('listActions', [ { label: 'edit',   action() { } } ]);
+  set(this, 'listActions', [ { label: 'edit',   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
                               _selection=selection
@@ -221,7 +222,7 @@ test('select items', function(assert) {
     })
     .then(() => {
       assert.equal($checkRow1[0].checked, true, 'item selected');
-      assert.equal(this.get('selection.length'), 1, 'item added to selection');
+      assert.equal(get(this, 'selection.length'), 1, 'item added to selection');
       return wait();
     })
     .then(() => {
@@ -230,15 +231,15 @@ test('select items', function(assert) {
     })
     .then(() => {
       assert.equal($checkRow2[0].checked, true, 'item selected');
-      assert.equal(this.get('selection.length'), 2, 'item added to selection');
+      assert.equal(get(this, 'selection.length'), 2, 'item added to selection');
       return wait();
     });
 });
 
 test('select and deselect all items', function(assert) {
-  this.set('list', [ Ben, Alex, Chris ]);
+  set(this, 'list', [ Ben, Alex, Chris ]);
 
-  this.set('listActions', [ { label: 'edit',   action() { } } ]);
+  set(this, 'listActions', [ { label: 'edit',   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
@@ -269,9 +270,9 @@ test('select and deselect all items', function(assert) {
 test('shows actions for selected items', function(assert) {
   assert.expect(3);
 
-  this.set('list', [ Alex, Ben, Chris ]);
+  set(this, 'list', [ Alex, Ben, Chris ]);
 
-  this.set('listActions', [
+  set(this, 'listActions', [
     {
       label: 'edit',
       action(objects) { assert.deepEqual(objects, [Ben, Chris]); }
@@ -299,9 +300,9 @@ test('shows actions for selected items', function(assert) {
 });
 
 test('selection updates on updating or deleting items', function(assert) {
-  this.set('list', Ember.A([ Ben, Alex, Chris ]));
+  set(this, 'list', A([ Ben, Alex, Chris ]));
 
-  this.set('listActions', [ { label: 'edit',   action() { } } ]);
+  set(this, 'listActions', [ { label: 'edit',   action() { } } ]);
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
@@ -320,7 +321,7 @@ test('selection updates on updating or deleting items', function(assert) {
       return wait();
     })
     .then(() => {
-      this.get('list').removeAt(1);
+      get(this, 'list').removeAt(1);
       return wait();
     })
     .then(() => {
@@ -336,9 +337,9 @@ test('double clicking item calls doubleClickAction with item', function(assert) 
   let Alex = { id: 1, name: 'Alex' };
   let Bart = { id: 2, name: 'Bart' };
 
-  this.set('list', [Alex, Bart]);
+  set(this, 'list', [Alex, Bart]);
 
-  this.set('doubleClickAction', function(object) {
+  set(this, 'doubleClickAction', function(object) {
     assert.deepEqual(object, Bart, 'calls with clicked item');
   });
 
@@ -350,7 +351,7 @@ test('double clicking item calls doubleClickAction with item', function(assert) 
 });
 
 test('show sorting order', function(assert) {
-  this.set('list', [Ben, Alex, Chris, Edward, Dwight]);
+  set(this, 'list', [Ben, Alex, Chris, Edward, Dwight]);
   this.render(hbs`{{data-grid content=list
                               properties=properties}}`);
 

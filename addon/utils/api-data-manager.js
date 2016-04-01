@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import DataManager from 'ember-railio-grid/utils/data-manager';
 
-const { service } = Ember.inject;
-const { computed } = Ember;
+import service from 'ember-service/inject';
+import computed from 'ember-computed';
+import { decamelize } from 'ember-string';
+import get from 'ember-metal/get';
 
 export default DataManager.extend({
   store: service(),
@@ -20,14 +22,14 @@ export default DataManager.extend({
     'filteringHandler.filters.@each.{filter}',
     'sortingHandler.sortKeys.@each.{key,descending}',
   function() {
-    let store = this.get('store');
-    let modelName = this.get('modelName');
+    let store = get(this, 'store');
+    let modelName = get(this, 'modelName');
     let query = {};
 
-    let page = this.get('paginatingHandler.page');
-    let pageSize = this.get('paginatingHandler.pageSize');
-    let filters = this.get('filteringHandler.filters');
-    let sortings = this.get('sortingHandler.sortKeys');
+    let page = get(this, 'paginatingHandler.page');
+    let pageSize = get(this, 'paginatingHandler.pageSize');
+    let filters = get(this, 'filteringHandler.filters');
+    let sortings = get(this, 'sortingHandler.sortKeys');
 
     if (page) { query.page = page; }
 
@@ -37,7 +39,7 @@ export default DataManager.extend({
       query.filter = {};
 
       filters.forEach(function(filter) {
-        let decamalizedName = Ember.String.decamelize(filter.propertyPath);
+        let decamalizedName = decamelize(filter.propertyPath);
         decamalizedName = decamalizedName.replace('.', '_');
         let filterName = `${decamalizedName}_${filter.filter.filter}`;
 
@@ -51,7 +53,7 @@ export default DataManager.extend({
       query.filter.sorts = [];
 
       sortings.forEach(function(sorting) {
-        let sortKey = Ember.String.decamelize(sorting.key);
+        let sortKey = decamelize(sorting.key);
         let sortDir = sorting.descending ? 'DESC' : 'ASC';
 
         query.filter.sorts.push({ name: sortKey, dir: sortDir });

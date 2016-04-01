@@ -1,12 +1,13 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import set from 'ember-metal/set';
 
 moduleForComponent('data-actions', 'Integration | Component | {{data-actions}}', {
   integration: true
 });
 
 test('shows given actions', function(assert) {
-  this.set('listActions', [
+  set(this, 'listActions', [
     { label: 'edit',   action() { } },
     { label: 'delete', action() { } }
   ]);
@@ -32,9 +33,9 @@ test('clicking action calls action with objects', function(assert) {
   let Bart = { id: 2, name: 'Bart' };
   let list = [Alex, Bart];
 
-  this.set('objects', list);
+  set(this, 'objects', list);
 
-  this.set('listActions', [
+  set(this, 'listActions', [
     {
       label: 'edit',
       action(objects) {
@@ -62,9 +63,9 @@ test('finishing action shows return message', function(assert) {
   let Bart = { id: 2, name: 'Bart' };
   let list = [Alex, Bart];
 
-  this.set('objects', list);
+  set(this, 'objects', list);
 
-  this.set('listActions', [
+  set(this, 'listActions', [
     {
       label: 'edit',
       action(objects) {

@@ -1,6 +1,8 @@
-import Ember from 'ember';
+import EmberObject from 'ember-object';
+import { A } from 'ember-array/utils';
 
-const { computed, get } = Ember;
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
 
 const FILTERS = {
   eq(value, comparison) {
@@ -50,13 +52,13 @@ function filter(filters, list) {
   });
 }
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   filteredContent: computed(
   'content.[]', 'handler.filters.@each.{value,propertyPath}', function() {
-    return filter(this.get('handler.filters'), this.get('content'));
+    return filter(get(this, 'handler.filters'), get(this, 'content'));
   }),
 
   filters: computed(function() {
-    return Ember.A();
+    return A();
   })
 });
