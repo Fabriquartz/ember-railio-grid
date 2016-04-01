@@ -6,44 +6,45 @@ import Filterer  from 'ember-railio-grid/utils/filterer';
 import Sorter    from 'ember-railio-grid/utils/sorter';
 import Paginator from 'ember-railio-grid/utils/paginator';
 
-const { computed } = Ember;
-const { alias } = computed;
+import computed, { alias } from 'ember-computed';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
 export default DataManager.extend({
   managedContent: alias('paginator.currentPage'),
 
   filterer: computed({
     set(key, value) {
-      this.set('_filterer', value);
+      set(this, '_filterer', value);
       return value;
     },
     get() {
-      return this.get('_filterer') || Filterer.create({
-        handler: this.get('filteringHandler')
+      return get(this, '_filterer') || Filterer.create({
+        handler: get(this, 'filteringHandler')
       });
     }
   }),
 
   sorter: computed({
     set(key, value) {
-      this.set('_sorter', value);
+      set(this, '_sorter', value);
       return value;
     },
     get() {
-      return this.get('_sorter') || Sorter.create({
-        handler: this.get('sortingHandler')
+      return get(this, '_sorter') || Sorter.create({
+        handler: get(this, 'sortingHandler')
       });
     }
   }),
 
   paginator: computed({
     set(key, value) {
-      this.set('_paginator', value);
+      set(this, '_paginator', value);
       return value;
     },
     get() {
-      return this.get('_paginator') || Paginator.create({
-        handler: this.get('paginatingHandler')
+      return get(this, '_paginator') || Paginator.create({
+        handler: get(this, 'paginatingHandler')
       });
     }
   }),
@@ -61,10 +62,10 @@ export default DataManager.extend({
   },
 
   _bindContent(from, to, bindingName) {
-    let binding = this.get(bindingName);
+    let binding = get(this, bindingName);
 
     if (binding  != null) { binding.disconnect(this); }
     binding = Ember.bind(this, to, from);
-    this.set(bindingName, binding);
+    set(this, bindingName, binding);
   }
 });

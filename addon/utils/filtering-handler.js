@@ -1,14 +1,16 @@
-import Ember from 'ember';
+import EmberObject from 'ember-object';
+import { A } from 'ember-array/utils';
 
-const { computed } = Ember;
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   filters: computed(function() {
-    return Ember.A();
+    return A();
   }),
 
   filterTypes: computed(function() {
-    return Ember.A([
+    return A([
       { label: 'equals',                      filter: 'eq' },
       { label: 'contains',                    filter: 'cont' },
       { label: 'is greater than',             filter: 'gt' },
@@ -22,13 +24,13 @@ export default Ember.Object.extend({
 
   addFilter(propertyPath, filterName, value) {
     if (propertyPath && filterName && value) {
-      let filter = this.get('filterTypes').findBy('filter', filterName);
+      let filter = get(this, 'filterTypes').findBy('filter', filterName);
 
-      this.get('filters').pushObject({ propertyPath, filter, value });
+      get(this, 'filters').pushObject({ propertyPath, filter, value });
     }
   },
 
   removeFilter(filter) {
-    this.get('filters').removeObject(filter);
+    get(this, 'filters').removeObject(filter);
   }
 });

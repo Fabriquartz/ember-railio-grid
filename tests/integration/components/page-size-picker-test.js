@@ -1,8 +1,8 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run } = Ember;
+import run from 'ember-runloop';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
 moduleForComponent('page-size-picker',
                    'Integration | Component | {{page-size-picker}}', {
@@ -57,7 +57,7 @@ test(`clicking on 'other' shows inputfield`, function(assert) {
 });
 
 test(`clicking on a size sets pageSize`, function(assert) {
-  this.set('value', 1);
+  set(this, 'value', 1);
   this.render(hbs`{{page-size-picker value=value maxValue=100}}`);
 
   let $sizes = this.$('.page-size-picker__size');
@@ -66,11 +66,11 @@ test(`clicking on a size sets pageSize`, function(assert) {
     $sizes.eq(1).trigger('click');
   });
 
-  assert.equal(this.get('value'), 50, 'pageSize is set to clicked size');
+  assert.equal(get(this, 'value'), 50, 'pageSize is set to clicked size');
 });
 
 test('changing input changes pageSize', function(assert) {
-  this.set('value', 1);
+  set(this, 'value', 1);
   this.render(hbs`{{page-size-picker value=value maxValue=100}}`);
 
   let $input = this.$('.page-size-picker__input');
@@ -78,5 +78,5 @@ test('changing input changes pageSize', function(assert) {
   $input.val(30);
   $input.trigger('focusout');
 
-  assert.equal(this.get('value'), 30);
+  assert.equal(get(this, 'value'), 30);
 });

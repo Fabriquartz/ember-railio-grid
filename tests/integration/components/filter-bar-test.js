@@ -1,19 +1,19 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import FilteringHandler from 'ember-railio-grid/utils/filtering-handler';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run } = Ember;
+import run from 'ember-runloop';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
 moduleForComponent('filter-bar', 'Integration | Component | {{filter-bar}}', {
   integration: true,
 
   beforeEach() {
-    this.set('filteringHandler', FilteringHandler.create({
+    set(this, 'filteringHandler', FilteringHandler.create({
       content: [1, 2, 3, 4, 5, 6]
     }));
 
-    this.set('properties', [
+    set(this, 'properties', [
       { key: 'id', label: 'id' },
       { key: 'name', label: 'name' },
       { key: 'type', label: 'type' }
@@ -80,7 +80,7 @@ test('adding new filter', function(assert) {
 
 test('removing filter', function(assert) {
   run(() => {
-    this.get('filteringHandler').addFilter('cont', 'name', 'abc');
+    get(this, 'filteringHandler').addFilter('cont', 'name', 'abc');
   });
 
   let $addedFilter = this.$('.filter-bar__filter').eq(0);

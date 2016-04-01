@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Component from 'ember-component';
+import set from 'ember-metal/set';
 
 function handleChanged() {
   let value = this.readDOMAttr('value');
@@ -7,7 +8,7 @@ function handleChanged() {
   this.$().val(value);
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'input',
   attributeBindings: ['value'],
   classNames: ['paginator__number-input'],
@@ -41,7 +42,7 @@ export default Ember.Component.extend({
 
   actions: {
     changed(value) {
-      this.set('value', value);
+      set(this, 'value', value);
     }
   }
 });

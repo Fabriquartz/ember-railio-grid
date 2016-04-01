@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Helper from 'ember-helper';
 
-export default Ember.Helper.extend({
+export default Helper.extend({
   compute([value, comparison]) {
     return value === comparison;
   }

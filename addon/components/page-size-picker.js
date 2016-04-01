@@ -1,15 +1,17 @@
-import Ember from 'ember';
+import Component from 'ember-component';
 import layout from '../templates/components/page-size-picker';
 
-const { computed } = Ember;
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: ['page-size-picker'],
 
   sizeOptions: computed('maxValue', 'value', function() {
-    let currentValue = this.get('value');
-    let maxValue = this.get('maxValue');
+    let currentValue = get(this, 'value');
+    let maxValue = get(this, 'maxValue');
     let currentVisible = false;
 
     let list = [
@@ -25,18 +27,18 @@ export default Ember.Component.extend({
     });
 
     let inputActive = currentVisible ? false : true;
-    this.set('inputActive', inputActive);
+    set(this, 'inputActive', inputActive);
 
     return filteredList;
   }),
 
   actions: {
     setPageSize(size) {
-      this.set('value', size);
+      set(this, 'value', size);
     },
 
     showInput() {
-      this.set('inputActive', true);
+      set(this, 'inputActive', true);
     }
   }
 });

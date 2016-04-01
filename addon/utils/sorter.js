@@ -1,6 +1,10 @@
 import Ember from 'ember';
+import EmberObject from 'ember-object';
 
-const { compare, computed, get } = Ember;
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
+
+const { compare } = Ember;
 
 function orderBy(list, sortProperties) {
   if (!sortProperties || sortProperties.length === 0) {
@@ -30,8 +34,8 @@ function orderBy(list, sortProperties) {
   });
 }
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   sortedContent: computed('content.[]', 'handler.sortKeys.@each.{key,descending}', function() {
-    return orderBy(this.get('content'), this.get('handler.sortKeys'));
+    return orderBy(get(this, 'content'), get(this, 'handler.sortKeys'));
   })
 });

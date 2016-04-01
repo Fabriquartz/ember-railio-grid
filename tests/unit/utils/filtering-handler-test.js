@@ -1,6 +1,6 @@
-import Ember from 'ember';
 import FilteringHandler from '../../../utils/filtering-handler';
 import { module, test } from 'qunit';
+import {isEmberArray } from 'ember-array/utils';
 
 let filteringHandler;
 
@@ -13,7 +13,7 @@ module('Unit | Utility | filtering-handler', {
 test('creates a filtering-handler with a list of filterTypes', function(assert) {
   let filterTypes = filteringHandler.get('filterTypes');
 
-  assert.ok(Ember.isArray(filterTypes), 'has a filterTypes array');
+  assert.ok(isEmberArray(filterTypes), 'has a filterTypes array');
 
   assert.equal(typeof filterTypes[0].label, 'string', 'filterType has label');
   assert.equal(typeof filterTypes[0].filter, 'string', 'filterType has filterName');

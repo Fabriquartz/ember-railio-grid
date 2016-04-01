@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from 'ember-component';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
-const { set } = Ember;
-
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['paginator'],
 
   actions: {
@@ -11,23 +11,23 @@ export default Ember.Component.extend({
     },
 
     goToPage(pageNr) {
-      this.set('handler.page', pageNr);
+      set(this, 'handler.page', pageNr);
     },
 
     firstPage() {
-      this.get('handler').firstPage();
+      get(this, 'handler').firstPage();
     },
 
     lastPage() {
-      this.get('handler').lastPage();
+      get(this, 'handler').lastPage();
     },
 
     previousPage() {
-      this.get('handler').previousPage();
+      get(this, 'handler').previousPage();
     },
 
     nextPage() {
-      this.get('handler').nextPage();
+      get(this, 'handler').nextPage();
     }
   }
 });

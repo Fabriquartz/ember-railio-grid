@@ -1,12 +1,17 @@
 import Ember from 'ember';
+import Component from 'ember-component';
 import layout from 'ember-railio-grid/templates/components/data-grid';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
 
-const { computed, set, get } = Ember;
-const { alias } = computed;
+import computed, { alias } from 'ember-computed';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
+import { htmlSafe } from 'ember-string';
+import { A } from 'ember-array/utils';
+import { next } from 'ember-runloop';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: ['data-grid'],
   attributeBindings: ['widthString:style'],
@@ -14,30 +19,30 @@ export default Ember.Component.extend({
   showHeader: true,
 
   widthString: computed('width', function() {
-    let width = `${this.get('width')}`;
+    let width = `${get(this, 'width')}`;
     if (width.indexOf('%') > 0) {
       return width;
     }
 
-    return Ember.String.htmlSafe(`width: ${width}px`);
+    return htmlSafe(`width: ${width}px`);
   }),
 
   dataManager: computed({
     set(key, value) {
-      this.set('_dataManager', value);
+      set(this, '_dataManager', value);
       return value;
     },
     get() {
-      if (this.get('modelName')) {
-        return this.get('_dataManager') || APIDataManager.create();
+      if (get(this, 'modelName')) {
+        return get(this, '_dataManager') || APIDataManager.create();
       }
-      return this.get('_dataManager') || ArrayDataManager.create();
+      return get(this, '_dataManager') || ArrayDataManager.create();
     }
   }),
 
   didReceiveAttrs() {
-    this.set('dataManager.content', this.getAttr('content') || this.get('content'));
-    if (this.get('modelName')) {
+    set(this, 'dataManager.content', this.getAttr('content') || get(this, 'content'));
+    if (get(this, 'modelName')) {
       Ember.bind(this, 'dataManager.modelName', 'modelName');
       Ember.bind(this, 'dataManager.store', 'store');
     }
@@ -57,28 +62,28 @@ export default Ember.Component.extend({
     'properties.@each{label,key}',
     'sortingHandler.sortKeys.@each.{key,descending}',
   function() {
-    let properties = this.get('properties');
-    let sortings = this.get('sortingHandler.sortKeys');
+    let properties = get(this, 'properties');
+    let sortings = get(this, 'sortingHandler.sortKeys');
 
     return properties.map(function(property) {
       property = Ember.Object.create(property);
       let sorting = sortings.findBy('key', property.key);
       if (sorting) {
         let dir = sorting.descending ? 'DESC' : 'ASC';
-        property.set('sorting', dir);
-        property.set('sortingOrder', sortings.indexOf(sorting) + 1);
+        set(property, 'sorting', dir);
+        set(property, 'sortingOrder', sortings.indexOf(sorting) + 1);
       }
       return property;
     });
   }),
 
   _selection: computed(function() {
-    return Ember.A();
+    return A();
   }),
 
   selection: computed('_selection.[]', 'managedContent.[]', function() {
-    let content   = this.get('managedContent');
-    let selection = this.get('_selection');
+    let content   = get(this, 'managedContent');
+    let selection = get(this, '_selection');
 
     return content.filter((item) => {
       return selection.indexOf(item) !== -1;
@@ -87,11 +92,11 @@ export default Ember.Component.extend({
 
   actions: {
     sortBy(key) {
-      this.get('sortingHandler').toggle(key);
+      get(this, 'sortingHandler').toggle(key);
     },
 
     doubleClickItem(item) {
-      let doubleClickFn = this.get('doubleClickAction');
+      let doubleClickFn = get(this, 'doubleClickAction');
 
       if (typeof doubleClickFn === 'function') {
         doubleClickFn(item);
@@ -99,7 +104,7 @@ export default Ember.Component.extend({
     },
 
     selectItem(selected, item) {
-      let selection = this.get('_selection');
+      let selection = get(this, '_selection');
 
       if (selection.indexOf(item) === -1) {
         selection.pushObject(item);
@@ -109,17 +114,17 @@ export default Ember.Component.extend({
     },
 
     selectAll() {
-      let selectionLength = this.get('selection.length');
-      let list            = this.get('managedContent');
-      let selection = Ember.A();
+      let selectionLength = get(this, 'selection.length');
+      let list            = get(this, 'managedContent');
+      let selection = A();
 
       if (selectionLength !== get(list, 'length')) {
-        selection = Ember.A([].concat(list));
+        selection = A([].concat(list));
       }
 
-      set(this, '_selection', Ember.A());
+      set(this, '_selection', A());
 
-      Ember.run.next(() => set(this, '_selection', selection));
+      next(() => set(this, '_selection', selection));
     }
   }
 });

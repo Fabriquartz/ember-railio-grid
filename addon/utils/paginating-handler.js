@@ -1,13 +1,15 @@
-import Ember from 'ember';
+import EmberObject from 'ember-object';
 
-const { computed } = Ember;
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   _page: 1,
 
   page: computed('_page', {
     set(key, value) {
-      if (value > this.get('pageAmount')) {
+      if (value > get(this, 'pageAmount')) {
         throw 'Cannot set page higher than available pages.';
       }
 
@@ -15,46 +17,46 @@ export default Ember.Object.extend({
         throw 'Cannot set page lower than 1.';
       }
 
-      this.set('_page', value);
+      set(this, '_page', value);
       return value;
     },
     get() {
-      return this.get('_page');
+      return get(this, '_page');
     }
   }),
 
   pageAmount: computed('pageSize', 'contentLength', function() {
-    let pageSize = this.get('pageSize');
+    let pageSize = get(this, 'pageSize');
 
     if (!pageSize || isNaN(pageSize)) { return 1; }
-    return Math.ceil(this.get('contentLength') / pageSize);
+    return Math.ceil(get(this, 'contentLength') / pageSize);
   }),
 
   hasPreviousPage: computed('page', function() {
-    return this.get('page') > 1;
+    return get(this, 'page') > 1;
   }),
 
   hasNextPage: computed('page', 'pageAmount', function() {
-    return this.get('page') < this.get('pageAmount');
+    return get(this, 'page') < get(this, 'pageAmount');
   }),
 
   previousPage() {
-    if (this.get('hasPreviousPage')) {
-      this.set('page', this.get('page') - 1);
+    if (get(this, 'hasPreviousPage')) {
+      set(this, 'page', get(this, 'page') - 1);
     }
   },
 
   nextPage() {
-    if (this.get('hasNextPage')) {
-      this.set('page', this.get('page') + 1);
+    if (get(this, 'hasNextPage')) {
+      set(this, 'page', get(this, 'page') + 1);
     }
   },
 
   firstPage() {
-    this.set('page', 1);
+    set(this, 'page', 1);
   },
 
   lastPage() {
-    this.set('page', this.get('pageAmount'));
+    set(this, 'page', get(this, 'pageAmount'));
   }
 });

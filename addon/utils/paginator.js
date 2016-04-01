@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import EmberObject from 'ember-object';
 
-const { computed } = Ember;
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   currentPage: computed('handler.page', 'handler.pageSize', 'content.[]', function() {
-    let page = this.get('handler.page');
-    let pageSize = this.get('handler.pageSize');
-    let content = this.get('content');
+    let page = get(this, 'handler.page');
+    let pageSize = get(this, 'handler.pageSize');
+    let content = get(this, 'content');
 
     if (pageSize && pageSize < content.length) {
       let start = 0 + ((page - 1) * pageSize);

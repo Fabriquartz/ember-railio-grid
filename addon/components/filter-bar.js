@@ -1,17 +1,19 @@
-import Ember from 'ember';
+import Component from 'ember-component';
 import layout from '../templates/components/filter-bar';
 
-const { computed } = Ember;
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: ['filter-bar'],
 
   addButtonDisabled: computed('newFilterProperty', 'newFilterType',
                               'newFilterQuery', function() {
-    let property = this.get('newFilterProperty');
-    let type     = this.get('newFilterType');
-    let query    = this.get('newFilterQuery');
+    let property = get(this, 'newFilterProperty');
+    let type     = get(this, 'newFilterType');
+    let query    = get(this, 'newFilterQuery');
 
     return property == null || property     === '' ||
            type     == null || type         === '' ||
@@ -20,31 +22,31 @@ export default Ember.Component.extend({
 
   actions: {
     changedQuery(value) {
-      this.set('newFilterQuery', value);
+      set(this, 'newFilterQuery', value);
     },
     changedProperty(property) {
-      this.set('newFilterProperty', property);
+      set(this, 'newFilterProperty', property);
     },
     changedType(type) {
-      this.set('newFilterType', type);
+      set(this, 'newFilterType', type);
     },
     createNewFilter(event) {
       event.preventDefault();
-      let property = this.get('newFilterProperty');
-      let filter   = this.get('newFilterType');
-      let query    = this.get('newFilterQuery');
+      let property = get(this, 'newFilterProperty');
+      let filter   = get(this, 'newFilterType');
+      let query    = get(this, 'newFilterQuery');
 
       if (property && filter && query) {
-        this.get('handler').addFilter(property, filter, query);
+        get(this, 'handler').addFilter(property, filter, query);
 
-        this.set('newFilterProperty', null);
-        this.set('newFilterType', null);
-        this.set('newFilterQuery', null);
+        set(this, 'newFilterProperty', null);
+        set(this, 'newFilterType', null);
+        set(this, 'newFilterQuery', null);
       }
       return false;
     },
     removeFilter(filter) {
-      this.get('handler').removeFilter(filter);
+      get(this, 'handler').removeFilter(filter);
     }
   }
 });

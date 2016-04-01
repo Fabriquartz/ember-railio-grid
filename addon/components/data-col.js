@@ -1,7 +1,13 @@
 import Ember from 'ember';
 import $ from 'jquery';
 
-const { get, computed, defineProperty } = Ember;
+import Component from 'ember-component';
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
+import { htmlSafe } from 'ember-string';
+import { isEmberArray } from 'ember-array/utils';
+
+const { defineProperty } = Ember;
 
 const defaultPropertyObject = {
   format() {
@@ -30,18 +36,18 @@ function copy(object) {
   return $.extend({}, object);
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'td',
   attributeBindings: ['style'],
 
   _property: computed('property', function() {
-    return $.extend({}, defaultPropertyObject, this.get('property'));
+    return $.extend({}, defaultPropertyObject, get(this, 'property'));
   }),
 
   style: computed('_values', '_property.style',
   function() {
-    let values = this.get('_values');
-    let style  = copy(this.get('_property.style'));
+    let values = get(this, '_values');
+    let style  = copy(get(this, '_property.style'));
 
     // if style property is a function, return style depending on value
     for (let property in style) {
@@ -54,7 +60,7 @@ export default Ember.Component.extend({
       }
     }
 
-    return Ember.String.htmlSafe(`
+    return htmlSafe(`
       width:            ${style.width}em;
       text-align:       ${style.horizontalAlign};
       vertical-align:   ${style.verticalAlign};
@@ -70,8 +76,8 @@ export default Ember.Component.extend({
   }),
 
   value: computed('_values', '_property.{format}', function() {
-    let values = this.get('_values');
-    let format = this.get('_property.format');
+    let values = get(this, '_values');
+    let format = get(this, '_property.format');
 
     return format.apply(null, values);
   }),
@@ -79,8 +85,8 @@ export default Ember.Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let propertyPaths = this.get('property.key');
-    if (!Ember.isArray(propertyPaths)) {
+    let propertyPaths = get(this, 'property.key');
+    if (!isEmberArray(propertyPaths)) {
       propertyPaths = [propertyPaths];
     }
 
