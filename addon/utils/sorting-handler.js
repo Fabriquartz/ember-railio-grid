@@ -9,12 +9,12 @@ export default Ember.Object.extend({
 
   addSortKey(key, descending = false) {
 
-    const sortKeys = this.get('sortKeys');
-    const keyCurrent = sortKeys.findBy('key', key);
-    const index = sortKeys.indexOf(keyCurrent);
+    let sortKeys = this.get('sortKeys');
+    let keyCurrent = sortKeys.findBy('key', key);
+    let index = sortKeys.indexOf(keyCurrent);
 
     if (!keyCurrent) {
-      sortKeys.pushObject({ key: key, descending: descending });
+      sortKeys.pushObject({ key, descending });
     } else {
       set(keyCurrent, 'descending', descending);
       sortKeys.replace(index, 1, [keyCurrent]);
@@ -22,7 +22,7 @@ export default Ember.Object.extend({
   },
 
   toggle(key) {
-    const keyCurrent = this.get('sortKeys').findBy('key', key);
+    let keyCurrent = this.get('sortKeys').findBy('key', key);
 
     if (!keyCurrent) {
       this.addSortKey(key, false);
@@ -37,8 +37,8 @@ export default Ember.Object.extend({
   },
 
   removeSortKey(key) {
-    const sortKeys = this.get('sortKeys');
-    const keyCurrent = sortKeys.findBy('key', key);
+    let sortKeys = this.get('sortKeys');
+    let keyCurrent = sortKeys.findBy('key', key);
 
     sortKeys.removeObject(keyCurrent);
   },

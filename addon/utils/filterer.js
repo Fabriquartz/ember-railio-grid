@@ -25,8 +25,8 @@ const FILTERS = {
     return value.toUpperCase().indexOf(part.toUpperCase()) === 0;
   },
   end(value, part) {
-    const valueLength = value.length;
-    const partLength = part.length;
+    let valueLength = value.length;
+    let partLength = part.length;
 
     return value.toUpperCase().indexOf(part.toUpperCase()) === (valueLength - partLength);
   }
@@ -39,9 +39,9 @@ function filter(filters, list) {
     let isOk = true;
 
     filters.forEach(function(filter) {
-      const itemValue = get(item, filter.propertyPath);
-      const filterFn = FILTERS[filter.filter.filter];
-      const OK = filterFn(itemValue, filter.value);
+      let itemValue = get(item, filter.propertyPath);
+      let filterFn = FILTERS[filter.filter.filter];
+      let OK = filterFn(itemValue, filter.value);
 
       if (!OK) { isOk = false; }
     });
@@ -58,5 +58,5 @@ export default Ember.Object.extend({
 
   filters: computed(function() {
     return Ember.A();
-  }),
+  })
 });

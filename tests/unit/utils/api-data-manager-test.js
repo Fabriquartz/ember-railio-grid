@@ -7,7 +7,7 @@ let dataManager;
 moduleForComponent('Unit | Utility | api-data-manager', {
   integration: true,
 
-  beforeEach: function() {
+  beforeEach() {
     startMirage(this.container);
     server.createList('animal', 12);
     APIDataManager = this.container.lookupFactory('util:api-data-manager');
@@ -22,7 +22,7 @@ test('inherits from data-manager', function(assert) {
 });
 
 test('has a managedContent array from the api', function(assert) {
-  const done = assert.async();
+  let done = assert.async();
   dataManager.get('managedContent').then((managedContent) => {
     assert.equal(managedContent.get('length'), 12);
     done();
@@ -30,7 +30,7 @@ test('has a managedContent array from the api', function(assert) {
 });
 
 test('managedContentArray is filtered', function(assert) {
-  const done = assert.async();
+  let done = assert.async();
 
   dataManager.get('filteringHandler').addFilter('type', 'eq', 'dog');
 
@@ -41,7 +41,7 @@ test('managedContentArray is filtered', function(assert) {
 });
 
 test('managedContentArray is paginated', function(assert) {
-  const done = assert.async();
+  let done = assert.async();
 
   dataManager.set('paginatingHandler.pageSize', 8);
   dataManager.set('paginatingHandler.page', 1);
@@ -59,7 +59,7 @@ test('managedContentArray is paginated', function(assert) {
 });
 
 test('managedContentArray is sorted', function(assert) {
-  const done = assert.async();
+  let done = assert.async();
 
   dataManager.get('sortingHandler').addSortKey('name');
 

@@ -22,13 +22,9 @@ export default Ember.Object.extend({
 
   addFilter(propertyPath, filterName, value) {
     if (propertyPath && filterName && value) {
-      const filter = this.get('filterTypes').findBy('filter', filterName);
+      let filter = this.get('filterTypes').findBy('filter', filterName);
 
-      this.get('filters').pushObject({
-        propertyPath: propertyPath,
-        filter:       filter,
-        value:        value
-      });
+      this.get('filters').pushObject({ propertyPath, filter, value });
     }
   },
 

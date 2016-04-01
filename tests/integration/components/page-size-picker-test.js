@@ -12,7 +12,7 @@ moduleForComponent('page-size-picker',
 test('shows pageSize options', function(assert) {
   this.render(hbs`{{page-size-picker value=10 maxValue=100}}`);
 
-  const $sizes = this.$('.page-size-picker__size');
+  let $sizes = this.$('.page-size-picker__size');
 
   assert.equal($sizes[0].innerText, '10', 'first size = 10');
   assert.equal($sizes[1].innerText, '50', 'second size = 50');
@@ -23,8 +23,8 @@ test('shows pageSize options', function(assert) {
 test('do not show input when currentValue in sizes list', function(assert) {
   this.render(hbs`{{page-size-picker value=10 maxValue=100}}`);
 
-  const $sizes = this.$('.page-size-picker__size');
-  const $input = this.$('.page-size-picker__input');
+  let $sizes = this.$('.page-size-picker__size');
+  let $input = this.$('.page-size-picker__input');
 
   assert.equal($sizes[$sizes.length - 1].innerText, 'other', 'show other');
   assert.equal($input.length, 0, 'do not show input');
@@ -33,8 +33,8 @@ test('do not show input when currentValue in sizes list', function(assert) {
 test('show inputfield when currentValue not in sizes list', function(assert) {
   this.render(hbs`{{page-size-picker value=5 maxValue=100}}`);
 
-  const $sizes = this.$('.page-size-picker__size');
-  const $input = this.$('.page-size-picker__input');
+  let $sizes = this.$('.page-size-picker__size');
+  let $input = this.$('.page-size-picker__input');
 
   assert.equal($sizes[$sizes.length - 1].innerText, 'all', 'do not show other');
   assert.equal($input.length, 1, 'show input');
@@ -44,15 +44,15 @@ test('show inputfield when currentValue not in sizes list', function(assert) {
 test(`clicking on 'other' shows inputfield`, function(assert) {
   this.render(hbs`{{page-size-picker value=10 maxValue=100}}`);
 
-  const $sizes = this.$('.page-size-picker__size');
-  const $other = $sizes[$sizes.length - 1];
+  let $sizes = this.$('.page-size-picker__size');
+  let $other = $sizes[$sizes.length - 1];
 
   run(() => {
-  assert.equal($other.innerText, 'other', 'show other');
+    assert.equal($other.innerText, 'other', 'show other');
     $($other).eq(0).trigger('click');
   });
 
-  const $input = this.$('.page-size-picker__input');
+  let $input = this.$('.page-size-picker__input');
   assert.equal($input.length, 1, 'show input');
 });
 
@@ -60,7 +60,7 @@ test(`clicking on a size sets pageSize`, function(assert) {
   this.set('value', 1);
   this.render(hbs`{{page-size-picker value=value maxValue=100}}`);
 
-  const $sizes = this.$('.page-size-picker__size');
+  let $sizes = this.$('.page-size-picker__size');
 
   run(() => {
     $sizes.eq(1).trigger('click');
@@ -73,7 +73,7 @@ test('changing input changes pageSize', function(assert) {
   this.set('value', 1);
   this.render(hbs`{{page-size-picker value=value maxValue=100}}`);
 
-  const $input = this.$('.page-size-picker__input');
+  let $input = this.$('.page-size-picker__input');
   $input.trigger('focusin');
   $input.val(30);
   $input.trigger('focusout');

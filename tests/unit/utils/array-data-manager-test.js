@@ -17,7 +17,7 @@ const { run } = Ember;
 let arrayDataManager;
 
 module('Unit | Utility | array-data-manager', {
-  beforeEach: function() {
+  beforeEach() {
     arrayDataManager = ArrayDataManager.create({
       content: [1, 2, 3, 4]
     });
@@ -33,8 +33,8 @@ test('has a managed content array', function(assert) {
 });
 
 test('creates a filterer with the filteringHandler', function(assert) {
-  const filterer         = arrayDataManager.get('filterer');
-  const filteringHandler = arrayDataManager.get('filteringHandler');
+  let filterer         = arrayDataManager.get('filterer');
+  let filteringHandler = arrayDataManager.get('filteringHandler');
 
   assert.notEqual(filterer, null, 'filterer is defined');
   assert.ok(filterer instanceof Filterer, 'filterer is of type Filterer');
@@ -45,8 +45,8 @@ test('creates a filterer with the filteringHandler', function(assert) {
 });
 
 test('creates a sorter with the sortingHandler', function(assert) {
-  const sorter         = arrayDataManager.get('sorter');
-  const sortingHandler = arrayDataManager.get('sortingHandler');
+  let sorter         = arrayDataManager.get('sorter');
+  let sortingHandler = arrayDataManager.get('sortingHandler');
 
   assert.notEqual(sorter, null, 'sorter is defined');
   assert.ok(sorter instanceof Sorter, 'sorter is of type Sorter');
@@ -57,8 +57,8 @@ test('creates a sorter with the sortingHandler', function(assert) {
 });
 
 test('creates a paginator with the paginatingHandler', function(assert) {
-  const paginator         = arrayDataManager.get('paginator');
-  const paginatingHandler = arrayDataManager.get('paginatingHandler');
+  let paginator         = arrayDataManager.get('paginator');
+  let paginatingHandler = arrayDataManager.get('paginatingHandler');
 
   assert.notEqual(paginator, null, 'paginator is defined');
   assert.ok(paginator instanceof Paginator, 'paginator is of type Paginator');
@@ -69,28 +69,28 @@ test('creates a paginator with the paginatingHandler', function(assert) {
 });
 
 test('passes the content to the filterer', function(assert) {
-  const filtererContent = arrayDataManager.get('filterer.content');
+  let filtererContent = arrayDataManager.get('filterer.content');
   assert.deepEqual(filtererContent, [1, 2, 3, 4]);
 });
 
 test('passes the filtered content to the sorter', function(assert) {
-  const sorterContent = arrayDataManager.get('sorter.content');
+  let sorterContent = arrayDataManager.get('sorter.content');
   assert.deepEqual(sorterContent, [1, 2, 3, 4]);
 });
 
 test('passes the sorted content to the paginator', function(assert) {
-  const paginatorContent = arrayDataManager.get('paginator.content');
+  let paginatorContent = arrayDataManager.get('paginator.content');
   assert.deepEqual(paginatorContent, [1, 2, 3, 4]);
 });
 
 test('managedContent modified by filter, sorter and paginator', function(assert) {
-  const item1 = { id: 1, name: 'Frank' };
-  const item2 = { id: 2, name: 'Chris' };
-  const item3 = { id: 3, name: 'George' };
-  const item4 = { id: 4, name: 'Alex' };
-  const item5 = { id: 5, name: 'Dilan' };
+  let item1 = { id: 1, name: 'Frank' };
+  let item2 = { id: 2, name: 'Chris' };
+  let item3 = { id: 3, name: 'George' };
+  let item4 = { id: 4, name: 'Alex' };
+  let item5 = { id: 5, name: 'Dilan' };
 
-  const arrayDataManager = ArrayDataManager.create({
+  let arrayDataManager = ArrayDataManager.create({
     content: [ item1, item2, item3, item4, item5]
   });
 

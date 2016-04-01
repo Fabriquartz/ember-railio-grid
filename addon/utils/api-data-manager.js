@@ -9,7 +9,7 @@ export default DataManager.extend({
 
   contentLength: 9999,
 
-  init: function() {
+  init() {
     Ember.bind(this, 'paginatingHandler.contentLength', 'contentLength');
   },
 
@@ -20,14 +20,14 @@ export default DataManager.extend({
     'filteringHandler.filters.@each.{filter}',
     'sortingHandler.sortKeys.@each.{key,descending}',
   function() {
-    const store = this.get('store');
-    const modelName = this.get('modelName');
-    const query = {};
+    let store = this.get('store');
+    let modelName = this.get('modelName');
+    let query = {};
 
-    const page = this.get('paginatingHandler.page');
-    const pageSize = this.get('paginatingHandler.pageSize');
-    const filters = this.get('filteringHandler.filters');
-    const sortings = this.get('sortingHandler.sortKeys');
+    let page = this.get('paginatingHandler.page');
+    let pageSize = this.get('paginatingHandler.pageSize');
+    let filters = this.get('filteringHandler.filters');
+    let sortings = this.get('sortingHandler.sortKeys');
 
     if (page) { query.page = page; }
 
@@ -39,7 +39,7 @@ export default DataManager.extend({
       filters.forEach(function(filter) {
         let decamalizedName = Ember.String.decamelize(filter.propertyPath);
         decamalizedName = decamalizedName.replace('.', '_');
-        const filterName = decamalizedName + '_' + filter.filter.filter;
+        let filterName = `${decamalizedName}_${filter.filter.filter}`;
 
         query.filter[filterName] = filter.value;
       });
@@ -51,8 +51,8 @@ export default DataManager.extend({
       query.filter.sorts = [];
 
       sortings.forEach(function(sorting) {
-        const sortKey = Ember.String.decamelize(sorting.key);
-        const sortDir = sorting.descending ? 'DESC' : 'ASC';
+        let sortKey = Ember.String.decamelize(sorting.key);
+        let sortDir = sorting.descending ? 'DESC' : 'ASC';
 
         query.filter.sorts.push({ name: sortKey, dir: sortDir });
       });

@@ -3,15 +3,15 @@ import SortingHandler from '../../../utils/sorting-handler';
 import { module, test } from 'qunit';
 
 let sorter;
-const Ben   = { id: 1, name: 'Ben', type: 'dog' };
-const Alex  = { id: 2, name: 'Alex', type: 'dog' };
-const Chris = { id: 3, name: 'Chris', type: 'cat' };
-const Edwin = { id: 4, name: 'Edwin', type: 'dog' };
-const Dirk  = { id: 5, name: 'Dirk', type: 'cat' };
+let Ben   = { id: 1, name: 'Ben', type: 'dog' };
+let Alex  = { id: 2, name: 'Alex', type: 'dog' };
+let Chris = { id: 3, name: 'Chris', type: 'cat' };
+let Edwin = { id: 4, name: 'Edwin', type: 'dog' };
+let Dirk  = { id: 5, name: 'Dirk', type: 'cat' };
 
 module('Unit | Utility | sorter', {
-  beforeEach: function() {
-    const sortingHandler = SortingHandler.create();
+  beforeEach() {
+    let sortingHandler = SortingHandler.create();
     sorter = Sorter.create({
       content: [ Ben, Alex, Chris ],
       handler: sortingHandler

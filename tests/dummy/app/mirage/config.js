@@ -32,55 +32,55 @@ export default function() {
     this.get('/contacts/:id', ['contact', 'addresses']);
   */
 
-this.get('/animals', function(db, query) {
-  let content = db.animals;
+  this.get('/animals', function(db, query) {
+    let content = db.animals;
 
-  if (query.queryParams['filter[type_eq]']) {
-    const filterValue = query.queryParams['filter[type_eq]'];
+    if (query.queryParams['filter[type_eq]']) {
+      let filterValue = query.queryParams['filter[type_eq]'];
 
-    content = db.animals.filter(function(animal) {
-      return animal.type === filterValue;
-    });
-  }
-
-  if (query.queryParams['filter[sorts][0][name]']) {
-    if (typeof content.sort !== 'function' && typeof content.toArray === 'function') {
-      content = content.toArray();
+      content = db.animals.filter(function(animal) {
+        return animal.type === filterValue;
+      });
     }
 
-    const sortKey = query.queryParams['filter[sorts][0][name]'];
-    const sortDir = query.queryParams['filter[sorts][0][dir]'];
-
-    content = [].concat(content).sort((item1, item2) => {
-      let result = 0;
-
-      result = compare(get(item1, sortKey), get(item2, sortKey));
-      if (result !== 0 && sortDir === 'DESC') {
-        result = result * -1;
+    if (query.queryParams['filter[sorts][0][name]']) {
+      if (typeof content.sort !== 'function' && typeof content.toArray === 'function') {
+        content = content.toArray();
       }
 
-      return result;
-    });
-  }
+      let sortKey = query.queryParams['filter[sorts][0][name]'];
+      let sortDir = query.queryParams['filter[sorts][0][dir]'];
 
-  if (query.queryParams.page && query.queryParams.per_page) {
-    const page = query.queryParams.page;
-    const pageSize = query.queryParams.per_page;
+      content = [].concat(content).sort((item1, item2) => {
+        let result = 0;
 
-    const start = 0 + ((page - 1) * pageSize);
-    const end = start + pageSize;
+        result = compare(get(item1, sortKey), get(item2, sortKey));
+        if (result !== 0 && sortDir === 'DESC') {
+          result = result * -1;
+        }
 
-    content = db.animals.slice(start, end);
-  }
+        return result;
+      });
+    }
 
-  return {
-    data: content.map(function(attrs) {
-      return { type:       'animals',
-               id:         attrs.id,
-               attributes: attrs };
-    })
-  };
-});
+    if (query.queryParams.page && query.queryParams.per_page) {
+      let { page } = query.queryParams;
+      let pageSize = query.queryParams.per_page;
+
+      let start = 0 + ((page - 1) * pageSize);
+      let end = start + pageSize;
+
+      content = db.animals.slice(start, end);
+    }
+
+    return {
+      data: content.map(function(attrs) {
+        return { type:       'animals',
+                 id:         attrs.id,
+                 attributes: attrs };
+      })
+    };
+  });
 
   /*
     POST shorthands

@@ -4,16 +4,16 @@ import { module, test } from 'qunit';
 
 let filterer;
 
-const Alex    = { id: 1, type: 'dog', name: 'Alex' };
-const Ben     = { id: 2, type: 'dog', name: 'Ben' };
-const Chris   = { id: 3, type: 'cat', name: 'Chris' };
-const Dice    = { id: 4, type: 'dog', name: 'Dice' };
-const Erben   = { id: 5, type: 'cat', name: 'Erben' };
-const Alex2   = { id: 6, type: 'cat', name: 'Alex' };
+let Alex    = { id: 1, type: 'dog', name: 'Alex' };
+let Ben     = { id: 2, type: 'dog', name: 'Ben' };
+let Chris   = { id: 3, type: 'cat', name: 'Chris' };
+let Dice    = { id: 4, type: 'dog', name: 'Dice' };
+let Erben   = { id: 5, type: 'cat', name: 'Erben' };
+let Alex2   = { id: 6, type: 'cat', name: 'Alex' };
 
 module('Unit | Utility | filterer', {
-  beforeEach: function() {
-    const filteringHandler = FilteringHandler.create();
+  beforeEach() {
+    let filteringHandler = FilteringHandler.create();
 
     filterer = Filterer.create({
       content: [ Alex, Ben, Chris, Dice, Erben, Alex2 ],

@@ -4,14 +4,14 @@ import layout from '../templates/components/filter-bar';
 const { computed } = Ember;
 
 export default Ember.Component.extend({
-  layout: layout,
+  layout,
   classNames: ['filter-bar'],
 
   addButtonDisabled: computed('newFilterProperty', 'newFilterType',
                               'newFilterQuery', function() {
-    const property = this.get('newFilterProperty');
-    const type     = this.get('newFilterType');
-    const query    = this.get('newFilterQuery');
+    let property = this.get('newFilterProperty');
+    let type     = this.get('newFilterType');
+    let query    = this.get('newFilterQuery');
 
     return property == null || property     === '' ||
            type     == null || type         === '' ||
@@ -30,9 +30,9 @@ export default Ember.Component.extend({
     },
     createNewFilter(event) {
       event.preventDefault();
-      const property = this.get('newFilterProperty');
-      const filter   = this.get('newFilterType');
-      const query    = this.get('newFilterQuery');
+      let property = this.get('newFilterProperty');
+      let filter   = this.get('newFilterType');
+      let query    = this.get('newFilterQuery');
 
       if (property && filter && query) {
         this.get('handler').addFilter(property, filter, query);

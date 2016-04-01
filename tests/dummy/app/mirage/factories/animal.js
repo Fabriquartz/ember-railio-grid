@@ -8,7 +8,7 @@ export default Mirage.Factory.extend({
   id(i) { return i; },
   name(i) {
     if (i < 12) { return animalNames[i]; }
-    return 'Animal' + i;
+    return `Animal${i}`;
   },
   type(i) {
     if (i % 2 === 0) { return 'cat'; }
