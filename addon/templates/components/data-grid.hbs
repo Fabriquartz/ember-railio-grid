@@ -38,19 +38,12 @@
 
   <tbody>
     {{#each managedContent as |item|}}
-    <tr class="data-grid__row"
-        ondblclick={{action "doubleClickItem" item}}>
-        {{#if actionList.length}}
-          <td>
-            {{check-box value=(in-list item selection)
-                        object=item
-                        updated=(action "selectItem")}}
-          </td>
-        {{/if}}
-        {{#each propertiesList as |property|}}
-          {{data-col property=property item=item}}
-        {{/each}}
-    </tr>
+      {{data-row properties=propertiesList
+                 hasActions=actionList.length
+                 isSelected=(in-list item selection)
+                 selectItem=(action "selectItem")
+                 doubleClickAction=doubleClickAction
+                 item=item}}
     {{/each}}
   </tbody>
 </table>

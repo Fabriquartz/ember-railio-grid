@@ -95,14 +95,6 @@ export default Component.extend({
       get(this, 'sortingHandler').toggle(key);
     },
 
-    doubleClickItem(item) {
-      let doubleClickFn = get(this, 'doubleClickAction');
-
-      if (typeof doubleClickFn === 'function') {
-        doubleClickFn(item);
-      }
-    },
-
     selectItem(selected, item) {
       let selection = get(this, '_selection');
 

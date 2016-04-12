@@ -28,8 +28,8 @@
   }
 
   &__row {
-    &--selected {
-      background-color: #EFEFEF;
+    &--clickable {
+      cursor: pointer;
     }
   }
 

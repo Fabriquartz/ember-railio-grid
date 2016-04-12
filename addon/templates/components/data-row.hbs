@@ -1,0 +1,10 @@
+{{#if hasActions}}
+  <td>
+    {{check-box value=isSelected
+                object=item
+                updated=selectItem}}
+  </td>
+{{/if}}
+{{#each properties as |property|}}
+  {{data-col property=property item=item}}
+{{/each}}
