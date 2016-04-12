@@ -331,25 +331,6 @@ test('selection updates on updating or deleting items', function(assert) {
     });
 });
 
-test('double clicking item calls doubleClickAction with item', function(assert) {
-  assert.expect(1);
-
-  let Alex = { id: 1, name: 'Alex' };
-  let Bart = { id: 2, name: 'Bart' };
-
-  set(this, 'list', [Alex, Bart]);
-
-  set(this, 'doubleClickAction', function(object) {
-    assert.deepEqual(object, Bart, 'calls with clicked item');
-  });
-
-  this.render(hbs`{{data-grid content=list
-                              properties=properties
-                              doubleClickAction=doubleClickAction}}`);
-
-  this.$('.data-grid__row').eq(1).trigger('dblclick');
-});
-
 test('show sorting order', function(assert) {
   set(this, 'list', [Ben, Alex, Chris, Edward, Dwight]);
   this.render(hbs`{{data-grid content=list
