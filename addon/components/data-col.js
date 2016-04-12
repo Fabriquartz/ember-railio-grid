@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Component from 'ember-component';
 import computed from 'ember-computed';
 import get from 'ember-metal/get';
-import { htmlSafe } from 'ember-string';
+import { htmlSafe, dasherize } from 'ember-string';
 import { isEmberArray } from 'ember-array/utils';
 
 const { defineProperty } = Ember;
@@ -12,24 +12,21 @@ const { defineProperty } = Ember;
 const defaultPropertyObject = {
   format() {
     return Array.prototype.slice.call(arguments, 0).join(', ');
-  },
-  style: {
-    width:           'auto',
-
-    horizontalAlign: 'inherit',
-    verticalAlign:   'inherit',
-
-    backgroundColor: 'inherit',
-
-    fontFamily:      'inherit',
-    fontWeight:      'inherit',
-    italic:          false,
-    fontColor:       'inherit',
-
-    borderWidth:     3,
-    borderColor:     'inherit',
-    borderStyle:     'inherit'
   }
+};
+
+const STYLING_PROPERTIES = {
+  width:           { suffix: 'em' },
+  horizontalAlign: { key: 'text-align' },
+  verticalAlign:   { },
+  backgroundColor: { },
+  fontFamily:      { },
+  fontWeight:      { },
+  italic:          { key: 'font-style' },
+  fontColor:       { key: 'color' },
+  borderWidth:     { suffix: 'px' },
+  borderColor:     { },
+  borderStyle:     { }
 };
 
 function copy(object) {
@@ -48,6 +45,7 @@ export default Component.extend({
   function() {
     let values = get(this, '_values');
     let style  = copy(get(this, '_property.style'));
+    let styles = [];
 
     // if style property is a function, return style depending on value
     for (let property in style) {
@@ -56,23 +54,21 @@ export default Component.extend({
         style[property] = style[property](...values);
       }
       if (typeof style[property] === 'boolean') {
-        style[property] = style[property] ? property : 'inherit';
+        style[property] = style[property] ? property : null;
+      }
+
+      let value = style[property];
+      let stylingProperty = STYLING_PROPERTIES[property];
+
+      if (value && stylingProperty) {
+        let key    = stylingProperty.key || dasherize(property);
+        let suffix = stylingProperty.suffix || '';
+
+        styles.push(`${key}: ${value}${suffix};`);
       }
     }
 
-    return htmlSafe(`
-      width:            ${style.width}em;
-      text-align:       ${style.horizontalAlign};
-      vertical-align:   ${style.verticalAlign};
-      background-color: ${style.backgroundColor};
-      font-family:      ${style.fontFamily};
-      font-weight:      ${style.fontWeight};
-      font-style:       ${style.italic};
-      color:            ${style.fontColor};
-      border-width:     ${style.borderWidth}px;
-      border-color:     ${style.borderColor};
-      border-style:     ${style.borderStyle};
-    `);
+    return htmlSafe(styles.join(' '));
   }),
 
   value: computed('_values', '_property.{format}', function() {
