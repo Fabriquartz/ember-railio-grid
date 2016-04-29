@@ -169,7 +169,7 @@ The grid has a build-in sorting, or can be sorted from the store when using a mo
 
 #### Actions
 
-Inside the grid it is possible to select specific rows (by holding CTRL or CMD while clicking). After selecting, you can use some passed actions for the selected items. The actions need to be a list like:
+Inside the grid it is possible to select specific rows. After selecting, you can use some passed actions for the selected items. The actions need to be a list like:
 
 ```js
 actionList: [
@@ -213,3 +213,17 @@ And can be passed to the grid like:
             properties=listProperties
             doubleClickAction=editObject}}
 ```
+
+#### Selection
+
+The grid has a build-in selection mechanism. Instead of that, you could use your own. You need to pass an array with the selected items, and two functions to select the items (one to select / toggle a single item, and one to select all). You could pass it like:
+
+```handlebars
+{{data-grid content=list
+            properties=listProperties
+            selection=selection
+            toggleItem=(action "selectItem")
+            selectAll=(action "selectAllItems")}}
+```
+
+The `toggleItem` function gets the selected item, the `selectAll` function gets an array of the items on the current page. 
