@@ -3,6 +3,7 @@ import Component from 'ember-component';
 import layout from 'ember-railio-grid/templates/components/data-grid';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
+import { strictInvokeAction } from 'ember-invoke-action';
 
 import computed, { alias } from 'ember-computed';
 import get from 'ember-metal/get';
@@ -96,6 +97,13 @@ export default Component.extend({
     },
 
     selectItem(selected, item) {
+      let toggleItem = get(this, 'toggleItem');
+
+      if (toggleItem) {
+        strictInvokeAction(this, 'toggleItem', item);
+        return;
+      }
+
       let selection = get(this, '_selection');
 
       if (selection.indexOf(item) === -1) {
@@ -106,6 +114,13 @@ export default Component.extend({
     },
 
     selectAll() {
+      let selectAll = get(this, 'selectAll');
+
+      if (selectAll) {
+        strictInvokeAction(this, 'selectAll');
+        return;
+      }
+
       let selectionLength = get(this, 'selection.length');
       let list            = get(this, 'managedContent');
       let selection = A();
