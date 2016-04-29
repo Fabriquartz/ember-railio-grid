@@ -331,6 +331,52 @@ test('selection updates on updating or deleting items', function(assert) {
     });
 });
 
+test('use external selection when passed instead of internal', function(assert) {
+  set(this, 'list', A([ Ben, Alex, Chris ]));
+  set(this, 'selection', A([ Alex, Chris ]));
+
+  set(this, 'listActions', [ { label: 'edit',   action() { } } ]);
+
+  this.render(hbs`{{data-grid content=list
+                              selection=selection
+                              actionList=listActions
+                              properties=properties}}`);
+
+  assert.equal($('.data-grid input[type="checkbox"]:checked').length, 2,
+               'items in selection are checked');
+
+  run(() => {
+    set(this, 'selection', A([ Chris ]));
+  });
+
+  assert.equal($('.data-grid input[type="checkbox"]:checked').length, 1,
+               'updates checked on changing selection');
+});
+
+test('call external selectItem function when passed', function(assert) {
+  assert.expect(2);
+
+  set(this, 'list', A([ Ben, Alex, Chris ]));
+  set(this, 'listActions', [ { label: 'edit',   action() { } } ]);
+
+  this.on('selectItem', (item) => {
+    assert.deepEqual(item, Ben, 'calls external selectItem function with object');
+  });
+
+  this.on('selectAll', () => {
+    assert.ok(true, 'calls external selectAll function');
+  });
+
+  this.render(hbs`{{data-grid content=list
+                              toggleItem=(action 'selectItem')
+                              selectAll=(action 'selectAll')
+                              actionList=listActions
+                              properties=properties}}`);
+
+  $('.data-grid tbody input[type="checkbox"]').eq(0).click();
+  $('.data-grid thead input[type="checkbox"]').click();
+});
+
 test('show sorting order', function(assert) {
   set(this, 'list', [Ben, Alex, Chris, Edward, Dwight]);
   this.render(hbs`{{data-grid content=list
