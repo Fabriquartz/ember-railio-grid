@@ -13,7 +13,7 @@
         {{#if actionList.length}}
           <th>
             {{check-box value=(is-equal managedContent.length selection.length)
-                        updated=(action "selectAll")}}
+                        updated=(action "selectPage")}}
           </th>
         {{/if}}
         {{#each propertiesList as |property|}}

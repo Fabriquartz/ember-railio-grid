@@ -10,7 +10,6 @@ import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 import { htmlSafe } from 'ember-string';
 import { A } from 'ember-array/utils';
-import { next } from 'ember-runloop';
 
 export default Component.extend({
   layout,
@@ -113,25 +112,34 @@ export default Component.extend({
       }
     },
 
-    selectAll() {
-      let selectAll = get(this, 'selectAll');
+    selectPage() {
+      let selectionLength = get(this, 'selection.length');
+      let managedContent  = get(this, 'managedContent');
 
-      if (selectAll) {
-        strictInvokeAction(this, 'selectAll');
+      if (selectionLength === managedContent.length) {
+        this.send('clearSelection');
         return;
       }
 
-      let selectionLength = get(this, 'selection.length');
-      let list            = get(this, 'managedContent');
-      let selection = A();
+      let selectPage = get(this, 'selectPage');
 
-      if (selectionLength !== get(list, 'length')) {
-        selection = A([].concat(list));
+      if (selectPage) {
+        strictInvokeAction(this, 'selectPage', managedContent);
+        return;
+      }
+
+      set(this, '_selection', managedContent);
+    },
+
+    clearSelection() {
+      let clearSelection = get(this, 'clearSelection');
+
+      if (clearSelection) {
+        strictInvokeAction(this, 'clearSelection');
+        return;
       }
 
       set(this, '_selection', A());
-
-      next(() => set(this, '_selection', selection));
     }
   }
 });
