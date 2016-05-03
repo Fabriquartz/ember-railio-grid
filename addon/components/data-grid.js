@@ -122,13 +122,14 @@ export default Component.extend({
       }
 
       let selectPage = get(this, 'selectPage');
+      let page       = A(managedContent.slice(0));
 
       if (selectPage) {
-        strictInvokeAction(this, 'selectPage', managedContent);
+        strictInvokeAction(this, 'selectPage', page);
         return;
       }
 
-      set(this, '_selection', managedContent);
+      set(this, '_selection', page);
     },
 
     clearSelection() {
