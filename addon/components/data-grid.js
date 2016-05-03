@@ -116,7 +116,7 @@ export default Component.extend({
       let selectionLength = get(this, 'selection.length');
       let managedContent  = get(this, 'managedContent');
 
-      if (selectionLength === managedContent.length) {
+      if (selectionLength === get(managedContent, 'length')) {
         this.send('clearSelection');
         return;
       }
