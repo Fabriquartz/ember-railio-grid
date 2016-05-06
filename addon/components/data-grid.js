@@ -116,19 +116,20 @@ export default Component.extend({
       let selectionLength = get(this, 'selection.length');
       let managedContent  = get(this, 'managedContent');
 
-      if (selectionLength === managedContent.length) {
+      if (selectionLength === get(managedContent, 'length')) {
         this.send('clearSelection');
         return;
       }
 
       let selectPage = get(this, 'selectPage');
+      let page       = A(managedContent.slice(0));
 
       if (selectPage) {
-        strictInvokeAction(this, 'selectPage', managedContent);
+        strictInvokeAction(this, 'selectPage', page);
         return;
       }
 
-      set(this, '_selection', managedContent);
+      set(this, '_selection', page);
     },
 
     clearSelection() {
