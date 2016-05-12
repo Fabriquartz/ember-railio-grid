@@ -64,7 +64,7 @@ export default DataManager.extend({
   _bindContent(from, to, bindingName) {
     let binding = get(this, bindingName);
 
-    if (binding  != null) { binding.disconnect(this); }
+    if (binding != null) { binding.disconnect(this); }
     binding = Ember.bind(this, to, from);
     set(this, bindingName, binding);
   }
