@@ -35,6 +35,12 @@ module.exports = {
       dependencies: {
         'ember': '2.4.1'
       }
+    },
+    {
+      name: 'ember-2.5.X',
+      dependencies: {
+        'ember': '2.5.1'
+      }
     }
   ]
 };
