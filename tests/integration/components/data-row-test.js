@@ -114,3 +114,20 @@ test('double clicking row calls doubleClickAction with item', function(assert) {
 
   this.$('tr').trigger('dblclick');
 });
+
+test('double clicking checkbox does not trigger doubleclick action', function(assert) {
+  assert.expect(0);
+
+  set(this, 'item', { id: 1, name: 'Alex' });
+
+  set(this, 'doubleClickAction', function() {
+    assert.notOk(true, 'does not call doubleclick action on checkbox');
+  });
+
+  this.render(hbs`{{data-row item=item
+                             hasActions=true
+                             doubleClickAction=doubleClickAction}}`);
+
+  let $checkbox = this.$('input[type="checkbox"]').eq(0);
+  $checkbox.trigger('dblclick');
+});

@@ -12,7 +12,9 @@ export default Component.extend({
     'doubleClickAction:data-grid__row--clickable'
   ],
 
-  doubleClick() {
-    invokeAction(this, 'doubleClickAction', get(this, 'item'));
+  doubleClick(e) {
+    if (e.target.type !== 'checkbox') {
+      invokeAction(this, 'doubleClickAction', get(this, 'item'));
+    }
   }
 });
