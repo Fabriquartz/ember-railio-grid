@@ -5,14 +5,21 @@ import service from 'ember-service/inject';
 import computed from 'ember-computed';
 import { decamelize } from 'ember-string';
 import get from 'ember-metal/get';
+import set from 'ember-metal/set';
 
 export default DataManager.extend({
   store: service(),
 
-  contentLength: 9999,
-
   init() {
     Ember.bind(this, 'paginatingHandler.contentLength', 'contentLength');
+  },
+
+  _defineContentLength(store, modelName) {
+    if (!get(this, 'contentLenght')) {
+      store.query(modelName, { per_page: 1 }).then((items) => {
+        set(this, 'contentLength', items.meta.total || 9999);
+      });
+    }
   },
 
   managedContent: computed(
@@ -25,6 +32,8 @@ export default DataManager.extend({
     let store = get(this, 'store');
     let modelName = get(this, 'modelName');
     let query = {};
+
+    this._defineContentLength(store, modelName);
 
     let page = get(this, 'paginatingHandler.page');
     let pageSize = get(this, 'paginatingHandler.pageSize');
