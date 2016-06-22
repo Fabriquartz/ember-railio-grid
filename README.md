@@ -25,7 +25,7 @@ In your Handlebars templates when using an existing list:
 When you want to get the content from the store, keep in mind you have to pass the store in your current project to the data-grid.
 
 ```handlebars
-{{data-grid model="modelName"
+{{data-grid modelName="modelName"
             store=store
             properties=listProperties}}
 ```
@@ -144,7 +144,7 @@ The grid can be used to paginate the content. For a given content, it will use t
 
 #### Filtering
 
-You could optional add a filtering bar, where you can filter the content by each col. For a given content, it will use the build-in filterer. When using the api for getting the content, the api should handle the paginating.
+You could optional add a filtering bar, where you can filter the content by each col. For a given content, it will use the build-in filterer. When using the api for getting the content, the api should handle the filtering.
 
 ```handlebars
 {{data-grid content=list
