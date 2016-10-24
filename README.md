@@ -169,7 +169,7 @@ The grid has a build-in sorting, or can be sorted from the store when using a mo
 
 #### Actions
 
-Inside the grid it is possible to select specific rows. After selecting, you can use some passed actions for the selected items. The actions need to be a list like:
+The grid has a build-in selection mechanism. You will be able to select specific rows when you have passed some actions (select-boxes appear when at least one action is passed). After selecting, you can use the passed actions for the selected items. The actions need to be a list like:
 
 ```js
 actionList: [
