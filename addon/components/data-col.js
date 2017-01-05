@@ -35,12 +35,11 @@ function copy(object) {
 
 export default Component.extend({
   tagName: 'td',
-  attributeBindings: ['style'],
+  attributeBindings: ['value:title', 'style'],
 
   _property: computed('property', function() {
     return $.extend({}, defaultPropertyObject, get(this, 'property'));
   }),
-
   style: computed('_values', '_property.style',
   function() {
     let values = get(this, '_values');
@@ -63,14 +62,15 @@ export default Component.extend({
       if (value && stylingProperty) {
         let key    = stylingProperty.key || dasherize(property);
         let suffix = stylingProperty.suffix || '';
-
+        if (typeof value === 'string') {
+          suffix = '';
+        }
         styles.push(`${key}: ${value}${suffix};`);
       }
     }
 
     return htmlSafe(styles.join(' '));
   }),
-
   value: computed('_values', '_property.{format}', function() {
     let values = get(this, '_values');
     let format = get(this, '_property.format');

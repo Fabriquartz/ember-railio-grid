@@ -26,8 +26,8 @@ export default Ember.Component.extend({
   largeList: buildLargeList(120),
 
   properties: [
-    { key: 'id', label: 'nr' },
-    { key: 'name', label: 'animal name' },
+    { key: 'id', label: 'nr', style: { width: 20 } },
+    { key: 'name', label: 'animal names', style: { width: 5 } },
     { key: 'type', label: 'species' }
   ],
 

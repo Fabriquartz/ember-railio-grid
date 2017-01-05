@@ -14,6 +14,7 @@ test('shows the right value from the object', function(assert) {
   this.render(hbs`{{data-col item=item property=property}}`);
 
   assert.equal(this.$('td')[0].innerText, 'Foo Bar');
+  assert.equal(this.$('td')[0].title, 'Foo Bar');
 });
 
 test('shows multiple properties from the object', function(assert) {
@@ -53,6 +54,29 @@ test('formats for multiple values', function(assert) {
   this.render(hbs`{{data-col item=item property=property}}`);
 
   assert.equal(this.$('td')[0].innerText, 'Foo - Bar');
+});
+
+test('styles the cell with different width suffix', function(assert) {
+  set(this, 'item', { id: 1, name: 'Foo' });
+  set(this, 'property', {
+    key: 'name',
+    label: 'animal name',
+    style: {
+      width: '30px',
+      borderWidth: '2em',
+      borderStyle: 'dotted',
+      borderColor: 'blue'
+    }
+  });
+  this.render(hbs`{{data-col item=item property=property}}`);
+
+  let $cell = this.$('td').eq(0);
+
+  let em = parseInt($cell.css('font-size').replace('px', ''));
+  let borderWidth = 2 * em;
+
+  assert.equal($cell.css('width'),      '30px',             'width in px');
+  assert.equal($cell.css('border-width'), `${borderWidth}px`, 'borderWidth in em');
 });
 
 test('styles the cell with given styling', function(assert) {

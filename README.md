@@ -64,7 +64,7 @@ listProperties: [
 
 If you want your cells to have some styling, you could add it to the property. The following styling options can be used inside the style object: 
 
-- width *(in em)*
+- width *(default in em)*
 - horizontalAlign
 - verticalAlign
 - backgroundColor
@@ -72,7 +72,7 @@ If you want your cells to have some styling, you could add it to the property. T
 - fontWeight
 - italic *(boolean)*
 - fontColor
-- borderWidth *(in px)*
+- borderWidth *(default in px)*
 - borderColor
 - borderStyle
 

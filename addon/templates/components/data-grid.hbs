@@ -11,7 +11,7 @@
     <thead>
       <tr>
         {{#if actionList.length}}
-          <th>
+          <th title="Select all">
             {{check-box value=(is-equal managedContent.length selection.length)
                         updated=(action "selectPage")}}
           </th>
