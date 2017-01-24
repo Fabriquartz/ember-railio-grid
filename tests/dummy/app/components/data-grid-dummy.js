@@ -27,7 +27,7 @@ export default Ember.Component.extend({
 
   properties: [
     { key: 'id', label: 'nr', style: { width: 20 } },
-    { key: 'name', label: 'animal names', style: { width: 5 } },
+    { key: 'name', label: 'animal names', style: { width: '100px' } },
     { key: 'type', label: 'species' }
   ],
 

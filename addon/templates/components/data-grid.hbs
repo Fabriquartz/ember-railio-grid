@@ -7,6 +7,14 @@
 {{/if}}
 
 <table>
+  <colgroup>
+    {{#if actionList.length}}
+      <col style="width:28px">
+    {{/if}}
+    {{#each properties as |property|}}
+      {{data-column property=property item=item}}
+    {{/each}}
+  </colgroup>
   {{#if showHeader}}
     <thead>
       <tr>
