@@ -1,11 +1,11 @@
 import Ember from 'ember';
 import $ from 'jquery';
 
-import Component from 'ember-component';
-import computed from 'ember-computed';
-import get from 'ember-metal/get';
+import Component               from 'ember-component';
+import computed                from 'ember-computed';
+import get                     from 'ember-metal/get';
 import { htmlSafe, dasherize } from 'ember-string';
-import { isEmberArray } from 'ember-array/utils';
+import { isEmberArray }        from 'ember-array/utils';
 
 const { defineProperty } = Ember;
 
@@ -16,15 +16,14 @@ const defaultPropertyObject = {
 };
 
 const STYLING_PROPERTIES = {
-  width:           { suffix: 'em' },
   horizontalAlign: { key: 'text-align' },
   verticalAlign:   { },
   backgroundColor: { },
   fontFamily:      { },
   fontWeight:      { },
-  italic:          { key: 'font-style' },
-  fontColor:       { key: 'color' },
-  borderWidth:     { suffix: 'px' },
+  italic:          { },
+  fontColor:       { },
+  borderWidth:     { },
   borderColor:     { },
   borderStyle:     { }
 };
@@ -40,37 +39,31 @@ export default Component.extend({
   _property: computed('property', function() {
     return $.extend({}, defaultPropertyObject, get(this, 'property'));
   }),
-
-  style: computed('_values', '_property.style',
-  function() {
+  style: computed('_values', '_propert.style', function() {
     let values = get(this, '_values');
     let style  = copy(get(this, '_property.style'));
     let styles = [];
 
-    // if style property is a function, return style depending on value
+    // if style property is not a function styling is done in the column.
+    // (data-column.js)
     for (let property in style) {
       if (style.hasOwnProperty(property) &&
           typeof style[property] === 'function') {
         style[property] = style[property](...values);
-      }
-      if (typeof style[property] === 'boolean') {
-        style[property] = style[property] ? property : null;
-      }
-
-      let value = style[property];
-      let stylingProperty = STYLING_PROPERTIES[property];
-
-      if (value && stylingProperty) {
-        let key    = stylingProperty.key || dasherize(property);
-        let suffix = stylingProperty.suffix || '';
-
-        styles.push(`${key}: ${value}${suffix};`);
+        let value = style[property];
+        let stylingProperty = STYLING_PROPERTIES[property];
+        if (value && stylingProperty) {
+          let key = stylingProperty.key || dasherize(property);
+          let suffix = stylingProperty.suffix || '';
+          if (typeof value === 'string') {
+            suffix = '';
+          }
+          styles.push(`${key}: ${value}${suffix};`);
+        }
       }
     }
-
     return htmlSafe(styles.join(' '));
   }),
-
   value: computed('_values', '_property.{format}', function() {
     let values = get(this, '_values');
     let format = get(this, '_property.format');

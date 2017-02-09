@@ -7,11 +7,19 @@
 {{/if}}
 
 <table>
+  <colgroup>
+    {{#if actionList.length}}
+      <col style="width:28px">
+    {{/if}}
+    {{#each properties as |property|}}
+      {{data-column property=property item=item}}
+    {{/each}}
+  </colgroup>
   {{#if showHeader}}
     <thead>
       <tr>
         {{#if actionList.length}}
-          <th>
+          <th title="Select all">
             {{check-box value=(is-equal managedContent.length selection.length)
                         updated=(action "selectPage")}}
           </th>
