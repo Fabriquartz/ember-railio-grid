@@ -34,7 +34,7 @@ function copy(object) {
 
 export default Component.extend({
   tagName: 'td',
-  attributeBindings: ['value:title', 'style'],
+  attributeBindings: ['style'],
 
   _property: computed('property', function() {
     return $.extend({}, defaultPropertyObject, get(this, 'property'));
