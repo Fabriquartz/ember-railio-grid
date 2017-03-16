@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Component from 'ember-component';
 
 function buildLargeList(length) {
   let list = [];
@@ -15,7 +15,7 @@ function buildLargeList(length) {
   return list;
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   list: [
     { id: 1, name: 'Ben', type: 'dog' },
     { id: 2, name: 'Alex', type: 'dog' },

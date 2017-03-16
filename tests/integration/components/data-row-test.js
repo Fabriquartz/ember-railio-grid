@@ -115,7 +115,8 @@ test('double clicking row calls doubleClickAction with item', function(assert) {
   this.$('tr').trigger('dblclick');
 });
 
-test('double clicking checkbox does not trigger doubleclick action', function(assert) {
+test('double clicking checkbox does not trigger doubleclick action',
+function(assert) {
   assert.expect(0);
 
   set(this, 'item', { id: 1, name: 'Alex' });

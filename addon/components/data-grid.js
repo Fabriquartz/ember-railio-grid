@@ -1,19 +1,23 @@
-import Ember from 'ember';
-import Component from 'ember-component';
-import layout from 'ember-railio-grid/templates/components/data-grid';
-import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
-import APIDataManager from 'ember-railio-grid/utils/api-data-manager';
-import { strictInvokeAction } from 'ember-invoke-action';
+import Ember       from 'ember';
+import Component   from 'ember-component';
+import layout      from 'ember-railio-grid/templates/components/data-grid';
+import EmberObject from 'ember-object';
 
-import computed, { alias } from 'ember-computed';
-import get from 'ember-metal/get';
-import set from 'ember-metal/set';
-import { htmlSafe } from 'ember-string';
+import ArrayDataManager       from 'ember-railio-grid/utils/array-data-manager';
+import APIDataManager         from 'ember-railio-grid/utils/api-data-manager';
+import { strictInvokeAction } from 'ember-invoke-action';
+import computed, { alias }    from 'ember-computed';
+import { htmlSafe }           from 'ember-string';
+
+import get   from 'ember-metal/get';
+import set   from 'ember-metal/set';
 import { A } from 'ember-array/utils';
+
+const { bind } = Ember;
 
 export default Component.extend({
   layout,
-  classNames: ['data-grid'],
+  classNames:        ['data-grid'],
   attributeBindings: ['widthString:style'],
 
   showHeader: true,
@@ -41,10 +45,11 @@ export default Component.extend({
   }),
 
   didReceiveAttrs() {
-    set(this, 'dataManager.content', this.getAttr('content') || get(this, 'content'));
+    set(this, 'dataManager.content',
+        this.getAttr('content') || get(this, 'content'));
     if (get(this, 'modelName')) {
-      Ember.bind(this, 'dataManager.modelName', 'modelName');
-      Ember.bind(this, 'dataManager.store', 'store');
+      bind(this, 'dataManager.modelName', 'modelName');
+      bind(this, 'dataManager.store', 'store');
     }
     this._super(...arguments);
   },
@@ -66,7 +71,7 @@ export default Component.extend({
     let sortings = get(this, 'sortingHandler.sortKeys');
 
     return properties.map(function(property) {
-      property = Ember.Object.create(property);
+      property = EmberObject.create(property);
       let sorting = sortings.findBy('key', property.key);
       if (sorting) {
         let dir = sorting.descending ? 'DESC' : 'ASC';

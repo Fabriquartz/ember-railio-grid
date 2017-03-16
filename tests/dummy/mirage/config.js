@@ -1,5 +1,5 @@
 import Ember from 'ember';
-
+import { A } from 'ember-array/utils';
 const { compare, get } = Ember;
 
 export default function() {
@@ -11,9 +11,15 @@ export default function() {
 
     Note: these only affect routes defined *after* them!
   */
-  // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
-  // this.namespace = '';    // make this `api`, for example, if your API is namespaced
-  // this.timing = 400;      // delay for each request, automatically set to 0 during testing
+  // this.urlPrefix = '';
+  // make this `http://localhost:8080`, for example,
+  // if your API is on a different server
+
+  // this.namespace = '';
+  // make this `api`, for example, if your API is namespaced
+
+  // this.timing = 400;
+  // delay for each request, automatically set to 0 during testing
 
   /*
     Route shorthand cheatsheet
@@ -33,18 +39,19 @@ export default function() {
   */
 
   this.get('/animals', function(db, query) {
-    let content = db.animals;
+    let content = A(db.animals.all().models);
 
     if (query.queryParams['filter[type_eq]']) {
       let filterValue = query.queryParams['filter[type_eq]'];
 
-      content = db.animals.filter(function(animal) {
+      content = content.filter(function(animal) {
         return animal.type === filterValue;
       });
     }
 
     if (query.queryParams['filter[sorts][0][name]']) {
-      if (typeof content.sort !== 'function' && typeof content.toArray === 'function') {
+      if (typeof content.sort !== 'function' &&
+          typeof content.toArray === 'function') {
         content = content.toArray();
       }
 
@@ -70,14 +77,15 @@ export default function() {
       let start = 0 + ((page - 1) * pageSize);
       let end = start + pageSize;
 
-      content = db.animals.slice(start, end);
+      content = content.slice(start, end);
     }
 
     return {
       data: content.map(function(attrs) {
-        return { type:       'animals',
-                 id:         attrs.id,
-                 attributes: attrs };
+        return {
+          type:       'animals',
+          id:         attrs.id,
+          attributes: attrs };
       })
     };
   });

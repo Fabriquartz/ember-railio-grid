@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = {
   scenarios: [
     {
@@ -6,72 +7,47 @@ module.exports = {
     },
     {
       name: 'ember-1.13.X',
-      dependencies: {
-        'ember': '~1.13.0'
-      }
+      bower: {
+        dependencies: { 'ember': 'components/ember#~1.13.0' },
+        resolutions: { 'ember': '~1.13.0' }
+      },
+      npm: { devDependencies: { 'ember-source': null } }
     },
     {
-      name: 'ember-2.0.X',
-      dependencies: {
-        'ember': '~2.0.0'
-      }
+      name: 'ember-lts-2.4',
+      bower: {
+        dependencies: { 'ember': 'components/ember#lts-2-4' },
+        resolutions: { 'ember': 'lts-2-4' }
+      },
+      npm: { devDependencies: { 'ember-source': null } }
     },
     {
-      name: 'ember-2.1.X',
-      dependencies: {
-        'ember': '~2.1.0'
-      }
+      name: 'ember-lts-2.8',
+      bower: {
+        dependencies: { 'ember': 'components/ember#lts-2-8' },
+        resolutions: { 'ember': 'lts-2-8' }
+      },
+      npm: { devDependencies: { 'ember-source': null } }
     },
     {
-      name: 'ember-2.2.X',
-      dependencies: {
-        'ember': '~2.2.0'
-      }
-    },
-    {
-      name: 'ember-2.3.X',
-      dependencies: {
-        'ember': '~2.3.0'
-      }
-    },
-    {
-      name: 'ember-2.4.X',
-      dependencies: {
-        'ember': '~2.4.0'
-      }
-    },
-    {
-      name: 'ember-2.5.X',
-      dependencies: {
-        'ember': '~2.5.0'
-      }
+      name: 'ember-2.12.X',
+      dependencies: { 'ember-source': 'ember#~2.12.0' },
+      resolutions:  { 'ember-source': '~2.12.0' }
     },
     {
       name: 'ember-release',
-      dependencies: {
-        'ember': 'components/ember#release'
-      },
-      resolutions: {
-        'ember': 'release'
-      }
+      dependencies: { 'ember-source': 'ember#release' },
+      resolutions:  { 'ember-source': 'release' }
     },
     {
       name: 'ember-beta',
-      dependencies: {
-        'ember': 'components/ember#beta'
-      },
-      resolutions: {
-        'ember': 'beta'
-      }
+      dependencies: { 'ember-source': 'ember#beta' },
+      resolutions:  { 'ember-source': 'beta' }
     },
     {
       name: 'ember-canary',
-      dependencies: {
-        'ember': 'components/ember#canary'
-      },
-      resolutions: {
-        'ember': 'canary'
-      }
+      dependencies: { 'ember-source': 'ember#canary' },
+      resolutions:  { 'ember-source': 'canary' }
     }
   ]
 };

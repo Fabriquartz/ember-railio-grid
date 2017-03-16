@@ -6,7 +6,7 @@ import set from 'ember-metal/set';
 
 export default Component.extend({
   layout,
-  tagName: 'span',
+  tagName:    'span',
   classNames: 'data-grid__actions',
 
   actions: {

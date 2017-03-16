@@ -1,3 +1,4 @@
+/* eslint camelcase: ["error", {properties: "never"}] */
 import Ember from 'ember';
 import DataManager from 'ember-railio-grid/utils/data-manager';
 
@@ -7,11 +8,13 @@ import { decamelize } from 'ember-string';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 
+const { bind } = Ember;
+
 export default DataManager.extend({
   store: service(),
 
   init() {
-    Ember.bind(this, 'paginatingHandler.contentLength', 'contentLength');
+    bind(this, 'paginatingHandler.contentLength', 'contentLength');
   },
 
   _defineContentLength(store, modelName) {

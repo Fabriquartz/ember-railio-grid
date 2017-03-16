@@ -5,8 +5,8 @@ import get from 'ember-metal/get';
 
 export default Component.extend({
   layout,
-  tagName: 'tr',
-  classNames: ['data-grid__row'],
+  tagName:           'tr',
+  classNames:        ['data-grid__row'],
   classNameBindings: [
     'isSelected:data-grid__row--selected',
     'doubleClickAction:data-grid__row--clickable'

@@ -1,25 +1,31 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import PaginatingHandler from 'ember-railio-grid/utils/paginating-handler';
+
 import hbs from 'htmlbars-inline-precompile';
 import run from 'ember-runloop';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
+import $   from 'jquery';
 
 let $currentPage;
 
-moduleForComponent('page-picker-paginator', 'Integration | Component | {{page-picker-paginator}}', {
-  integration: true,
+moduleForComponent(
+  'page-picker-paginator',
+  'Integration | Component | {{page-picker-paginator}}',
+  {
+    integration: true,
 
-  beforeEach() {
-    set(this, 'handler', PaginatingHandler.create({
-      contentLength: 5,
-      pageSize: 1
-    }));
+    beforeEach() {
+      set(this, 'handler', PaginatingHandler.create({
+        contentLength: 5,
+        pageSize:      1
+      }));
 
-    this.render(hbs`{{page-picker-paginator handler=handler}}`);
-    $currentPage = this.$('.paginator__page-number');
+      this.render(hbs`{{page-picker-paginator handler=handler}}`);
+      $currentPage = this.$('.paginator__page-number');
+    }
   }
-});
+);
 
 test('shows current page', function(assert) {
   assert.equal($currentPage.val(), '1');

@@ -34,7 +34,7 @@ function copy(object) {
 }
 
 export default Component.extend({
-  tagName: 'td',
+  tagName:           'td',
   attributeBindings: ['style'],
 
   _property: computed('property', function() {
@@ -75,7 +75,7 @@ export default Component.extend({
     let values = get(this, '_values');
     let format = get(this, '_property.format');
 
-    return format.apply(null, values);
+    return format(...values);
   }),
 
   didReceiveAttrs() {

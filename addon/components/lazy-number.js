@@ -9,9 +9,9 @@ function handleChanged() {
 }
 
 export default Component.extend({
-  tagName: 'input',
+  tagName:           'input',
   attributeBindings: ['value'],
-  classNames: ['paginator__number-input'],
+  classNames:        ['paginator__number-input'],
 
   input:  handleChanged,
   change: handleChanged,
