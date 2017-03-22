@@ -30,7 +30,8 @@ const FILTERS = {
     let valueLength = value.length;
     let partLength = part.length;
 
-    return value.toUpperCase().indexOf(part.toUpperCase()) === (valueLength - partLength);
+    return value.toUpperCase().indexOf(part.toUpperCase()) ===
+           (valueLength - partLength);
   }
 };
 

@@ -38,7 +38,8 @@ test('filter on one field: equals', function(assert) {
 test('filter on one field: contains', function(assert) {
   filterer.get('handler').addFilter('name', 'cont', 'e');
 
-  assert.deepEqual(filterer.get('filteredContent'), [ Alex, Ben, Dice, Erben, Alex2 ],
+  assert.deepEqual(filterer.get('filteredContent'),
+                   [ Alex, Ben, Dice, Erben, Alex2 ],
                    'content filtered by partial name');
 });
 

@@ -18,7 +18,7 @@ test('shows the right value from the object', function(assert) {
 
 test('shows multiple properties from the object', function(assert) {
   set(this, 'item', { id: 1, firstName: 'Foo', lastName: 'Bar' });
-  set(this, 'property', { key: ['firstName','lastName'], label: 'name' });
+  set(this, 'property', { key: ['firstName', 'lastName'], label: 'name' });
 
   this.render(hbs`{{data-col item=item property=property}}`);
 
@@ -60,7 +60,7 @@ test('styles the cell with given styling', function(assert) {
   set(this, 'property', {
     key:   'name',
     label: 'animal name',
-    style:  {
+    style: {
       width:           20,
       horizontalAlign: 'center',
       verticalAlign:   'bottom',
@@ -100,7 +100,7 @@ test('styles the cell depending on value', function(assert) {
   set(this, 'property', {
     key:   'age',
     label: 'Age',
-    style:  {
+    style: {
       backgroundColor(value) {
         if (value > 0) {
           return 'green';

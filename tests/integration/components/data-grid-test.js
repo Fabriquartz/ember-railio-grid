@@ -1,10 +1,16 @@
+/* eslint prefer-destructuring: ["error", { array: false }] */
+/* eslint ember-suave/prefer-destructuring: ["error", { array: false }] */
+
 import { moduleForComponent, test } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
-import wait from 'ember-test-helpers/wait';
-import run from 'ember-runloop';
+
+import wait  from 'ember-test-helpers/wait';
 import { A } from 'ember-array/utils';
+
+import hbs from 'htmlbars-inline-precompile';
+import run from 'ember-runloop';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
+import $   from 'jquery';
 
 let Ben    = { id: 1, name: 'Ben',   type: 'dog' };
 let Alex   = { id: 2, name: 'Alex',   type: 'dog' };
@@ -253,7 +259,7 @@ test('select and deselect all items', function(assert) {
       return wait();
     })
     .then(() => {
-      assert.equal(this.$(".data-grid__selection:contains('3 selected')").length, 1,
+      assert.equal(this.$(`.data-grid__selection:contains('3 selected')`).length, 1,
                    'all items selected');
       return wait();
     })
@@ -316,7 +322,7 @@ test('selection updates on updating or deleting items', function(assert) {
       return wait();
     })
     .then(() => {
-      assert.equal(this.$(".data-grid__selection:contains('3 selected')").length, 1,
+      assert.equal(this.$(`.data-grid__selection:contains('3 selected')`).length, 1,
                    'all items selected');
       return wait();
     })
@@ -325,7 +331,7 @@ test('selection updates on updating or deleting items', function(assert) {
       return wait();
     })
     .then(() => {
-      assert.equal(this.$(".data-grid__selection:contains('2 selected')").length, 1,
+      assert.equal(this.$(`.data-grid__selection:contains('2 selected')`).length, 1,
                    'selection updated on remove object');
       return wait();
     });
@@ -401,9 +407,9 @@ test('show sorting order', function(assert) {
   });
 
   let $order1 = $table.find('thead tr th').eq(1)
-                       .find('.data-grid__header__sorting-order')[0];
+                      .find('.data-grid__header__sorting-order')[0];
   let $order2 = $table.find('thead tr th').eq(0)
-                       .find('.data-grid__header__sorting-order')[0];
+                      .find('.data-grid__header__sorting-order')[0];
 
   assert.equal($order1.innerText, '1', 'sorting order 1');
   assert.equal($order2.innerText, '2', 'sorting order 2');

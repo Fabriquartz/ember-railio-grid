@@ -1,8 +1,0 @@
-{
-  "preset": "ember-suave",
-  "requireArrayDestructuring": null,
-  "requireBlocksOnNewline": 1,
-  "requireCamelCaseOrUpperCaseIdentifiers": {
-    "ignoreProperties": true
-  }
-}

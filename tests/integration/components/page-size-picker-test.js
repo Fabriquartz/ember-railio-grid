@@ -3,11 +3,13 @@ import hbs from 'htmlbars-inline-precompile';
 import run from 'ember-runloop';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
+import $   from 'jquery';
 
-moduleForComponent('page-size-picker',
-                   'Integration | Component | {{page-size-picker}}', {
-  integration: true
-});
+moduleForComponent(
+  'page-size-picker',
+  'Integration | Component | {{page-size-picker}}',
+  { integration: true }
+);
 
 test('shows pageSize options', function(assert) {
   this.render(hbs`{{page-size-picker value=10 maxValue=100}}`);

@@ -1,3 +1,6 @@
+/* eslint prefer-destructuring: ["error", { array: false }] */
+/* eslint ember-suave/prefer-destructuring: ["error", { array: false }] */
+
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import run from 'ember-runloop';

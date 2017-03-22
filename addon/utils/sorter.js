@@ -35,7 +35,8 @@ function orderBy(list, sortProperties) {
 }
 
 export default EmberObject.extend({
-  sortedContent: computed('content.[]', 'handler.sortKeys.@each.{key,descending}', function() {
+  sortedContent: computed('content.[]', 'handler.sortKeys.@each.{key,descending}',
+  function() {
     return orderBy(get(this, 'content'), get(this, 'handler.sortKeys'));
   })
 });

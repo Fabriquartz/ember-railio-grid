@@ -10,7 +10,8 @@ export default Component.extend({
   classNames: ['filter-bar'],
 
   addButtonDisabled: computed('newFilterProperty', 'newFilterType',
-                              'newFilterQuery', function() {
+                              'newFilterQuery',
+  function() {
     let property = get(this, 'newFilterProperty');
     let type     = get(this, 'newFilterType');
     let query    = get(this, 'newFilterQuery');

@@ -1,6 +1,6 @@
 import FilteringHandler from '../../../utils/filtering-handler';
 import { module, test } from 'qunit';
-import {isEmberArray } from 'ember-array/utils';
+import { isEmberArray } from 'ember-array/utils';
 
 let filteringHandler;
 

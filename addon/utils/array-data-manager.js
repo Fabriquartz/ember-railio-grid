@@ -10,6 +10,8 @@ import computed, { alias } from 'ember-computed';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 
+const { bind } = Ember;
+
 export default DataManager.extend({
   managedContent: alias('paginator.currentPage'),
 
@@ -56,16 +58,22 @@ export default DataManager.extend({
 
   _bindThings() {
     this._bindContent('content', 'filterer.content', 'contentFiltererBinding');
-    this._bindContent('filterer.filteredContent', 'sorter.content', 'filteredSorterBinding');
-    this._bindContent('sorter.sortedContent', 'paginator.content', 'sortedPaginatorBinding');
-    this._bindContent('sorter.sortedContent.length', 'paginatingHandler.contentLength', 'sizePaginatorBinding');
+    this._bindContent('filterer.filteredContent',
+                      'sorter.content',
+                      'filteredSorterBinding');
+    this._bindContent('sorter.sortedContent',
+                      'paginator.content',
+                      'sortedPaginatorBinding');
+    this._bindContent('sorter.sortedContent.length',
+                      'paginatingHandler.contentLength',
+                      'sizePaginatorBinding');
   },
 
   _bindContent(from, to, bindingName) {
     let binding = get(this, bindingName);
 
     if (binding != null) { binding.disconnect(this); }
-    binding = Ember.bind(this, to, from);
+    binding = bind(this, to, from);
     set(this, bindingName, binding);
   }
 });

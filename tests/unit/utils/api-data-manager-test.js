@@ -1,9 +1,11 @@
+/* global server */
+
 import { moduleForComponent, test } from 'ember-qunit';
 
 import startMirage from '../../helpers/setup-mirage-for-integration';
 
-let APIDataManager;
-let dataManager;
+let APIDataManager, dataManager;
+
 moduleForComponent('Unit | Utility | api-data-manager', {
   integration: true,
 
