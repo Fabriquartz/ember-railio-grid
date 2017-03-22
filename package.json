@@ -1,6 +1,6 @@
 {
   "name": "ember-railio-grid",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Addon for an Ember grid component.",
   "directories": {
     "doc": "doc",
