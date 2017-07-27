@@ -406,10 +406,12 @@ test('show sorting order', function(assert) {
     $table.find('thead tr th').eq(0).find('span').eq(0).trigger('click');
   });
 
+  /* eslint-disable indent */
   let $order1 = $table.find('thead tr th').eq(1)
                       .find('.data-grid__header__sorting-order')[0];
   let $order2 = $table.find('thead tr th').eq(0)
                       .find('.data-grid__header__sorting-order')[0];
+  /* eslint-enable indent */
 
   assert.equal($order1.innerText, '1', 'sorting order 1');
   assert.equal($order2.innerText, '2', 'sorting order 2');
