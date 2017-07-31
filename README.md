@@ -13,7 +13,7 @@ $ ember install ember-railio-grid
 
 ## Basic usage
 
-The grid can be used with an existing array of objects, or can be connected to the store to get the objects from the store. 
+The grid can be used with an existing array of objects, or can be connected to the store to get the objects from the store.
 
 In your Handlebars templates when using an existing list:
 
@@ -32,7 +32,7 @@ When you want to get the content from the store, keep in mind you have to pass t
 
 #### Properties
 
-The properties are the cols you want to show and their extra information like formatting and styling. 
+The properties are the cols you want to show and their extra information like formatting and styling.
 It should be an array with objects for each property. At least it should contain key and label:
 
 ```js
@@ -48,7 +48,7 @@ listProperties: [
 ]
 ```
 
-It is possible to use multiple properties in just one cell by giving an array of keys. By default, without giving a custom format function, both values are shown seperated with a comma. See the example below for using your own format function. The format function gets the properties in the same order as you specify it in the key list. 
+It is possible to use multiple properties in just one cell by giving an array of keys. By default, without giving a custom format function, both values are shown seperated with a comma. See the example below for using your own format function. The format function gets the properties in the same order as you specify it in the key list.
 
 ```js
 listProperties: [
@@ -62,7 +62,7 @@ listProperties: [
 ]
 ```
 
-If you want your cells to have some styling, you could add it to the property. The following styling options can be used inside the style object: 
+If you want your cells to have some styling, you could add it to the property. The following styling options can be used inside the style object:
 
 - width *(in em)*
 - horizontalAlign
@@ -107,7 +107,7 @@ listProperties: [
     label:  'Total',
     style: {
       backgroundColor: function(total) {
-        if (total > 1000) { return 'green'; } 
+        if (total > 1000) { return 'green'; }
         if (total < 0)    { return 'red'; }
         return '#EFEFEF';
       }
@@ -121,7 +121,7 @@ listProperties: [
     },
     style: {
       fontColor: function(incoming, outgoing) {
-        if (incoming > outgoing) { return 'green'; } 
+        if (incoming > outgoing) { return 'green'; }
         if (incoming < outgoing) { return 'red'; }
         return 'black';
       }
@@ -230,4 +230,23 @@ You could pass it like:
             toggleItem=(action "selectItem")
             selectPage=(action "selectCurrentPage")
             clearSelection=(action "clearSelect")}}
+```
+
+#### Component Injection
+
+You are able to inject a component into the grid, which will display that component instead of the value of that field.
+The value will be passed into the component, to use this function you have these two options:
+
+- `component` is the name of the component you want to inject.
+- `componentProperties` are the properties you want to pass along with it.
+
+```js
+listProperties: [
+  {
+    key:                 'name',
+    label:               'First name',
+    component:           'foo-bar',
+    componentProperties: ['foo', 'bar', 100]
+  }
+]
 ```
