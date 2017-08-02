@@ -118,3 +118,16 @@ test('styles the cell depending on value', function(assert) {
   run(() => set(this, 'item.age', -2));
   assert.equal($cell.css('background-color'), 'rgb(255, 0, 0)');
 });
+
+test('shows correct component and properties if given', function(assert) {
+  set(this, 'item', { id: 1, name: 'Foo Bar' });
+  set(this, 'property', {
+    key:                 'name',
+    label:               'animal name',
+    component:           'animal-information',
+    componentProperties: [10, 'male']
+  });
+
+  this.render(hbs`{{data-col item=item property=property}}`);
+  assert.equal(this.$('td')[0].innerText.trim(), 'Foo Bar 10 male');
+});

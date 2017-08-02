@@ -1,1 +1,5 @@
-{{value}}
+{{#if _property.component}}
+  {{component _property.component value=value properties=_property.componentProperties}}
+{{else}}
+  {{value}}
+{{/if}}

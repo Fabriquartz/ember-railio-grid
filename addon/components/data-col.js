@@ -71,11 +71,13 @@ export default Component.extend({
     return htmlSafe(styles.join(' '));
   }),
 
-  value: computed('_values', '_property.{format}', function() {
-    let values = get(this, '_values');
-    let format = get(this, '_property.format');
+  value: computed('_values', '_property.{format,component}', function() {
+    let values    = get(this, '_values');
+    let property  = get(this, '_property');
+    let format    = get(property, 'format');
+    let component = get(property, 'component');
 
-    return format(...values);
+    return component ? values : format(...values);
   }),
 
   didReceiveAttrs() {
