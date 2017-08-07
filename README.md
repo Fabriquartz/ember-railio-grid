@@ -235,7 +235,7 @@ You could pass it like:
 #### Component Injection
 
 You are able to inject a component into the grid, which will display that component instead of the value of that field.
-The value will be passed into the component, to use this function you have these two options:
+The value, object and propertyPath will be passed into the injected component by default, to use this function you have these two options:
 
 - `component` is the name of the component you want to inject.
 - `componentProperties` are the properties you want to pass along with it.
