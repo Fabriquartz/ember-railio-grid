@@ -1,17 +1,23 @@
 import EmberObject        from 'ember-object';
 import computed, { sort } from 'ember-computed';
 import get                from 'ember-metal/get';
+import { wrap }           from 'ember-array/utils';
 
 export default EmberObject.extend({
   sortKeys: computed('content.[]', 'handler.sortKeys.@each.{key,descending}',
   function() {
-    let list = get(this, 'handler.sortKeys').map((sortKey) => {
-      let key        = get(sortKey, 'key');
-      let descending = get(sortKey, 'descending') ? ':desc' : '';
-      return `${key}${descending}`;
+    let sortKeys = [];
+
+    get(this, 'handler.sortKeys').forEach((sorting) => {
+      let key        = get(sorting, 'key');
+      let descending = get(sorting, 'descending') ? ':desc' : '';
+
+      wrap(key).forEach((key) => {
+        sortKeys.push(`${key}${descending}`);
+      });
     });
 
-    return list;
+    return sortKeys;
   }),
 
   sortedContent: sort('content', 'sortKeys')

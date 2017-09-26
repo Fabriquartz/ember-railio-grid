@@ -49,3 +49,17 @@ test('multiple sorting', function(assert) {
   assert.deepEqual(sorter.get('sortedContent'), [ Dirk, Chris, Edwin, Ben, Alex ],
                    'toggle sort on second key');
 });
+
+test('sorting on a multi-property column', function(assert) {
+  sorter.content = [ Alex, Ben, Chris, Dirk, Edwin ];
+
+  let properties = ['type', 'name'];
+
+  sorter.get('handler').toggle(properties);
+  assert.deepEqual(sorter.get('sortedContent'), [ Chris, Dirk, Alex, Ben, Edwin ],
+                   'sorting ascending');
+
+  sorter.get('handler').toggle(properties);
+  assert.deepEqual(sorter.get('sortedContent'), [ Edwin, Ben, Alex, Dirk, Chris ],
+                   'sorting descending');
+});

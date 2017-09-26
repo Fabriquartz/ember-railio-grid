@@ -17,8 +17,8 @@ function buildLargeList(length) {
 
 export default Component.extend({
   list: [
-    { id: 1, name: 'Ben', type: 'dog' },
-    { id: 2, name: 'Alex', type: 'dog' },
+    { id: 1, name: 'Ben',   type: 'dog' },
+    { id: 2, name: 'Alex',  type: 'dog' },
     { id: 3, name: 'Chris', type: 'dog' },
     { id: 4, name: 'Chris', type: 'cat' }
   ],
@@ -26,20 +26,15 @@ export default Component.extend({
   largeList: buildLargeList(120),
 
   properties: [
-    { key: 'id', label: 'nr' },
-    { key: 'name', label: 'animal name' },
-    { key: 'type', label: 'species' }
+    { key: 'id',             label: 'nr' },
+    { key: 'name',           label: 'animal name' },
+    { key: 'type',           label: 'species' },
+    { key: ['type', 'name'], label: 'Type + name' }
   ],
 
   actionList: [
-    {
-      label: 'edit',
-      action() { }
-    },
-    {
-      label: 'delete',
-      action() { }
-    }
+    { label: 'edit',   action() { } },
+    { label: 'delete', action() { } }
   ],
 
   doubleClickAction() { }
