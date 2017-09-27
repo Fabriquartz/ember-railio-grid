@@ -19,7 +19,7 @@ export default DataManager.extend({
   },
 
   _defineContentLength(store, modelName) {
-    if (!get(this, 'contentLenght')) {
+    if (!get(this, 'contentLength')) {
       store.query(modelName, { per_page: 1 }).then((items) => {
         set(this, 'contentLength', items.meta.total || 9999);
       });
@@ -33,7 +33,7 @@ export default DataManager.extend({
     'filteringHandler.filters.@each.{filter,propertyPath,value}',
     'sortingHandler.sortKeys.@each.{key,descending}',
   function() {
-    let store = get(this, 'store');
+    let store     = get(this, 'store');
     let modelName = get(this, 'modelName');
     let query = {};
 
@@ -81,7 +81,11 @@ export default DataManager.extend({
     if (Object.keys(query) == null) {
       return store.findAll(modelName);
     } else {
-      return store.query(modelName, query);
+      let result = store.query(modelName, query);
+      result.then((items) => {
+        set(this, 'contentLength', items.meta.total);
+      });
+      return result;
     }
   })
 });
