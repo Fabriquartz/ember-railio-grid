@@ -7,6 +7,7 @@ import computed from 'ember-computed';
 import { decamelize } from 'ember-string';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
+import { wrap } from 'ember-array/utils';
 
 const { bind } = Ember;
 
@@ -29,7 +30,7 @@ export default DataManager.extend({
     'modelName',
     'paginatingHandler.page',
     'paginatingHandler.pageSize',
-    'filteringHandler.filters.@each.{filter}',
+    'filteringHandler.filters.@each.{filter,propertyPath,value}',
     'sortingHandler.sortKeys.@each.{key,descending}',
   function() {
     let store = get(this, 'store');
@@ -51,9 +52,12 @@ export default DataManager.extend({
       query.filter = {};
 
       filters.forEach(function(filter) {
-        let decamalizedName = decamelize(filter.propertyPath);
-        decamalizedName = decamalizedName.replace('.', '_');
-        let filterName = `${decamalizedName}_${filter.filter.filter}`;
+        let properties = wrap(filter.propertyPath);
+        properties = properties.map((property) => {
+          return decamelize(property).replace('.', '_');
+        });
+
+        let filterName = `${properties.join('_or_')}_${filter.filter.filter}`;
 
         query.filter[filterName] = filter.value;
       });
@@ -65,11 +69,12 @@ export default DataManager.extend({
       query.filter.sorts = [];
 
       sortings.forEach(function(sorting) {
-        let sortKey = decamelize(sorting.key);
-        sortKey     = sortKey.replace('.', '_');
         let sortDir = sorting.descending ? 'DESC' : 'ASC';
 
-        query.filter.sorts.push({ name: sortKey, dir: sortDir });
+        wrap(sorting.key).forEach((key) => {
+          let sortKey = decamelize(key).replace('.', '_');
+          query.filter.sorts.push({ name: sortKey, dir: sortDir });
+        });
       });
     }
 

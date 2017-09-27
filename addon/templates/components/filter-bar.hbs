@@ -21,7 +21,7 @@
         Choose column
       </option>
       {{#each properties as |property|}}
-        <option value="{{property.key}}"
+        <option value={{property.key}}
                 selected={{is-equal property newFilterProperty}}>
           {{property.label}}
         </option>

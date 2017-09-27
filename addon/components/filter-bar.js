@@ -26,7 +26,7 @@ export default Component.extend({
       set(this, 'newFilterQuery', value);
     },
     changedProperty(property) {
-      set(this, 'newFilterProperty', property);
+      set(this, 'newFilterProperty', property.split(','));
     },
     changedType(type) {
       set(this, 'newFilterType', type);
