@@ -92,3 +92,10 @@ test('multiple filters: equals and greaterThan', function(assert) {
   assert.deepEqual(filterer.get('filteredContent'), [ Alex2 ],
                    'content filtered by equals and greater than');
 });
+
+test('filter on a multi-property field: contains', function(assert) {
+  filterer.get('handler').addFilter(['name', 'type'], 'cont', 'a');
+
+  assert.deepEqual(filterer.get('filteredContent'), [ Alex, Chris, Erben, Alex2 ],
+                   'content filtered by name or type');
+});

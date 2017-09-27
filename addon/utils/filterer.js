@@ -1,5 +1,5 @@
 import EmberObject from 'ember-object';
-import { A } from 'ember-array/utils';
+import { A, wrap } from 'ember-array/utils';
 
 import computed from 'ember-computed';
 import get from 'ember-metal/get';
@@ -42,9 +42,12 @@ function filter(filters, list) {
     let isOk = true;
 
     filters.forEach(function(filter) {
-      let itemValue = get(item, filter.propertyPath);
       let filterFn = FILTERS[filter.filter.filter];
-      let OK = filterFn(itemValue, filter.value);
+      let properties = A(wrap(filter.propertyPath));
+
+      let OK = properties.any((property) => {
+        return filterFn(get(item, property), filter.value);
+      });
 
       if (!OK) { isOk = false; }
     });
