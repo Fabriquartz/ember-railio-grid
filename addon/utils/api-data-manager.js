@@ -38,9 +38,9 @@ export default DataManager.extend({
 
     this._defineContentLength(store, modelName);
 
-    let page = get(this, 'paginatingHandler.page');
+    let page     = get(this, 'paginatingHandler.page');
     let pageSize = get(this, 'paginatingHandler.pageSize');
-    let filters = get(this, 'filteringHandler.filters');
+    let filters  = get(this, 'filteringHandler.filters');
     let sortings = get(this, 'sortingHandler.sortKeys');
 
     if (page) { query.page = page; }
@@ -66,6 +66,7 @@ export default DataManager.extend({
 
       sortings.forEach(function(sorting) {
         let sortKey = decamelize(sorting.key);
+        sortKey     = sortKey.replace('.', '_');
         let sortDir = sorting.descending ? 'DESC' : 'ASC';
 
         query.filter.sorts.push({ name: sortKey, dir: sortDir });
