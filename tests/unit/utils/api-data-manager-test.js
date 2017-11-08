@@ -14,7 +14,6 @@ moduleForComponent('Unit | Utility | api-data-manager', {
     startMirage(this.container);
     server.createList('animal', 12);
     APIDataManager = owner.factoryFor('util:api-data-manager');
-    console.log('apimager', APIDataManager);
     dataManager = APIDataManager.create({
       modelName: 'animal'
     });
@@ -22,9 +21,7 @@ moduleForComponent('Unit | Utility | api-data-manager', {
 });
 
 test('inherits from data-manager', function(assert) {
-  console.log('dataman', dataManager, APIDataManager.create());
-  console.log('blabla', dataManager instanceof APIDataManager.create());
-  assert.ok(dataManager instanceof APIDataManager.create());
+  assert.ok(dataManager instanceof APIDataManager.class);
 });
 
 test('has a managedContent array from the api', function(assert) {
