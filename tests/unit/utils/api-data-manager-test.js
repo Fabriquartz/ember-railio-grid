@@ -2,6 +2,7 @@
 
 import { moduleForComponent, test } from 'ember-qunit';
 
+import getOwner    from 'ember-owner/get';
 import startMirage from '../../helpers/setup-mirage-for-integration';
 
 let APIDataManager, dataManager;
@@ -12,7 +13,7 @@ moduleForComponent('Unit | Utility | api-data-manager', {
   beforeEach() {
     startMirage(this.container);
     server.createList('animal', 12);
-    APIDataManager = this.container.lookupFactory('util:api-data-manager');
+    APIDataManager =  getOwner(this).factoryFor('util:api-data-manager');
     dataManager = APIDataManager.create({
       modelName: 'animal'
     });
@@ -20,7 +21,7 @@ moduleForComponent('Unit | Utility | api-data-manager', {
 });
 
 test('inherits from data-manager', function(assert) {
-  assert.ok(dataManager instanceof APIDataManager);
+  assert.ok(dataManager instanceof APIDataManager.class);
 });
 
 test('has a managedContent array from the api', function(assert) {
