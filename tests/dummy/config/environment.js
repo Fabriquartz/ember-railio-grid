@@ -1,9 +1,10 @@
 /* jshint node: true */
+'use strict';
 
 module.exports = function(environment) {
-  var ENV = {
+  let ENV = {
     modulePrefix: 'dummy',
-    environment: environment,
+    environment,
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {
@@ -13,7 +14,7 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-       Date: false
+        Date: false
       }
     },
 
@@ -41,10 +42,11 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV['ember-cli-mirage'] = { enabled: true };
+    ENV.APP.autoboot = false;
   }
 
   if (environment === 'production') {
-
+    // here you can enable a production-specific feature
   }
 
   return ENV;
