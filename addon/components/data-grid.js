@@ -1,4 +1,3 @@
-import Ember       from 'ember';
 import Component   from 'ember-component';
 import layout      from 'ember-railio-grid/templates/components/data-grid';
 import EmberObject from 'ember-object';
@@ -12,8 +11,6 @@ import { htmlSafe }           from 'ember-string';
 import get   from 'ember-metal/get';
 import set   from 'ember-metal/set';
 import { A } from 'ember-array/utils';
-
-const { bind } = Ember;
 
 export default Component.extend({
   layout,
@@ -48,8 +45,8 @@ export default Component.extend({
     set(this, 'dataManager.content',
         this.getAttr('content') || get(this, 'content'));
     if (get(this, 'modelName')) {
-      bind(this, 'dataManager.modelName', 'modelName');
-      bind(this, 'dataManager.store', 'store');
+      set(this, 'dataManager.modelName', get(this, 'modelName'));
+      set(this, 'dataManager.store', get(this, 'store'));
     }
     this._super(...arguments);
   },

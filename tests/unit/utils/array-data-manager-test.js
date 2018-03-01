@@ -69,16 +69,19 @@ test('creates a paginator with the paginatingHandler', function(assert) {
 });
 
 test('passes the content to the filterer', function(assert) {
+  arrayDataManager.get('managedContent');
   let filtererContent = arrayDataManager.get('filterer.content');
   assert.deepEqual(filtererContent, [1, 2, 3, 4]);
 });
 
 test('passes the filtered content to the sorter', function(assert) {
+  arrayDataManager.get('managedContent');
   let sorterContent = arrayDataManager.get('sorter.content');
   assert.deepEqual(sorterContent, [1, 2, 3, 4]);
 });
 
 test('passes the sorted content to the paginator', function(assert) {
+  arrayDataManager.get('managedContent');
   let paginatorContent = arrayDataManager.get('paginator.content');
   assert.deepEqual(paginatorContent, [1, 2, 3, 4]);
 });
@@ -97,7 +100,6 @@ test('managedContent modified by filter, sorter and paginator', function(assert)
   run(() => {
     arrayDataManager.get('filteringHandler').addFilter('name', 'cont', 'a');
   });
-
   assert.deepEqual(arrayDataManager.get('managedContent'),
                    [item1, item4, item5], 'content filtered');
 

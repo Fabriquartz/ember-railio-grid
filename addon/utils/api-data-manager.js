@@ -1,5 +1,4 @@
 /* eslint camelcase: ["error", {properties: "never"}] */
-import Ember from 'ember';
 import DataManager from 'ember-railio-grid/utils/data-manager';
 
 import service from 'ember-service/inject';
@@ -9,19 +8,14 @@ import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 import { wrap } from 'ember-array/utils';
 
-const { bind } = Ember;
-
 export default DataManager.extend({
   store: service(),
-
-  init() {
-    bind(this, 'paginatingHandler.contentLength', 'contentLength');
-  },
 
   _defineContentLength(store, modelName) {
     if (!get(this, 'contentLength')) {
       store.query(modelName, { per_page: 1 }).then((items) => {
         set(this, 'contentLength', items.meta.total || 9999);
+        set(this, 'paginatingHandler.contentLength', get(this, 'contentLength'));
       });
     }
   },
@@ -84,6 +78,7 @@ export default DataManager.extend({
       let result = store.query(modelName, query);
       result.then((items) => {
         set(this, 'contentLength', items.meta.total);
+        set(this, 'paginatingHandler.contentLength', get(this, 'contentLength'));
       });
       return result;
     }
