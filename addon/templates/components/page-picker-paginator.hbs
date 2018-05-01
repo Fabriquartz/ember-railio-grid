@@ -1,31 +1,29 @@
-{{#if handler.pageAmount}}
-  <div class="paginator__button paginator__button--first"
-       {{action "firstPage" on="click"}}>
-    &lt;&lt;
-  </div>
-  <div class="paginator__button paginator__button--previous"
-       {{action "previousPage" on="click"}}>
-    &lt;
-  </div>
+<div class="paginator__button paginator__button--first"
+     {{action "firstPage" on="click"}}>
+  &lt;&lt;
+</div>
+<div class="paginator__button paginator__button--previous"
+     {{action "previousPage" on="click"}}>
+  &lt;
+</div>
 
-  {{lazy-number value=handler.page
-                maxValue=handler.pageAmount
-                classNames="paginator__page-number"}}
-  /
-  <div class="paginator__max-pages">
-    {{handler.pageAmount}}
-  </div>
+{{lazy-number value=handler.page
+              maxValue=handler.pageAmount
+              classNames="paginator__page-number"}}
+/
+<div class="paginator__max-pages">
+  {{handler.pageAmount}}
+</div>
 
-  <div class="paginator__button paginator__button--next"
-       {{action "nextPage" on="click"}}>
-    &gt;
-  </div>
-  <div class="paginator__button paginator__button--last"
-       {{action "lastPage" on="click"}}>
-    &gt;&gt;
-  </div>
+<div class="paginator__button paginator__button--next"
+     {{action "nextPage" on="click"}}>
+  &gt;
+</div>
+<div class="paginator__button paginator__button--last"
+     {{action "lastPage" on="click"}}>
+  &gt;&gt;
+</div>
 
-  {{page-size-picker value=handler.pageSize
-                     maxValue=handler.contentLength
-                     classNames="paginator__page-size"}}
-{{/if}}
+{{page-size-picker value=handler.pageSize
+                   maxValue=handler.contentLength
+                   classNames="paginator__page-size"}}
