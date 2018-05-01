@@ -1,17 +1,19 @@
+import Ember from 'ember';
+
 import DataManager from 'ember-railio-grid/utils/data-manager';
 
 import Filterer  from 'ember-railio-grid/utils/filterer';
 import Sorter    from 'ember-railio-grid/utils/sorter';
 import Paginator from 'ember-railio-grid/utils/paginator';
 
-import computed from 'ember-computed';
-import get      from 'ember-metal/get';
-import set      from 'ember-metal/set';
+import computed, { alias } from 'ember-computed';
+import get from 'ember-metal/get';
+import set from 'ember-metal/set';
+
+const { bind } = Ember;
 
 export default DataManager.extend({
-  init() {
-    this._super(...arguments);
-  },
+  managedContent: alias('paginator.currentPage'),
 
   filterer: computed({
     set(key, value) {
@@ -49,15 +51,29 @@ export default DataManager.extend({
     }
   }),
 
-  managedContent: computed('content.[]', 'filterer.filteredContent',
-                           'sorter.sortedContent', 'sorter.sortedContent.length',
-                           'paginatingHandler.pageSize', 'paginatingHandler.page',
-  function() {
-    set(this, 'filterer.content', get(this, 'content'));
-    set(this, 'sorter.content', get(this, 'filterer.filteredContent'));
-    set(this, 'paginator.content', get(this, 'sorter.sortedContent'));
-    set(this, 'paginatingHandler.contentLength',
-        get(this, 'sorter.sortedContent.length'));
-    return (get(this, 'paginator.currentPage'));
-  })
+  init() {
+    this._super(...arguments);
+    this._bindThings();
+  },
+
+  _bindThings() {
+    this._bindContent('content', 'filterer.content', 'contentFiltererBinding');
+    this._bindContent('filterer.filteredContent',
+                      'sorter.content',
+                      'filteredSorterBinding');
+    this._bindContent('sorter.sortedContent',
+                      'paginator.content',
+                      'sortedPaginatorBinding');
+    this._bindContent('sorter.sortedContent.length',
+                      'paginatingHandler.contentLength',
+                      'sizePaginatorBinding');
+  },
+
+  _bindContent(from, to, bindingName) {
+    let binding = get(this, bindingName);
+
+    if (binding != null) { binding.disconnect(this); }
+    binding = bind(this, to, from);
+    set(this, bindingName, binding);
+  }
 });
