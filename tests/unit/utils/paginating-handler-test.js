@@ -16,7 +16,8 @@ test('page 1 by default', function(assert) {
 });
 
 test('pagination-handler knows amount of pages', function(assert) {
-  assert.equal(paginatingHandler.get('pageAmount'), 1, 'by default 1 page');
+  assert.equal(paginatingHandler.get('pageAmount'), undefined,
+               'by default no page amount');
 
   paginatingHandler.set('pageSize', 4);
   assert.equal(paginatingHandler.get('pageAmount'), 3, 'pages with pageSize');

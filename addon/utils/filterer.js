@@ -1,8 +1,7 @@
-import EmberObject from 'ember-object';
-import { A, wrap } from 'ember-array/utils';
-
-import computed from 'ember-computed';
-import get from 'ember-metal/get';
+import EmberObject, { get } from '@ember/object';
+import { A, wrap }          from 'ember-array/utils';
+import computed             from 'ember-computed';
+import ContentContextMixin  from '../mixins/content-context';
 
 const FILTERS = {
   eq(value, comparison) {
@@ -56,7 +55,7 @@ function filter(filters, list) {
   });
 }
 
-export default EmberObject.extend({
+export default EmberObject.extend(ContentContextMixin, {
   filteredContent: computed(
   'content.[]', 'handler.filters.@each.{value,propertyPath}', function() {
     return filter(get(this, 'handler.filters'), get(this, 'content'));

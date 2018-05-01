@@ -3,7 +3,9 @@ import computed, { sort } from 'ember-computed';
 import get                from 'ember-metal/get';
 import { wrap }           from 'ember-array/utils';
 
-export default EmberObject.extend({
+import ContentContextMixin from '../mixins/content-context';
+
+export default EmberObject.extend(ContentContextMixin, {
   sortKeys: computed('content.[]', 'handler.sortKeys.@each.{key,descending}',
   function() {
     let sortKeys = [];

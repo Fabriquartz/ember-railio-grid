@@ -1,11 +1,10 @@
-import EmberObject from 'ember-object';
-
-import computed from 'ember-computed';
-import get from 'ember-metal/get';
-import set from 'ember-metal/set';
+import EmberObject, { get, set } from '@ember/object';
+import computed, { reads } from 'ember-computed';
 
 export default EmberObject.extend({
   _page: 1,
+
+  contentLength: reads('contentContext.content.length'),
 
   page: computed('_page', {
     set(key, value) {
@@ -26,10 +25,11 @@ export default EmberObject.extend({
   }),
 
   pageAmount: computed('pageSize', 'contentLength', function() {
-    let pageSize = get(this, 'pageSize');
+    let pageSize      = get(this, 'pageSize');
+    let contentLength = get(this, 'contentLength');
 
-    if (!pageSize || isNaN(pageSize)) { return 1; }
-    return Math.ceil(get(this, 'contentLength') / pageSize);
+    if (!pageSize || isNaN(pageSize) || !contentLength) { return; }
+    return Math.ceil(contentLength / pageSize);
   }),
 
   hasPreviousPage: computed('page', function() {
@@ -37,7 +37,8 @@ export default EmberObject.extend({
   }),
 
   hasNextPage: computed('page', 'pageAmount', function() {
-    return get(this, 'page') < get(this, 'pageAmount');
+    let pageAmount = get(this, 'pageAmount');
+    return !pageAmount || get(this, 'page') < pageAmount;
   }),
 
   previousPage() {

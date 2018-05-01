@@ -6,11 +6,10 @@ import Filterer  from 'ember-railio-grid/utils/filterer';
 import Sorter    from 'ember-railio-grid/utils/sorter';
 import Paginator from 'ember-railio-grid/utils/paginator';
 
-import computed, { alias } from 'ember-computed';
-import get from 'ember-metal/get';
-import set from 'ember-metal/set';
+import computed, { alias, reads } from 'ember-computed';
+import { get, set, getProperties } from '@ember/object';
 
-const { bind } = Ember;
+const { defineProperty } = Ember;
 
 export default DataManager.extend({
   managedContent: alias('paginator.currentPage'),
@@ -57,23 +56,15 @@ export default DataManager.extend({
   },
 
   _bindThings() {
-    this._bindContent('content', 'filterer.content', 'contentFiltererBinding');
-    this._bindContent('filterer.filteredContent',
-                      'sorter.content',
-                      'filteredSorterBinding');
-    this._bindContent('sorter.sortedContent',
-                      'paginator.content',
-                      'sortedPaginatorBinding');
-    this._bindContent('sorter.sortedContent.length',
-                      'paginatingHandler.contentLength',
-                      'sizePaginatorBinding');
-  },
+    let { filterer, sorter, paginator, paginatingHandler } =
+      getProperties(this, 'filterer', 'sorter', 'paginator', 'paginatingHandler');
 
-  _bindContent(from, to, bindingName) {
-    let binding = get(this, bindingName);
+    filterer .defineContent(this);
+    sorter   .defineContent(filterer, 'filteredContent');
+    paginator.defineContent(sorter,   'sortedContent');
 
-    if (binding != null) { binding.disconnect(this); }
-    binding = bind(this, to, from);
-    set(this, bindingName, binding);
+    set(paginatingHandler, 'contentContext', sorter);
+    defineProperty(paginatingHandler, 'contentLength',
+                   reads('contentContext.sortedContent.length'));
   }
 });

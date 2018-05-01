@@ -1,21 +1,29 @@
 /* eslint camelcase: ["error", {properties: "never"}] */
-import Ember from 'ember';
+import Ember       from 'ember';
 import DataManager from 'ember-railio-grid/utils/data-manager';
 
-import service from 'ember-service/inject';
-import computed from 'ember-computed';
-import { decamelize } from 'ember-string';
-import get from 'ember-metal/get';
-import set from 'ember-metal/set';
-import { wrap } from 'ember-array/utils';
+import service             from 'ember-service/inject';
+import computed, { reads } from 'ember-computed';
+import { decamelize }      from 'ember-string';
+import { get, set }        from '@ember/object';
+import { wrap }            from 'ember-array/utils';
 
-const { bind } = Ember;
+const { defineProperty } = Ember;
 
 export default DataManager.extend({
   store: service(),
 
   init() {
-    bind(this, 'paginatingHandler.contentLength', 'contentLength');
+    this._super(...arguments);
+    this._bindThings();
+  },
+
+  _bindThings() {
+    let paginatingHandler = get(this, 'paginatingHandler');
+
+    set(paginatingHandler, 'contentContext', this);
+    defineProperty(paginatingHandler, 'contentLength',
+                   reads('contentContext.contentLength'));
   },
 
   _defineContentLength(store, modelName) {
