@@ -34,8 +34,18 @@ export default DataManager.extend({
     }
   },
 
+  _predefinedFilters: computed('predefinedFilters.@each.{filter,propertyPath,value}',
+  function() {
+    let predefinedFilters = get(this, 'predefinedFilters') || [];
+    return predefinedFilters.map((predefinedFilter) => {
+      let { filter, propertyPath, value } = predefinedFilter;
+      return { filter: { filter }, propertyPath, value };
+    });
+  }),
+
   managedContent: computed(
     'modelName',
+    '_predefinedFilters',
     'paginatingHandler.page',
     'paginatingHandler.pageSize',
     'filteringHandler.filters.@each.{filter,propertyPath,value}',
@@ -47,13 +57,15 @@ export default DataManager.extend({
 
     this._defineContentLength(store, modelName);
 
-    let page     = get(this, 'paginatingHandler.page');
-    let pageSize = get(this, 'paginatingHandler.pageSize');
-    let filters  = get(this, 'filteringHandler.filters');
-    let sortings = get(this, 'sortingHandler.sortKeys');
+    let page              = get(this, 'paginatingHandler.page');
+    let pageSize          = get(this, 'paginatingHandler.pageSize');
+    let filters           = get(this, 'filteringHandler.filters');
+    let predefinedFilters = get(this, '_predefinedFilters') || [];
+    let sortings          = get(this, 'sortingHandler.sortKeys');
 
-    if (page) { query.page = page; }
+    filters = predefinedFilters.concat(filters);
 
+    if (page)     { query.page = page; }
     if (pageSize) { query.per_page = pageSize; }
 
     if (filters.length) {

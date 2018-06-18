@@ -48,8 +48,9 @@ export default Component.extend({
     let modelName = get(this, 'modelName');
 
     if (modelName) {
-      set(this, 'dataManager.modelName', modelName);
-      set(this, 'dataManager.store',     get(this, 'store'));
+      set(this, 'dataManager.modelName',         modelName);
+      set(this, 'dataManager.store',             get(this, 'store'));
+      set(this, 'dataManager.predefinedFilters', get(this, 'filters'));
     }
     this._super(...arguments);
   },
