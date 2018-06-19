@@ -43,6 +43,19 @@ test('managedContentArray is filtered', function(assert) {
   });
 });
 
+test('filters content on predefined filters', function(assert) {
+  let done = assert.async();
+
+  dataManager.set('predefinedFilters', [
+    { propertyPath: 'type', 'filter': 'eq',  value: 'dog' }
+  ]);
+
+  dataManager.get('managedContent').then((managedContent) => {
+    assert.equal(managedContent.get('length'), 6);
+    done();
+  });
+});
+
 test('managedContentArray is paginated', function(assert) {
   let done = assert.async();
 

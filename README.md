@@ -163,6 +163,28 @@ Possible filter options:
 - starts with
 - ends with
 
+#### Predefined filters
+
+When you use the API data manger to load the data, you can add some predefined
+filters. These filters will be added to the request, just like the filters from
+the optional filter bar would.
+
+```js
+filters: [
+  {
+    filter: 'gt', propertyPath: 'price', value: 50
+  }
+]
+```
+
+And can be passed to the grid like:
+
+```handlebars
+{{data-grid content=list
+            properties=listProperties
+            filters=filters}}
+```
+
 #### Sorting
 
 The grid has a build-in sorting, or can be sorted from the store when using a model. Each property can be used to sort by clicking on it's header. The order of adding the sortings, will be the order for importancy. So the first added sorting will be the most important, even if it is changed from ASC to DESC. Only removing it and re-adding will change its importancy.
