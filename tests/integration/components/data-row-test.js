@@ -38,17 +38,17 @@ test('renders row with given properties values', function(assert) {
 });
 
 test('checkbox for passed actions', function(assert) {
-  set(this, 'hasActions', false);
+  set(this, 'enableSelection', false);
 
-  this.render(hbs`{{data-row hasActions=hasActions}}`);
+  this.render(hbs`{{data-row enableSelection=enableSelection}}`);
 
   let $checkbox = this.$('input[type="checkbox"]');
-  assert.equal($checkbox.length, 0, 'No checkbox when hasActions is false');
+  assert.equal($checkbox.length, 0, 'No checkbox when enableSelection is false');
 
-  run(() => set(this, 'hasActions', true));
+  run(() => set(this, 'enableSelection', true));
 
   $checkbox = this.$('input[type="checkbox"]');
-  assert.equal($checkbox.length, 1, 'No checkbox when hasActions is false');
+  assert.equal($checkbox.length, 1, 'No checkbox when enableSelection is false');
 });
 
 test('clicking checkbox calls selectItem action', function(assert) {
@@ -63,7 +63,7 @@ test('clicking checkbox calls selectItem action', function(assert) {
   });
 
   this.render(hbs`{{data-row item=item
-                             hasActions=true
+                             enableSelection=true
                              selectItem=(action "selectItem")}}`);
 
   let $checkbox = this.$('input[type="checkbox"]').eq(0);
@@ -126,7 +126,7 @@ function(assert) {
   });
 
   this.render(hbs`{{data-row item=item
-                             hasActions=true
+                             enableSelection=true
                              doubleClickAction=doubleClickAction}}`);
 
   let $checkbox = this.$('input[type="checkbox"]').eq(0);
