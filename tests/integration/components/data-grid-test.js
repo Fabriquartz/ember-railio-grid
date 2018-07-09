@@ -169,7 +169,8 @@ test('shows filter bar', function(assert) {
   assert.equal($filterBar.length, 1, 'show filterBar');
 });
 
-test('shows checkboxes only when actionList passed', function(assert) {
+test('shows checkboxes only when actionList or selectionEnabled passed',
+function(assert) {
   let list = [
     { id: 1, name: 'Ben',   type: 'dog' },
     { id: 2, name: 'Alex',  type: 'dog' },
@@ -177,9 +178,11 @@ test('shows checkboxes only when actionList passed', function(assert) {
   ];
 
   set(this, 'list', list);
+  set(this, 'selectionEnabled', false);
 
   this.render(hbs`{{data-grid content=list
                               actionList=listActions
+                              selectionEnabled=selectionEnabled
                               properties=properties}}`);
 
   let $table = this.$('.data-grid table');
@@ -202,6 +205,17 @@ test('shows checkboxes only when actionList passed', function(assert) {
 
   assert.equal($checkAll.length, 1, 'CheckAll when actions passed');
   assert.equal($checkRow.length, 1, 'Checkboxes when actions passed');
+
+  run(() => {
+    set(this, 'listActions', null);
+    set(this, 'selectionEnabled', true);
+  });
+
+  $checkAll = $table.find('thead tr th').eq(0).find('input[type="checkbox"]');
+  $checkRow = $table.find('tbody tr td').eq(0).find('input[type="checkbox"]');
+
+  assert.equal($checkAll.length, 1, 'CheckAll when selectionEnabled true');
+  assert.equal($checkRow.length, 1, 'Checkboxes when selectionEnabled true');
 });
 
 test('select items', function(assert) {

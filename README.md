@@ -253,6 +253,11 @@ You could pass it like:
             selectPage=(action "selectCurrentPage")
             clearSelection=(action "clearSelect")}}
 ```
+If you want to use the build-in selection mechanism, but without using an actionList, you can pass the following property:
+- `selectionEnabled`
+
+You can use the selection outside the addon by passing an empty array by the following name. Use this at your own risk.
+- `_selection`
 
 #### Component Injection
 

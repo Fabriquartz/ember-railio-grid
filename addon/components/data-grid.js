@@ -2,11 +2,11 @@ import Component   from 'ember-component';
 import layout      from 'ember-railio-grid/templates/components/data-grid';
 import EmberObject from 'ember-object';
 
-import ArrayDataManager       from 'ember-railio-grid/utils/array-data-manager';
-import APIDataManager         from 'ember-railio-grid/utils/api-data-manager';
-import { strictInvokeAction } from 'ember-invoke-action';
-import computed, { alias }    from 'ember-computed';
-import { htmlSafe }           from 'ember-string';
+import ArrayDataManager        from 'ember-railio-grid/utils/array-data-manager';
+import APIDataManager          from 'ember-railio-grid/utils/api-data-manager';
+import { strictInvokeAction }  from 'ember-invoke-action';
+import computed, { alias, or } from 'ember-computed';
+import { htmlSafe }            from 'ember-string';
 
 import get   from 'ember-metal/get';
 import set   from 'ember-metal/set';
@@ -17,7 +17,8 @@ export default Component.extend({
   classNames:        ['data-grid'],
   attributeBindings: ['widthString:style'],
 
-  showHeader: true,
+  showHeader:        true,
+  _selectionEnabled: or('selectionEnabled', 'actionList.length'),
 
   widthString: computed('width', function() {
     let width = `${get(this, 'width')}`;

@@ -10,7 +10,7 @@
   {{#if showHeader}}
     <thead>
       <tr>
-        {{#if actionList.length}}
+        {{#if _selectionEnabled}}
           <th>
             {{check-box value=(is-equal managedContent.length selection.length)
                         updated=(action "selectPage")}}
@@ -39,7 +39,7 @@
   <tbody>
     {{#each managedContent as |item|}}
       {{data-row properties=propertiesList
-                 hasActions=actionList.length
+                 selectionEnabled=_selectionEnabled
                  isSelected=(in-list item selection)
                  selectItem=(action "selectItem")
                  doubleClickAction=doubleClickAction
