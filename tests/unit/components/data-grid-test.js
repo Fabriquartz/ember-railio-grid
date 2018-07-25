@@ -15,6 +15,7 @@ test('with content: has a ArrayDataManager with content', function(assert) {
     dataGrid = this.subject({
       content: [1, 2, 3, 4]
     });
+    dataGrid.didReceiveAttrs();
   });
 
   let dataManager = get(dataGrid, 'dataManager');
@@ -32,6 +33,7 @@ test('with modelName: has a APIDataManager with content from API', function(asse
     dataGrid = this.subject({
       modelName: 'animal'
     });
+    dataGrid.didReceiveAttrs();
   });
 
   let dataManager = dataGrid.get('dataManager');
