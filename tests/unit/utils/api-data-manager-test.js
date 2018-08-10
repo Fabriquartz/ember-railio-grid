@@ -13,7 +13,7 @@ moduleForComponent('Unit | Utility | api-data-manager', {
   beforeEach() {
     startMirage(this.container);
     server.createList('animal', 12);
-    APIDataManager =  getOwner(this).factoryFor('util:api-data-manager');
+    APIDataManager = getOwner(this).factoryFor('util:api-data-manager');
     dataManager = APIDataManager.create({
       modelName: 'animal'
     });
