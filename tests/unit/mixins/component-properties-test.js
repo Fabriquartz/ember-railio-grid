@@ -25,6 +25,8 @@ test('Binds options to the context', function(assert) {
     }
   });
 
+  component.didReceiveAttrs();
+
   assert.equal(get(component, 'fooBar'), 'Value for FooBar',
                'Property binded to the context');
   assert.equal(get(component, 'fizBox')(), 'Value for FizBoz',
