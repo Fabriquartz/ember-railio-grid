@@ -62,6 +62,7 @@ test('styles the cell with given styling', function(assert) {
     label: 'animal name',
     style: {
       width:           20,
+      minWidth:        15,
       horizontalAlign: 'center',
       verticalAlign:   'bottom',
       backgroundColor: 'red',
@@ -71,8 +72,7 @@ test('styles the cell with given styling', function(assert) {
       fontColor:       'green',
       borderWidth:     4,
       borderColor:     'blue',
-      borderStyle:     'dotted',
-      minWidth:        15
+      borderStyle:     'dotted'
     }
   });
 
@@ -80,11 +80,12 @@ test('styles the cell with given styling', function(assert) {
 
   let $cell = this.$('td').eq(0);
 
-  let em    = parseInt($cell.css('font-size').replace('px', ''));
-  let width = 20 * em;
+  let em       = parseInt($cell.css('font-size').replace('px', ''));
+  let width    = 20 * em;
   let minwidth = 15 * em;
 
   assert.equal($cell.css('width'),            `${width}px`,     'width');
+  assert.equal($cell.css('min-width'),        `${minwidth}px`,  'minWidth');
   assert.equal($cell.css('text-align'),       'center',         'horizontalAlign');
   assert.equal($cell.css('vertical-align'),   'bottom',         'verticalAlign');
   assert.equal($cell.css('background-color'), 'rgb(255, 0, 0)', 'backgroundColor');
@@ -95,7 +96,6 @@ test('styles the cell with given styling', function(assert) {
   assert.equal($cell.css('border-width'),     '4px',            'borderWidth');
   assert.equal($cell.css('border-color'),     'rgb(0, 0, 255)', 'borderColor');
   assert.equal($cell.css('border-style'),     'dotted',         'borderStyle');
-  assert.equal($cell.css('min-width'),        `${minwidth}px`,    'minWidth');
 });
 
 test('styles the cell depending on value', function(assert) {

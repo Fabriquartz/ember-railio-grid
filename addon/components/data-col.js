@@ -17,6 +17,7 @@ const defaultPropertyObject = {
 
 const STYLING_PROPERTIES = {
   width:           { suffix: 'em' },
+  minWidth:        { suffix: 'em' },
   horizontalAlign: { key: 'text-align' },
   verticalAlign:   { },
   backgroundColor: { },
@@ -26,8 +27,7 @@ const STYLING_PROPERTIES = {
   fontColor:       { key: 'color' },
   borderWidth:     { suffix: 'px' },
   borderColor:     { },
-  borderStyle:     { },
-  minWidth:        { suffix: 'em' }
+  borderStyle:     { }
 };
 
 function copy(object) {
