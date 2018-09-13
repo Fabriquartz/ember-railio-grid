@@ -17,6 +17,7 @@ const defaultPropertyObject = {
 
 const STYLING_PROPERTIES = {
   width:           { suffix: 'em' },
+  minWidth:        { suffix: 'em' },
   horizontalAlign: { key: 'text-align' },
   verticalAlign:   { },
   backgroundColor: { },
