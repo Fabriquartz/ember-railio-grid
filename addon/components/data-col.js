@@ -26,7 +26,8 @@ const STYLING_PROPERTIES = {
   fontColor:       { key: 'color' },
   borderWidth:     { suffix: 'px' },
   borderColor:     { },
-  borderStyle:     { }
+  borderStyle:     { },
+  minWidth:        { suffix: 'em' }
 };
 
 function copy(object) {
