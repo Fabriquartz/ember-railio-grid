@@ -1,13 +1,8 @@
-import Ember from 'ember';
-import $ from 'jquery';
-
-import Component from 'ember-component';
-import computed from 'ember-computed';
-import get from 'ember-metal/get';
-import { htmlSafe, dasherize } from 'ember-string';
-import { isEmberArray } from 'ember-array/utils';
-
-const { defineProperty } = Ember;
+import { isArray, A }                    from '@ember/array';
+import Component                         from '@ember/component';
+import { computed, defineProperty, get } from '@ember/object';
+import { assign }                        from '@ember/polyfills';
+import { htmlSafe, dasherize }           from '@ember/string';
 
 const defaultPropertyObject = {
   format() {
@@ -31,7 +26,7 @@ const STYLING_PROPERTIES = {
 };
 
 function copy(object) {
-  return $.extend({}, object);
+  return assign({}, object);
 }
 
 export default Component.extend({
@@ -39,7 +34,7 @@ export default Component.extend({
   attributeBindings: ['style'],
 
   _property: computed('property', function() {
-    return $.extend({}, defaultPropertyObject, get(this, 'property'));
+    return assign({}, defaultPropertyObject, get(this, 'property'));
   }),
 
   style: computed('_values', '_property.style',
@@ -85,8 +80,8 @@ export default Component.extend({
     this._super(...arguments);
 
     let propertyPaths = get(this, 'property.key');
-    if (!isEmberArray(propertyPaths)) {
-      propertyPaths = [propertyPaths];
+    if (!isArray(propertyPaths)) {
+      propertyPaths = A([propertyPaths]);
     }
 
     defineProperty(this, '_values', computed(`item.{${propertyPaths.join(',')}}`,

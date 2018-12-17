@@ -1,15 +1,17 @@
-import Ember from 'ember';
-
 import DataManager from 'ember-railio-grid/utils/data-manager';
 
 import Filterer  from 'ember-railio-grid/utils/filterer';
 import Sorter    from 'ember-railio-grid/utils/sorter';
 import Paginator from 'ember-railio-grid/utils/paginator';
 
-import computed, { alias, reads } from 'ember-computed';
-import { get, set, getProperties } from '@ember/object';
-
-const { defineProperty } = Ember;
+import {
+  computed,
+  get,
+  set,
+  getProperties,
+  defineProperty
+} from '@ember/object';
+import { alias, reads } from '@ember/object/computed';
 
 export default DataManager.extend({
   managedContent: alias('paginator.currentPage'),

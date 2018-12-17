@@ -1,9 +1,6 @@
-import Ember     from 'ember';
-import Mixin     from 'ember-metal/mixin';
-import { reads } from 'ember-computed';
-import get       from 'ember-metal/get';
-
-const { defineProperty } = Ember;
+import { defineProperty, get } from '@ember/object';
+import { reads }               from '@ember/object/computed';
+import Mixin                   from '@ember/object/mixin';
 
 export default Mixin.create({
   didReceiveAttrs() {

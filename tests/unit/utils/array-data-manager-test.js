@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import DataManager      from 'ember-railio-grid/utils/data-manager';
 import ArrayDataManager from 'ember-railio-grid/utils/array-data-manager';
 
@@ -10,9 +9,8 @@ import Filterer  from 'ember-railio-grid/utils/filterer';
 import Sorter    from 'ember-railio-grid/utils/sorter';
 import Paginator from 'ember-railio-grid/utils/paginator';
 
+import { run }          from '@ember/runloop';
 import { module, test } from 'qunit';
-
-const { run } = Ember;
 
 let arrayDataManager;
 

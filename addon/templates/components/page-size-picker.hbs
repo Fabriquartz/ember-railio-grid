@@ -1,9 +1,9 @@
 Page size:
 
 {{#each sizeOptions as |size|}}
-<div class="page-size-picker__size
-     {{if (is-equal size.value value) 'page-size-picker__size--selected'}}"
-     onclick={{action "setPageSize" size.value}}>
+  <div class="page-size-picker__size
+       {{if (is-equal size.value value) "page-size-picker__size--selected"}}"
+       onclick={{action "setPageSize" size.value}}>
     {{size.label}}
   </div>
 {{/each}}

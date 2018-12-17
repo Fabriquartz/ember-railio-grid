@@ -1,6 +1,6 @@
-import Ember from 'ember';
-import { A } from 'ember-array/utils';
-const { compare, get } = Ember;
+import { compare } from '@ember/utils';
+import { get }     from '@ember/object';
+import { A }       from '@ember/array';
 
 export default function() {
 

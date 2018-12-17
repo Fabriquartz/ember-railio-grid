@@ -1,8 +1,8 @@
 <span class="data-grid__actions__message">{{message}}</span>
 
-{{#each actionList as |action|}}
+{{#each actionList as |gridAction|}}
   <button class="data-grid__actions__action"
-          {{action "callAction" action.action}}>
-    {{action.label}}
+          {{action "callAction" gridAction.action}}>
+    {{gridAction.label}}
   </button>
 {{/each}}

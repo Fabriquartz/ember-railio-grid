@@ -1,9 +1,6 @@
-import Ember     from 'ember';
-import { reads } from 'ember-computed';
-import { set }   from '@ember/object';
-import Mixin     from '@ember/object/mixin';
-
-const { defineProperty } = Ember;
+import { set, defineProperty } from '@ember/object';
+import { reads }               from '@ember/object/computed';
+import Mixin                   from '@ember/object/mixin';
 
 export default Mixin.create({
   content: reads('contentContext.content'),
