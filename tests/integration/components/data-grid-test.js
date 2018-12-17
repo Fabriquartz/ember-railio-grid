@@ -330,11 +330,8 @@ test('selection updates on updating or deleting items', function(assert) {
 
   let $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
 
+  run(() =>  $checkbox.trigger('click'));
   return wait()
-    .then(() => {
-      $checkbox.trigger('click');
-      return wait();
-    })
     .then(() => {
       assert.equal(this.$(`.data-grid__selection:contains('3 selected')`).length, 1,
                    'all items selected');

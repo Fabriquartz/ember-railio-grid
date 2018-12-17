@@ -16,7 +16,12 @@ module.exports = function() {
             dependencies: { 'ember': 'components/ember#lts-2-4' },
             resolutions:  { 'ember': 'lts-2-4' }
           },
-          npm: { devDependencies: { 'ember-source': null } }
+          npm: {
+            devDependencies: {
+              'ember-factory-for-polyfill': '~1.3.0',
+              'ember-source': null
+            }
+          }
         },
         {
           name: 'ember-lts-2.8',
@@ -24,7 +29,12 @@ module.exports = function() {
             dependencies: { 'ember': 'components/ember#lts-2-8' },
             resolutions:  { 'ember': 'lts-2-8' }
           },
-          npm: { devDependencies: { 'ember-source': null } }
+          npm: {
+            devDependencies: {
+              'ember-factory-for-polyfill': '~1.3.0',
+              'ember-source': null
+            }
+          }
         },
         {
           name: 'ember-lts-2.12',
@@ -49,6 +59,10 @@ module.exports = function() {
         {
           name: 'ember-canary',
           npm: { devDependencies: { 'ember-source': urls[2] } }
+        },
+        {
+          name: 'ember-default',
+          npm: { devDependencies: { } }
         },
         {
           name: 'ember-default-with-jquery',
