@@ -1,4 +1,4 @@
-import { isArray, A }                    from '@ember/array';
+import { isArray }                    from '@ember/array';
 import Component                         from '@ember/component';
 import { computed, defineProperty, get } from '@ember/object';
 import { assign }                        from '@ember/polyfills';
@@ -81,7 +81,7 @@ export default Component.extend({
 
     let propertyPaths = get(this, 'property.key');
     if (!isArray(propertyPaths)) {
-      propertyPaths = A([propertyPaths]);
+      propertyPaths = [propertyPaths];
     }
 
     defineProperty(this, '_values', computed(`item.{${propertyPaths.join(',')}}`,

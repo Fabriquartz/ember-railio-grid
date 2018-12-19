@@ -1,4 +1,4 @@
-import { startMirage as startMirage } from '../../initializers/ember-cli-mirage';
+import { startMirage } from '../../initializers/ember-cli-mirage';
 
 export default function setupMirage() {
   return startMirage();
