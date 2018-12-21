@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "6.9.1"
+  - "6.14.0"
 
 sudo: false
 dist: trusty
@@ -22,11 +22,11 @@ env:
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
     - EMBER_TRY_SCENARIO=ember-default
-    - EMBER_TRY_SCENARIO=ember-lts-2.4
     - EMBER_TRY_SCENARIO=ember-lts-2.8
     - EMBER_TRY_SCENARIO=ember-lts-2.12
     - EMBER_TRY_SCENARIO=ember-lts-2.16
     - EMBER_TRY_SCENARIO=ember-lts-2.18
+    - EMBER_TRY_SCENARIO=ember-lts-3.4
     - EMBER_TRY_SCENARIO=ember-release
     - EMBER_TRY_SCENARIO=ember-beta
     - EMBER_TRY_SCENARIO=ember-canary
@@ -36,6 +36,7 @@ matrix:
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
+    - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
 
 before_install:
   - "export DISPLAY=:99.0"

@@ -1,14 +1,10 @@
-/* eslint camelcase: ["error", {properties: "never"}] */
-import Ember       from 'ember';
 import DataManager from 'ember-railio-grid/utils/data-manager';
 
-import service             from 'ember-service/inject';
-import computed, { reads } from 'ember-computed';
-import { decamelize }      from 'ember-string';
-import { get, set }        from '@ember/object';
-import { wrap }            from 'ember-array/utils';
-
-const { defineProperty } = Ember;
+import { get, set, defineProperty, computed } from '@ember/object';
+import { reads }                              from '@ember/object/computed';
+import { inject as service }                  from '@ember/service';
+import { decamelize }                         from '@ember/string';
+import { wrap }                               from 'ember-array/utils';
 
 export default DataManager.extend({
   store: service(),
@@ -28,7 +24,7 @@ export default DataManager.extend({
 
   _defineContentLength(store, modelName) {
     if (!get(this, 'contentLength')) {
-      store.query(modelName, { per_page: 1 }).then((items) => {
+      store.query(modelName, { per_page: 1 }).then((items) => { // eslint-disable-line camelcase, max-len
         set(this, 'contentLength', items.meta.total || 9999);
       });
     }
@@ -66,7 +62,7 @@ export default DataManager.extend({
     filters = predefinedFilters.concat(filters);
 
     if (page)     { query.page = page; }
-    if (pageSize) { query.per_page = pageSize; }
+    if (pageSize) { query.per_page = pageSize; } // eslint-disable-line camelcase
 
     if (filters.length) {
       query.filter = {};

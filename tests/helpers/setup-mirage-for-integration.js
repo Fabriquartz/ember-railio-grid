@@ -1,5 +1,5 @@
-import mirageInitializer from '../../initializers/ember-cli-mirage';
+import { startMirage } from '../../initializers/ember-cli-mirage';
 
-export default function setupMirage(container) {
-  mirageInitializer.initialize(container);
+export default function setupMirage() {
+  return startMirage();
 }

@@ -12,7 +12,7 @@ moduleFor('mixin:component-properties', 'Unit | Mixin | component-properties', {
   subject(object = {}) {
     let component = EmberComponent.extend(ComponentPropertiesMixin, object);
 
-    this.register('component:foo-bar-component', component);
+    getOwner(this).register('component:foo-bar-component', component);
     return getOwner(this).lookup('component:foo-bar-component');
   }
 });

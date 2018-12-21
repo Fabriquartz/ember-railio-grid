@@ -11,12 +11,16 @@ moduleForComponent('Unit | Utility | api-data-manager', {
   integration: true,
 
   beforeEach() {
-    startMirage(this.container);
+    startMirage();
     server.createList('animal', 12);
     APIDataManager = getOwner(this).factoryFor('util:api-data-manager');
     dataManager = APIDataManager.create({
       modelName: 'animal'
     });
+  },
+
+  afterEach() {
+    server.shutdown();
   }
 });
 

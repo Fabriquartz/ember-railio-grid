@@ -17,7 +17,7 @@
   <form onsubmit={{action "createNewFilter"}}>
     <select onchange={{action "changedProperty" value="target.value"}}
             class="filter-bar__new--property">
-      <option value='' selected={{is-equal null newFilterProperty}}>
+      <option value="" selected={{is-equal null newFilterProperty}}>
         Choose column
       </option>
       {{#each properties as |property|}}
@@ -30,11 +30,11 @@
 
     <select onchange={{action "changedType" value="target.value"}}
             class="filter-bar__new--type">
-      <option value='' selected={{is-equal null newFilterType}}>
+      <option value="" selected={{is-equal null newFilterType}}>
         Choose filter type
       </option>
       {{#each handler.filterTypes as |filterType|}}
-        <option value="{{filterType.filter}}"
+        <option value={{filterType.filter}}
                 selected={{is-equal filterType newFilterType}}>
           {{filterType.label}}
         </option>
@@ -50,6 +50,6 @@
     <input type="submit"
            value="Add"
            class="filter-bar__new--submit"
-           disabled={{addButtonDisabled}} />
+           disabled={{addButtonDisabled}}>
   </form>
 </div>

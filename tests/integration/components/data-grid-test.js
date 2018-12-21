@@ -330,25 +330,15 @@ test('selection updates on updating or deleting items', function(assert) {
 
   let $checkbox = this.$('.data-grid table thead input[type="checkbox"]').eq(0);
 
-  return wait()
-    .then(() => {
-      $checkbox.trigger('click');
-      return wait();
-    })
-    .then(() => {
-      assert.equal(this.$(`.data-grid__selection:contains('3 selected')`).length, 1,
-                   'all items selected');
-      return wait();
-    })
-    .then(() => {
-      get(this, 'list').removeAt(1);
-      return wait();
-    })
-    .then(() => {
-      assert.equal(this.$(`.data-grid__selection:contains('2 selected')`).length, 1,
-                   'selection updated on remove object');
-      return wait();
-    });
+  run(() =>  $checkbox.trigger('click'));
+
+  assert.equal(this.$(`.data-grid__selection:contains('3 selected')`).length, 1,
+                'all items selected');
+
+  run(() => get(this, 'list').removeAt(1));
+
+  assert.equal(this.$(`.data-grid__selection:contains('2 selected')`).length, 1,
+                'selection updated on remove object');
 });
 
 test('use external selection when passed instead of internal', function(assert) {

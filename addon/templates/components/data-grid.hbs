@@ -17,20 +17,20 @@
           </th>
         {{/if}}
         {{#each propertiesList as |property|}}
-        <th>
-          <span {{action "sortBy" property.key on="click"}}>
-          {{property.label}}
-          {{#if property.sorting}}
-            {{#if (is-equal property.sorting 'ASC')}}{{fa-icon "sort-asc"}}{{/if}}
-            {{#if (is-equal property.sorting 'DESC')}}{{fa-icon "sort-desc"}}{{/if}}
-          {{else}}
-            {{fa-icon "sort"}}
-          {{/if}}
-            <span class="data-grid__header__sorting-order">
-              {{property.sortingOrder}}
+          <th>
+            <span {{action "sortBy" property.key on="click"}}>
+              {{property.label}}
+              {{#if property.sorting}}
+                {{#if (is-equal property.sorting "ASC")}}{{fa-icon "sort-asc"}}{{/if}}
+                {{#if (is-equal property.sorting "DESC")}}{{fa-icon "sort-desc"}}{{/if}}
+              {{else}}
+                {{fa-icon "sort"}}
+              {{/if}}
+              <span class="data-grid__header__sorting-order">
+                {{property.sortingOrder}}
+              </span>
             </span>
-          </span>
-        </th>
+          </th>
         {{/each}}
       </tr>
     </thead>
